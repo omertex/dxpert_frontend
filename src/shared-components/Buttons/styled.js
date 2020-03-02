@@ -4,7 +4,7 @@ import { Colors } from '../../configuration/Colors';
 export const ContinueBtn = styled.button`
   position: relative;
   height: 36px;
-  padding: 8px 32px 8px 16px;
+  padding: ${props => props.arrow ? "8px 32px 8px 16px" : "8px 32px"};
   border-radius: 2px;
   border: none;
   outline: none;
@@ -50,4 +50,35 @@ export const PreviousBtn = styled(ContinueBtn)`
   color: ${Colors.main_disabled};
   padding: 8px 0;
   background: transparent;
+`;
+
+export const BorderBtn = styled(ContinueBtn)`
+  padding: 8px 32px;
+  color: ${Colors.continue_btn};
+  border: 1px solid ${Colors.continue_btn};
+  background: transparent;
+
+  ${props => props.disabled &&`
+    border: 1px solid ${Colors.main_disabled};
+    color: ${Colors.btn_disabled_text};
+  `}
+`;
+
+export const ChooseWayBtn = styled.button`
+  width: 200px;
+  height: 60px;
+  font: 16px Open Sans, sans-serif;
+  line-height: 22px;
+  letter-spacing: -0.4px;
+  color: ${Colors.text_black};
+  background: transparent;
+  border-radius: ${props => props.second ? "0px 10px 10px 0px" : "10px 0px 0px 10px"};
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  outline: none;
+
+  :hover {
+    cursor: pointer;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.24);
+    border: 1px solid ${Colors.continue_btn};
+  }
 `;

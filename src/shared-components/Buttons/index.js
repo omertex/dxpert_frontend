@@ -1,12 +1,13 @@
 import React from 'react';
 import * as Styled from './styled.js';
 
-export const ContinueBtn = ({ text, disabled, clicked }) => (
+export const ContinueBtn = ({ text, disabled, clicked, arrow }) => (
   <Styled.ContinueBtn 
     onClick={ clicked }
-    disabled={ disabled }>
+    disabled={ disabled }
+    arrow = { arrow }>
     { text }
-    <Styled.Arrow font-size="small" disabled={ disabled } />
+    { arrow ? <Styled.Arrow font-size="small" disabled={ disabled } /> : null }
   </Styled.ContinueBtn>
 )
 
@@ -16,4 +17,20 @@ export const PreviousBtn = ({ text, disabled, clicked }) => (
     disabled={ disabled }>
     { text }
   </Styled.PreviousBtn>
+)
+
+export const BorderBtn = ({ text, disabled, clicked }) => (
+  <Styled.BorderBtn 
+    onClick={ clicked }
+    disabled={ disabled }>
+    { text }
+  </Styled.BorderBtn>
+)
+
+export const ChooseWayBtn = ({ text, clicked, second }) => (
+  <Styled.ChooseWayBtn 
+    onClick={ clicked }
+    second = { second }>
+    { text }
+  </Styled.ChooseWayBtn>
 )
