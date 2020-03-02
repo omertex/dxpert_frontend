@@ -4,6 +4,8 @@ export const Colors = {
   main_footer: "#17293C",
   text_footer: "#868E9B",
   main_disabled: "#D1D1D1",
+  continue_btn: "#55A8C0",
+  btn_disabled_text: "#767676",
 
   //additional
   bg_white: "#FFFFFF",

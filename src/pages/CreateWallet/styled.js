@@ -9,6 +9,7 @@ export const Container = styled.div`
 `;
 
 export const Paper = styled.div`
+  position: relative;
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -20,6 +21,7 @@ export const Paper = styled.div`
   background: ${Colors.bg_white};
   border-radius: 10px;
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.24), 0 0 8px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
 
   h2 {
     font-size: 24px;
@@ -30,7 +32,7 @@ export const Paper = styled.div`
   }
 
   h3 {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 22px;
     font-weight: 600;
     color: ${Colors.text_black};
@@ -40,19 +42,4 @@ export const Paper = styled.div`
     box-sizing: border-box;
     text-align: left;
   }
-`;
-
-export const Form = styled.div`
-  align-self: stretch;
-  height: 215px;
-  display: flex;
-  flex-flow: column;
-`;
-
-export const Inputs = styled.div`
-  width: 100%;
-  height: 115px;
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
 `;
