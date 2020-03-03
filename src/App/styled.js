@@ -9,6 +9,7 @@ export const App = styled.div`
   background: ${Colors.main_bg};
 `;
 export const Content = styled.div`
+  position: relative;
   width: 100%;
   margin-bottom: auto;
 `;

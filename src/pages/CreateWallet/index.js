@@ -2,10 +2,20 @@ import React, { useState } from 'react';
 import * as Styled from './styled';
 import CreatePassword from './CreatePassword';
 import SecurityNotification from './SecurityNotification';
+import BackupMnemonic from './BackupMnemonic';
+import SecondaryAccess from './SecondaryAccess';
+import Success from './Success';
+import { PopUp } from '../../shared-components';
+import ViewMyKey from './ViewMyKey';
 
 export default () => {
   const [isShownCreatePswd, setShownCreatePswd] = useState(true);
-  const [isShownSecNotification, setShownSecNotification] = useState(true);
+  const [isShownSecNotification, setShownSecNotification] = useState(false);
+  const [isShownBackupMnemonic, setShownBackupMnemonic] = useState(false);
+  const [isShownSecondaryAccess, setShownSecondaryAccess] = useState(false);
+  const [isShownSuccess, setShownSuccess] = useState(false);
+  const [isShownPopUp, setShownPopUp] = useState(false);
+  const [isShownConfirmation, setShownConfirmation] = useState(false);
 
   const toSecurityNotification = () => {
     setShownCreatePswd(false);
@@ -19,34 +29,82 @@ export default () => {
 
   const toBackupMnemonic = () => {
     setShownSecNotification(false);
+    setShownBackupMnemonic(true);
+  }
+
+  const backToSecurityNotification = () => {
+    setShownSecNotification(true);
+    setShownBackupMnemonic(false);
+  }
+
+  const toSecondaryAccess = () => {
+    setShownConfirmation(false);
+    setShownPopUp(false);
+    setShownBackupMnemonic(false);
+    setShownSecondaryAccess(true);
+  }
+
+  const backToBackupMnemonic = () => {
+    setShownBackupMnemonic(true);
+    setShownSecondaryAccess(false);
+  }
+
+  const toSuccess = () => {
+    setShownSecondaryAccess(false);
+    setShownSuccess(true);
+  }
+
+  const toUnlockWallet = () => {
+    setShownSuccess(false); // should go to the Unlock Wallet page
+  }
+
+  const viewPrivateKey = () => {
+    setShownPopUp(true);
+  }
+
+  const closePopUp = () => {
+    setShownConfirmation(true);
+  }
+
+  const backToPrivateKey = () => {
+    setShownConfirmation(false);
   }
 
   return (
+    <>
     <Styled.Container>
-      <Styled.Paper>
-      <CreatePassword clicked={ toSecurityNotification } isShown={ isShownCreatePswd } />
+      <CreatePassword 
+        clicked={ toSecurityNotification } 
+        isShown={ isShownCreatePswd } 
+      />
       <SecurityNotification 
         clickedContinue={ toBackupMnemonic } 
         clickedPrevious={ backToCreatePswd }
         isShown={ isShownSecNotification } 
       />
-      {/* <Styled.Paper>
-        <h2>Create New Wallet</h2>
-        <h3>Create Keystore File + Password</h3>
-        <Styled.Form>
-          <Styled.Inputs>
-            <Password label="Set a new password" />
-            <Confirm label="Re-enter password" />
-          </Styled.Inputs>
-          <ContinueBtn text="Download keystore file" disabled />
-        </Styled.Form>
-        <Styled.Unlock>Unlock an existing Wallet</Styled.Unlock>
-        <Styled.Disclaimer>
-          <StyledCheckbox />
-            <p>I understand that DXpert cannot recover or reset my password or the keystore file. I will make a backup of the keystore file/password, keep them secret, complete all wallet creation steps and agree to all the <Link to="/">terms</Link></p>
-        </Styled.Disclaimer>
-      </Styled.Paper> */}
-      </Styled.Paper>
+      <BackupMnemonic 
+        clickedContinue={ toSecondaryAccess } 
+        clickedPrevious={ backToSecurityNotification }
+        isShown={ isShownBackupMnemonic } 
+        viewPrivateKey={ viewPrivateKey }
+      />
+      <SecondaryAccess 
+        clickedContinue={ toSuccess } 
+        clickedPrevious={ backToBackupMnemonic }
+        isShown={ isShownSecondaryAccess }
+      />
+      <Success 
+        clickedContinue={ toUnlockWallet } 
+        isShown={ isShownSuccess }
+      /> 
     </Styled.Container>
+    <PopUp isShownPopUp={ isShownPopUp }>
+      <ViewMyKey 
+        closePopUp={ closePopUp }
+        clickedGoBack={ backToPrivateKey }
+        clickedConfirm={ toSecondaryAccess }
+        confirmClose={ isShownConfirmation } />
+    </PopUp>
+    </>
   )
 }

@@ -9,5 +9,6 @@ export const Colors = {
 
   //additional
   bg_white: "#FFFFFF",
-  text_black: "#000000"
+  text_black: "#000000",
+  sub_bg: "#FBFBFB"
 }
