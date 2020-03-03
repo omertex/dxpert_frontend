@@ -15,7 +15,7 @@ export const Underlayer = styled.div`
 export const PopUpContent = styled.div`
   position: absolute;
   z-index: 210;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   min-width: 200px;
