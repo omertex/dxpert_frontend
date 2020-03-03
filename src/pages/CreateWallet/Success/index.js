@@ -1,8 +1,8 @@
 import React from 'react';
-import { ContinueBtn, PreviousBtn } from '../../../shared-components/Buttons';
+import { ContinueBtn } from '../../../shared-components/Buttons';
 import * as Styled from './styled';
 import { Transition } from 'react-transition-group';
-import PasswordImg from '../../../assets/images/password.png';
+import Success from '../../../assets/images/success.png';
 
 const defaultStyle = {
   left: '50%',
@@ -31,18 +31,12 @@ export default ({ isShown, clickedContinue, clickedPrevious }) => (
         }}
       >
         <Styled.Container>
-          <h2>Create New Wallet</h2>
-          <h3>Create Keystore File + Password</h3>
-          <Styled.Image src={ PasswordImg } alt="" />
-          <Styled.Notification>We are about to show your mnemonic phrase, please ensure that no one else is looking at your screen.</Styled.Notification>
-          <Styled.Buttons>
-            <PreviousBtn 
-                clicked={ clickedPrevious }
-                text="Previous" />
+          <Styled.Image src={ Success } alt=""/>
+          <h3 style={{ textAlign: 'center' }}>Successfully!</h3>
+          <Styled.Notification>You are ready to use the DXpert Wallet and Decentralized Exchange!</Styled.Notification>
             <ContinueBtn 
               clicked={ clickedContinue }
-              text="Continue" />
-          </Styled.Buttons>
+              text="Unlock the wallet" />
         </Styled.Container>
       </Styled.Paper>
     ) }

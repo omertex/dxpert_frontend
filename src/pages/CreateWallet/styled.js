@@ -38,7 +38,6 @@ export const Paper = styled.div`
     color: ${Colors.text_black};
     margin: 0 0 27px;
     align-self: stretch;
-    padding-left: 50px;
     box-sizing: border-box;
     text-align: left;
   }

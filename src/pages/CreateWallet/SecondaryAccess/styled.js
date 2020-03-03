@@ -3,21 +3,19 @@ import { Colors } from '../../../configuration/Colors';
 
 export const Paper = styled.div`
   position: absolute;
-  z-index: 100;
+  z-index: 70;
   top: 30px;
   transform: translateX(-50%);
   display: flex;
   flex-flow: column;
   align-items: center;
   width: 770px;
-  height: 490px;
   margin: 0 auto;
   padding: 29px 160px 25px;
   box-sizing: border-box;
   background: ${Colors.bg_white};
   border-radius: 10px;
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.24), 0 0 8px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
 
   h2 {
     font-size: 24px;
@@ -40,34 +38,18 @@ export const Paper = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 450px;
-  margin: 0 auto;
+  width: 350px;
+  height: 100%;
   display: flex;
   flex-flow: column;
   background: ${Colors.bg_white};
 `;
 
-export const Form = styled.div`
-  align-self: stretch;
-  height: 215px;
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-`;
-
-export const Inputs = styled.div`
-  width: 100%;
-  height: 115px;
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
-  margin-bottom: 62px;
-`;
-
-export const Unlock = styled.p`
-  font-size: 1rem;
-  line-height: 22px;
-  color: ${Colors.continue_btn};
+export const Notification = styled.p`
+  font-size: 14px;
+  line-height: 19px;
+  text-align: left;
+  color: ${Colors.text_black};
   margin: 10px 0 32px;
 
   :hover {
@@ -75,22 +57,47 @@ export const Unlock = styled.p`
   }
 `;
 
-export const Disclaimer = styled.div`
-  position: relative;
-  width: 400px;
-  padding-left: 30px;
+export const Buttons = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const Phrases = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+`;
+
+export const SinglePhrase = styled.div`
+  width: 110px;
+  display: flex;
+  flex-flow: column;
+
+  #number {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 0.03rem;
+    color: ${Colors.main_disabled};
+    align-self: flex-start;
+    margin: 0 10px 0 0;
+  }
+`;
+
+export const InputPhrase = styled.input`
+  width: 100%;
+  height: 30px;
+  border: 1px solid ${Colors.main_disabled};
+  border-radius: 2px;
+  outline: none;
+  padding: 5px;
   box-sizing: border-box;
+  transition: all 200ms ease;
 
-  p {
-    font-size: 10px;
-    line-height: 14px;
-    text-align: left;
-    color: ${Colors.text_black};
-    margin: 0;
-
-    a {
-      color: ${Colors.continue_btn};
-      text-decoration: none;
-    }
+  :hover,
+  :focus {
+    border-color: ${Colors.continue_btn};
   }
 `;
