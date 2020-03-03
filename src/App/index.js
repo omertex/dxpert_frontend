@@ -4,7 +4,9 @@ import { Header, Footer } from '../shared-components';
 import { 
   CreateWallet,
   ChooseWay,
-  WalletCreationTutorial } from '../pages';
+  WalletCreationTutorial,
+  UnlockWallet } from '../pages';
+import TestPage from '../pages/testPage';
 import { Switch, Route } from 'react-router-dom';
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
           <Route exact path="/" component={ ChooseWay } /> 
           <Route path="/wallet-creation-tutorial" component={ WalletCreationTutorial } />
           <Route path="/create-wallet" component={ CreateWallet } />
+          <Route path="/unlock-wallet" component={ UnlockWallet } />
+          <Route path="/test" component={ TestPage } />
         </Switch>
       </Styled.Content>
       <Footer />

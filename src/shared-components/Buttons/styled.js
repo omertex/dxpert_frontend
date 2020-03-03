@@ -52,6 +52,10 @@ export const PreviousBtn = styled(ContinueBtn)`
   background: transparent;
 `;
 
+export const CreateBtn = styled(PreviousBtn)`
+  color: ${Colors.continue_btn};
+`;
+
 export const BorderBtn = styled(ContinueBtn)`
   padding: 8px 32px;
   color: ${Colors.continue_btn};
@@ -62,6 +66,14 @@ export const BorderBtn = styled(ContinueBtn)`
     border: 1px solid ${Colors.main_disabled};
     color: ${Colors.btn_disabled_text};
   `}
+`;
+
+export const UploadBtn = styled(BorderBtn)`
+  padding: 8px 16px 8px 48px;
+  position: relative;
+  background: url(${props => props.src}) no-repeat 16px center;
+  margin-bottom: 23px;
+  align-self: center;
 `;
 
 export const ChooseWayBtn = styled.button`

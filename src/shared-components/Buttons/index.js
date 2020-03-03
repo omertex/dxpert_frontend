@@ -34,3 +34,20 @@ export const ChooseWayBtn = ({ text, clicked, second }) => (
     { text }
   </Styled.ChooseWayBtn>
 )
+
+export const UploadBtn = ({ text, disabled, clicked, src }) => (
+  <Styled.UploadBtn 
+    src={ src }
+    onClick={ clicked }
+    disabled={ disabled }>
+    { text }
+  </Styled.UploadBtn>
+)
+
+export const CreateBtn = ({ text, disabled, clicked }) => (
+  <Styled.CreateBtn 
+    onClick={ clicked }
+    disabled={ disabled }>
+    { text }
+  </Styled.CreateBtn>
+)

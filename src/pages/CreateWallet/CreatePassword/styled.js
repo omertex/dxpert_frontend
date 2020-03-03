@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Colors } from '../../../configuration/Colors';
+import { Link } from 'react-router-dom';
 
 export const Paper = styled.div`
   position: absolute;
@@ -64,15 +65,12 @@ export const Inputs = styled.div`
   margin-bottom: 62px;
 `;
 
-export const Unlock = styled.p`
+export const Unlock = styled(Link)`
   font-size: 1rem;
   line-height: 22px;
   color: ${Colors.continue_btn};
+  text-decoration: none;
   margin: 10px 0 32px;
-
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 export const Disclaimer = styled.div`

@@ -2,18 +2,7 @@ import React from 'react';
 import { ContinueBtn, PreviousBtn } from '../../../shared-components/Buttons';
 import * as Styled from './styled';
 import { Transition } from 'react-transition-group';
-
-const defaultStyle = {
-  left: '50%',
-  opacity: 0,
-  transition: `all 200ms ease-in 100ms`
-}
-const transitionStyles = {
-  entering: { left: '50%', opacity: 0 },
-  entered: { left: '50%', opacity: 1 },
-  exiting: { left: '40%', opacity: 1 },
-  exited: { left: '40%', opacity: 0 }
-}
+import { transitionStyles } from '../transitionStyles';
 
 export default ({ isShown, clickedContinue, clickedPrevious, viewPrivateKey }) => (
   <Transition
@@ -25,8 +14,8 @@ export default ({ isShown, clickedContinue, clickedPrevious, viewPrivateKey }) =
     { state => (
       <Styled.Paper
         style={{
-          ...defaultStyle,
-          ...transitionStyles[state]
+          ...transitionStyles.default,
+          ...transitionStyles.action[state]
         }}
       >
         <Styled.Container>

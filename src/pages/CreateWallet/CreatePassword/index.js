@@ -5,18 +5,7 @@ import StyledCheckbox from '../../../shared-components/StyledCheckbox';
 import { Link } from 'react-router-dom';
 import * as Styled from './styled';
 import { Transition } from 'react-transition-group';
-
-const defaultStyle = {
-  left: '50%',
-  opacity: 1,
-  transition: `all 300ms ease-in 100ms`
-}
-const transitionStyles = {
-  entering: { left: '50%', opacity: 0, },
-  entered: { left: '50%', opacity: 1, },
-  exiting: { left: '40%', opacity: 0, },
-  exited: { left: '50%', opacity: 0, }
-}
+import { transitionStyles } from '../transitionStyles';
 
 export default ({ isShown, clicked }) => (
   <Transition
@@ -28,8 +17,8 @@ export default ({ isShown, clicked }) => (
     { state => (
       <Styled.Paper
         style={{
-          ...defaultStyle,
-          ...transitionStyles[state]
+          ...transitionStyles.default,
+          ...transitionStyles.action[state]
         }}
       >
         <Styled.Container>
@@ -46,7 +35,7 @@ export default ({ isShown, clicked }) => (
               disabled={ false } 
             />
           </Styled.Form>
-          <Styled.Unlock>Unlock an existing Wallet</Styled.Unlock>
+          <Styled.Unlock to="/unlock-wallet">Unlock an existing Wallet</Styled.Unlock>
           <Styled.Disclaimer>
             <StyledCheckbox />
               <p>I understand that DXpert cannot recover or reset my password or the keystore file. I will make a backup of the keystore file/password, keep them secret, complete all wallet creation steps and agree to all the <Link to="/">terms</Link></p>
