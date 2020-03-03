@@ -28,10 +28,12 @@ function ChooseWay() {
             disabled={ false } 
           />
         </Link>
-        <ContinueBtn
-          text="Connect account" 
-          disabled={ false } 
-        />
+        <Link to="/unlock-wallet">
+          <ContinueBtn
+            text="Connect account" 
+            disabled={ false } 
+          />
+        </Link>
       </Styled.AccountWrapper>
     </Styled.Container>
   );

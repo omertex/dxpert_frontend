@@ -102,6 +102,7 @@ export const ViewMyKey = styled.p`
   letter-spacing: 0.03rem;
   color: ${Colors.continue_btn};
   text-align: right;
+  margin: 10px 0;
 
   :hover {
     cursor: pointer;

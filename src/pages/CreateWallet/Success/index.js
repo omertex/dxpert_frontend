@@ -3,20 +3,9 @@ import { ContinueBtn } from '../../../shared-components/Buttons';
 import * as Styled from './styled';
 import { Transition } from 'react-transition-group';
 import Success from '../../../assets/images/success.png';
+import { transitionStyles } from '../transitionStyles';
 
-const defaultStyle = {
-  left: '50%',
-  opacity: 0,
-  transition: `all 200ms ease-in 100ms`
-}
-const transitionStyles = {
-  entering: { left: '50%', opacity: 0 },
-  entered: { left: '50%', opacity: 1 },
-  exiting: { left: '40%', opacity: 1 },
-  exited: { left: '40%', opacity: 0 }
-}
-
-export default ({ isShown, clickedContinue, clickedPrevious }) => (
+export default ({ isShown, clickedContinue }) => (
   <Transition
     in={ isShown }
     timeout={ 300 }
@@ -26,17 +15,19 @@ export default ({ isShown, clickedContinue, clickedPrevious }) => (
     { state => (
       <Styled.Paper
         style={{
-          ...defaultStyle,
-          ...transitionStyles[state]
+          ...transitionStyles.default,
+          ...transitionStyles.action[state]
         }}
       >
         <Styled.Container>
           <Styled.Image src={ Success } alt=""/>
           <h3 style={{ textAlign: 'center' }}>Successfully!</h3>
           <Styled.Notification>You are ready to use the DXpert Wallet and Decentralized Exchange!</Styled.Notification>
+          <Styled.UnlockWallet to="/unlock-wallet">
             <ContinueBtn 
               clicked={ clickedContinue }
               text="Unlock the wallet" />
+          </Styled.UnlockWallet>
         </Styled.Container>
       </Styled.Paper>
     ) }

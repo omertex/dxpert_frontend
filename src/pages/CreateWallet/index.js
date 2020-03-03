@@ -54,9 +54,9 @@ export default () => {
     setShownSuccess(true);
   }
 
-  const toUnlockWallet = () => {
-    setShownSuccess(false); // should go to the Unlock Wallet page
-  }
+  // const toUnlockWallet = () => {
+  //   setShownSuccess(false); // should go to the Unlock Wallet page
+  // }
 
   const viewPrivateKey = () => {
     setShownPopUp(true);
@@ -94,7 +94,7 @@ export default () => {
         isShown={ isShownSecondaryAccess }
       />
       <Success 
-        clickedContinue={ toUnlockWallet } 
+        // clickedContinue={ toUnlockWallet } 
         isShown={ isShownSuccess }
       /> 
     </Styled.Container>
