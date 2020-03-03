@@ -6,30 +6,23 @@ import { Colors } from "../../configuration/Colors";
 const Input = withStyles({
   root: {
     height: 32,
-    "& .MuiInputBase-root": {
-      border: "none",
-      "& > fieldset.MuiIOutlinedInput-notchedOutline": {
-        border: "none"
-      },
-    },
-    
     "& .MuiOutlinedInput-root": {
       height: 32,
       padding: "5px 20px",
       overflow: "hidden",
-      border: `1px solid ${Colors.main_disabled}`,
-      "&.Mui-focused": {
-        borderColor: `${Colors.main_header}`
+      "& fieldset": {
+        border: `1px solid ${Colors.main_disabled}`,
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: `${Colors.main_header}`,
+        borderWidth: 0.5
       }
     },
     "& .MuiOutlinedInput-input": {
       padding: 0,
       textAlign: "left",
       overflow: "hidden",
-      whiteSpace: "nowrap",
-      "&.Mui-focused": {
-        borderColor: `${Colors.main_header}`
-      }
+      whiteSpace: "nowrap"
     }
   }
 })(TextField);
