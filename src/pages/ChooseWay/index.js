@@ -1,6 +1,7 @@
 import React from "react";
 import { ContinueBtn, BorderBtn, ChooseWayBtn } from '../../shared-components/Buttons';
 import * as Styled from "./styled";
+import { Link } from 'react-router-dom';
 
 function ChooseWay() {
   return (
@@ -21,10 +22,12 @@ function ChooseWay() {
         />
       </Styled.RoleWrapper>
       <Styled.AccountWrapper>
-        <BorderBtn 
-          text="Create account" 
-          disabled={ false } 
-        />
+        <Link to="/wallet-creation-tutorial">
+          <BorderBtn 
+            text="Create account" 
+            disabled={ false } 
+          />
+        </Link>
         <ContinueBtn
           text="Connect account" 
           disabled={ false } 
