@@ -47,3 +47,62 @@ export const SEARCHED_RESULTS = [
     requested: "false"
   }
 ];
+
+export const TRANSACTIONS = [
+  {
+    date: "20.01.2020",
+    id: "12345678",
+    type: "Sell",
+    value: "1DXP",
+    status: "Completed",
+    txFee: "0.2"
+  },
+  {
+    date: "20.01.2020",
+    id: "12345678",
+    type: "Sell",
+    value: "1DXP",
+    status: "Completed",
+    txFee: "0.2"
+  },
+  {
+    date: "20.01.2020",
+    id: "12345678",
+    type: "Sell",
+    value: "1DXP",
+    status: "Completed",
+    txFee: "1"
+  },
+  {
+    date: "20.01.2020",
+    id: "12345678",
+    type: "Sell",
+    value: "1DXP",
+    status: "Failed",
+    txFee: "0.2"
+  },
+  {
+    date: "20.01.2020",
+    id: "12345678",
+    type: "Sell",
+    value: "1DXP",
+    status: "Completed",
+    txFee: "0.2"
+  },
+  {
+    date: "20.01.2020",
+    id: "12345678",
+    type: "Buy",
+    value: "1DXP",
+    status: "Completed",
+    txFee: "0.2"
+  },
+  {
+    date: "20.01.2020",
+    id: "12345678",
+    type: "Sell",
+    value: "1DXP",
+    status: "Failed",
+    txFee: "0.2"
+  },
+]
