@@ -51,3 +51,11 @@ export const CreateBtn = ({ text, disabled, clicked }) => (
     { text }
   </Styled.CreateBtn>
 )
+
+export const ActionBtn = ({ text, disabled, clicked }) => (
+  <Styled.ActionBtn 
+    onClick={ clicked }
+    disabled={ disabled }>
+    { text }
+  </Styled.ActionBtn>
+)

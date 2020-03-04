@@ -6,7 +6,7 @@ import {
   ChooseWay,
   WalletCreationTutorial,
   UnlockWallet } from '../pages';
-import TestPage from '../pages/testPage';
+import SearchFilter from '../pages/SearchFilter';
 import { Switch, Route } from 'react-router-dom';
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
           <Route path="/wallet-creation-tutorial" component={ WalletCreationTutorial } />
           <Route path="/create-wallet" component={ CreateWallet } />
           <Route path="/unlock-wallet" component={ UnlockWallet } />
-          <Route path="/test" component={ TestPage } />
+          <Route path="/search-filter" component={ SearchFilter } />
         </Switch>
       </Styled.Content>
       <Footer />

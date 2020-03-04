@@ -52,6 +52,14 @@ export const PreviousBtn = styled(ContinueBtn)`
   background: transparent;
 `;
 
+export const ActionBtn = styled(PreviousBtn)`
+  color: ${Colors.main_header};
+  padding: 8px 0;
+  text-transform: lowercase;
+  font-weight: 400;
+  letter-spacing: 0.03rem;
+`;
+
 export const CreateBtn = styled(PreviousBtn)`
   color: ${Colors.continue_btn};
 `;

@@ -10,8 +10,9 @@ const Input = withStyles({
       height: 32,
       padding: "5px 20px",
       overflow: "hidden",
+      background: `${Colors.sub_bg}`,
       "& fieldset": {
-        border: `1px solid ${Colors.main_disabled}`,
+        border: `1px solid rgba(0, 0, 0, 0.1)`,
       },
       "&.Mui-focused fieldset": {
         borderColor: `${Colors.main_header}`,
