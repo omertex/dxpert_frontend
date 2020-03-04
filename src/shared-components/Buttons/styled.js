@@ -4,6 +4,7 @@ import { Colors } from "../../configuration/Colors";
 export const ContinueBtn = styled.button`
   position: relative;
   height: 36px;
+  min-width: 110px;
   padding: ${props => (props.arrow ? "8px 32px 8px 16px" : "8px 32px")};
   border-radius: 2px;
   border: none;
@@ -26,7 +27,16 @@ export const ContinueBtn = styled.button`
     `
     background: ${Colors.main_disabled};
     color: ${Colors.btn_disabled_text};
+
+    :hover {
+      cursor: not-allowed;
+    }
   `}
+`;
+
+export const CancelBtn = styled(ContinueBtn)`
+  background: ${Colors.main_disabled};
+  padding: 8px;
 `;
 
 export const Arrow = styled.div`
@@ -54,6 +64,18 @@ export const PreviousBtn = styled(ContinueBtn)`
   color: ${Colors.main_disabled};
   padding: 8px 0;
   background: transparent;
+`;
+
+export const ActionBtn = styled(PreviousBtn)`
+  color: ${Colors.main_header};
+  padding: 8px 0;
+  text-transform: lowercase;
+  font-weight: 400;
+  letter-spacing: 0.03rem;
+`;
+
+export const BlueTextBtn = styled(ActionBtn)`
+    text-transform: uppercase;
 `;
 
 export const CreateBtn = styled(PreviousBtn)`
@@ -103,8 +125,9 @@ export const ChooseWayBtn = styled.button`
 `;
 
 export const SubmitBtn = styled(ContinueBtn)`
-  width: 130px;
+  width: ${props => props.width ? props.width : `130px`};
   height: 29px;
+  flex-shrink: 0;
   padding: 0;
   border-radius: 4px;
   font: 12px Open Sans, sans-serif;

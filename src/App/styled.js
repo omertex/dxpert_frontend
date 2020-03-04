@@ -12,4 +12,5 @@ export const Content = styled.div`
   position: relative;
   width: 100%;
   margin-bottom: auto;
+  background: ${Colors.sub_bg};
 `;

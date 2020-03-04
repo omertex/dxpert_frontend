@@ -14,6 +14,12 @@ export const PreviousBtn = ({ text, disabled, clicked }) => (
   </Styled.PreviousBtn>
 );
 
+export const CancelBtn = ({ text, disabled, clicked }) => (
+  <Styled.CancelBtn onClick={clicked} disabled={disabled}>
+    {text}
+  </Styled.CancelBtn>
+);
+
 export const BorderBtn = ({ text, disabled, clicked }) => (
   <Styled.BorderBtn onClick={clicked} disabled={disabled}>
     {text}
@@ -36,10 +42,26 @@ export const CreateBtn = ({ text, disabled, clicked }) => (
   <Styled.CreateBtn onClick={clicked} disabled={disabled}>
     {text}
   </Styled.CreateBtn>
+)
+
+export const ActionBtn = ({ text, disabled, clicked }) => (
+  <Styled.ActionBtn 
+    onClick={ clicked }
+    disabled={ disabled }>
+    { text }
+  </Styled.ActionBtn>
 );
 
-export const SubmitBtn = ({ text, disabled, clicked }) => (
-  <Styled.SubmitBtn onClick={clicked} disabled={disabled}>
+export const SubmitBtn = ({ text, disabled, clicked, width }) => (
+  <Styled.SubmitBtn onClick={clicked} disabled={disabled} width={width}>
     {text}
   </Styled.SubmitBtn>
 );
+
+export const BlueTextBtn = ({ text, disabled, clicked }) => (
+  <Styled.BlueTextBtn 
+    onClick={ clicked }
+    disabled={ disabled }>
+    { text }
+  </Styled.BlueTextBtn>
+)

@@ -5,11 +5,10 @@ import {
   CreateWallet,
   ChooseWay,
   WalletCreationTutorial,
-  Profile,
-  UnlockWallet
-} from "../pages";
-import TestPage from "../pages/testPage";
-import { Switch, Route } from "react-router-dom";
+  UnlockWallet,
+  Profile } from '../pages';
+import SearchFilter from '../pages/SearchFilter';
+import { Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
@@ -17,6 +16,8 @@ function App() {
       <Header />
       <Styled.Content>
         <Switch>
+          <Route exact path="/" component={ ChooseWay } /> 
+          <Route path="/search-filter" component={ SearchFilter } />
           <Route exact path="/" component={ChooseWay} />
           <Route
             path="/wallet-creation-tutorial"
@@ -24,7 +25,6 @@ function App() {
           />
           <Route path="/create-wallet" component={CreateWallet} />
           <Route path="/unlock-wallet" component={UnlockWallet} />
-          <Route path="/test" component={TestPage} />
           <Route path="/profile" component={Profile} />
         </Switch>
       </Styled.Content>

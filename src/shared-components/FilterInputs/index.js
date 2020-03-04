@@ -8,7 +8,7 @@ const Input = withStyles({
     height: 32,
     "& .MuiOutlinedInput-root": {
       height: 32,
-      padding: "5px 20px",
+      padding: "8px 12px",
       overflow: "hidden",
       backgroundColor: `${Colors.inputs}`,
       "& fieldset": {
@@ -21,7 +21,8 @@ const Input = withStyles({
     },
     "& .MuiOutlinedInput-input": {
       padding: 0,
-      textAlign: "left",
+      textAlign: "center",
+      fontSize: 12,
       overflow: "hidden",
       whiteSpace: "nowrap"
     }
