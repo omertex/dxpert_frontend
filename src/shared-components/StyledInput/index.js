@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
+import SearchIcon from "@material-ui/icons/Search";
 
 const Input = withStyles({
   root: {
@@ -33,6 +34,29 @@ const Input = withStyles({
       textAlign: "left",
       overflow: "hidden",
       whiteSpace: "nowrap"
+    }
+  }
+})(TextField);
+
+const SearchInput = withStyles({
+  root: {
+    height: 30,
+    "& .MuiOutlinedInput-root": {
+      height: 30,
+      overflow: "hidden",
+      backgroundColor: `${Colors.bg_white}`,
+      padding: "0 32px 0 20px",
+      "& fieldset": {
+        border: "none"
+      }
+    },
+    "& .MuiOutlinedInput-input": {
+      textAlign: "left",
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      font: "12px Open Sans, sans-serif",
+      lineHeight: 16,
+      color: `${Colors.text_black}`
     }
   }
 })(TextField);
@@ -214,6 +238,36 @@ export const Confirm = memo(
             </InputAdornment>
           }
           labelWidth={70}
+        />
+      </FormControl>
+    );
+  }
+);
+
+export const QuickSearch = memo(
+  ({ id, label, value, error, changed, blured, message }) => {
+    const classes = useStyles();
+
+    return (
+      <FormControl className={classes.input} variant="outlined">
+        <SearchInput
+          variant="outlined"
+          value={value}
+          error={error}
+          label={label}
+          onChange={changed}
+          onBlur={blured}
+          helperText={message}
+          placeholder="Quick search"
+          id="quick-search"
+          type={"search"}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon color={"disabled"} edge="end" />
+              </InputAdornment>
+            )
+          }}
         />
       </FormControl>
     );
