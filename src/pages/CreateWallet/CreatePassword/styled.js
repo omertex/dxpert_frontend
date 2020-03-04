@@ -76,15 +76,16 @@ export const Unlock = styled(Link)`
 export const Disclaimer = styled.div`
   position: relative;
   width: 400px;
-  padding-left: 30px;
   box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
 
   p {
     font-size: 10px;
     line-height: 14px;
     text-align: left;
     color: ${Colors.text_black};
-    margin: 0;
+    margin: 0 0 0 5px;
 
     a {
       color: ${Colors.continue_btn};

@@ -10,13 +10,8 @@ export const Colors = {
   //additional
   bg_white: "#FFFFFF",
   text_black: "#000000",
-<<<<<<< HEAD
-  sub_bg: "#FAFAFA"
-}
-=======
   link_gray: "#cacaca",
   sub_bg: "#FBFBFB",
   inputs: "#FAFAFA",
   tag: "#c6d7ea"
 };
->>>>>>> development

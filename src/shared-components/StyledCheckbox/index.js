@@ -10,23 +10,20 @@ const GreenCheckbox = withStyles({
       borderWidth: 0.5,
       color: `${Colors.main_disabled}`,
       '&$checked': {
-        color: `${Colors.continue_btn}`,
+        color: `${Colors.main_header}`,
       }
   },
   checked: {},
 })(props => <Checkbox color="default" {...props} />);
 
-export default () => (
+export default ({ value }) => (
   <FormControlLabel
     style={{ 
       color: `${Colors.main_disabled}`, 
-      position: 'absolute',
-      top: 0,
-      left: 0,
       padding: 0,
       margin: 0
     }}
-    control={ <GreenCheckbox value="checked" /> }
+    control={ <GreenCheckbox value={ value } /> }
   />
 )
 

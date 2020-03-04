@@ -17,7 +17,7 @@ export default () => (
         <Styled.MenuLink to="/profile">My Profile</Styled.MenuLink>
         <Styled.MenuLink to="/requests">Requests</Styled.MenuLink>
         {/* <Styled.MenuLink to="/my_requests">My requests</Styled.MenuLink> */}
-        {/* <Styled.MenuLink to="/search">Search</Styled.MenuLink> */}
+        <Styled.MenuLink to="/search-filter">Search</Styled.MenuLink>
         <Styled.BalanceLink to="/balance">
           1343
           <span>DXP</span>

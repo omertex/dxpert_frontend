@@ -1,46 +1,72 @@
-import React from 'react';
-import * as Styled from './styled';
-import { TextInput } from '../../shared-components/FilterInputs'; 
-import { ActionBtn } from '../../shared-components/Buttons';
+import React, { useState } from "react";
+import * as Styled from "./styled";
+import { BlueTextBtn } from "../../shared-components/Buttons";
+import StyledCheckbox from "../../shared-components/StyledCheckbox";
+import { SEARCHED_RESULTS } from "../../configuration/TemporaryConsts";
+import ShortInfo from "../../shared-components/ShortInfo";
+import SearchResult from "../../shared-components/SearchResult";
+import Pagination from "../../shared-components/Pagination";
+import FilterBlock from "./FilterBlock";
+import { PopUp } from "../../shared-components";
+import PopUpContent from "./PopUpContent";
+import PopUpFilter from "./PopUpFilter";
 
-export default () => (
-  <Styled.Container>
-    <Styled.UserBlock></Styled.UserBlock>
-    <Styled.SearchBlock>
-      <Styled.Filters>
-        <Styled.Header>
-          <h3>Filters</h3>
-          <ActionBtn text="Clear all" />
-        </Styled.Header>
-        <Styled.Input>
-          <p id="label">Skills</p>
-          <TextInput placeholder="Input..." />
-        </Styled.Input>
-        <Styled.Input>
-          <p id="label">Gender</p>
-          <TextInput placeholder="Input..." />
-        </Styled.Input>
-        <Styled.Input>
-          <p id="label">Age</p>
-          <TextInput placeholder="Input..." />
-        </Styled.Input>
-        <Styled.Input>
-          <p id="label">Country</p>
-          <TextInput placeholder="Input..." />
-        </Styled.Input>
-        <Styled.Input>
-          <p id="label">Languages</p>
-          <TextInput placeholder="Input..." />
-        </Styled.Input>
-        <Styled.Input>
-          <p id="label">Work Experience</p>
-          <TextInput placeholder="Input..." />
-        </Styled.Input>
-        <Styled.Input>
-          <p id="label">Education</p>
-          <TextInput placeholder="Input..." />
-        </Styled.Input>
-      </Styled.Filters>
-    </Styled.SearchBlock>
-  </Styled.Container>
-)
+export default () => {
+  const [isShownPopUp, setShownPopUp] = useState(false);
+  const [isShownFilterPopUp, setShownFilterPopUp] = useState(true);
+
+  const openPopUp = () => setShownPopUp(true);
+  const closePopUp = () => setShownPopUp(false);
+  const confirmSend = () => {
+    setShownPopUp(false);
+    alert("Request is successfuly sent");
+  };
+  const closeFilterPopUp = () => setShownFilterPopUp(false);
+
+  const searchedResults = SEARCHED_RESULTS.map(
+    ({ walletID, gender, age, skills, requested }) => (
+      <SearchResult
+        walletID={walletID}
+        gender={gender}
+        age={age}
+        skills={skills}
+        requested={requested}
+        clickedSend={openPopUp}
+      />
+    )
+  );
+
+  return (
+    <>
+      <Styled.Container>
+        <ShortInfo />
+        <Styled.SearchInfo>
+          <Styled.Found>
+            We found {SEARCHED_RESULTS.length} users with similar skills
+          </Styled.Found>
+          <Styled.Option>
+            <StyledCheckbox value="exact-match" />
+            <p id="after">exact match</p>
+          </Styled.Option>
+        </Styled.SearchInfo>
+        <Styled.SearchBlock>
+          <FilterBlock />
+          <Styled.Results>
+            {searchedResults}
+            <BlueTextBtn text="Send to all" />
+            <Pagination />
+          </Styled.Results>
+        </Styled.SearchBlock>
+      </Styled.Container>
+
+      <PopUp isShownPopUp={isShownPopUp}>
+        <PopUpContent clickedOK={confirmSend} clickedCancel={closePopUp} />
+      </PopUp>
+
+      <PopUpFilter 
+        isShown={ isShownFilterPopUp }
+        closeFilter={ closeFilterPopUp }
+      />
+    </>
+  );
+};
