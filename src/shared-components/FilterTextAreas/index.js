@@ -3,35 +3,28 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { Colors } from "../../configuration/Colors";
 
-const Input = withStyles({
+const Area = withStyles({
   root: {
-    height: 32,
     "& .MuiOutlinedInput-root": {
-      height: 32,
-      padding: "5px 20px",
-      overflow: "hidden",
+      padding: "10px 20px",
       backgroundColor: `${Colors.inputs}`,
-      "& fieldset": {
-        border: `1px solid ${Colors.main_disabled}`
-      },
       "&.Mui-focused fieldset": {
         borderColor: `${Colors.main_header}`,
         borderWidth: 0.5
       }
     },
     "& .MuiOutlinedInput-input": {
-      padding: 0,
-      textAlign: "left",
-      overflow: "hidden",
-      whiteSpace: "nowrap"
+      padding: "0",
+      textAlign: "left"
     }
   }
 })(TextField);
 
-export const TextInput = memo(
-  ({ placeholder, width, value, error, changed, blured }) => {
+export const TextArea = memo(
+  ({ placeholder, width, value, error, changed, blured, rows }) => {
     return (
-      <Input
+      <Area
+        multiline
         value={value}
         error={error}
         onChange={changed}
@@ -39,6 +32,7 @@ export const TextInput = memo(
         style={
           error ? { width: `${width}`, color: "red" } : { width: `${width}` }
         }
+        rows={rows || 6}
         placeholder={placeholder}
         variant="outlined"
       />

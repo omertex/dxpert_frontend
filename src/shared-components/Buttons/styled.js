@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import { Colors } from '../../configuration/Colors';
+import styled from "styled-components";
+import { Colors } from "../../configuration/Colors";
 
 export const ContinueBtn = styled.button`
   position: relative;
   height: 36px;
-  padding: ${props => props.arrow ? "8px 32px 8px 16px" : "8px 32px"};
+  padding: ${props => (props.arrow ? "8px 32px 8px 16px" : "8px 32px")};
   border-radius: 2px;
   border: none;
   outline: none;
@@ -12,16 +12,18 @@ export const ContinueBtn = styled.button`
   font-size: 14px;
   font-weight: 600;
   line-height: 19px;
-  letter-spacing: .03rem;
+  letter-spacing: 0.03rem;
   text-transform: uppercase;
   color: ${Colors.bg_white};
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 
   :hover {
     cursor: pointer;
   }
 
-  ${props => props.disabled &&`
+  ${props =>
+    props.disabled &&
+    `
     background: ${Colors.main_disabled};
     color: ${Colors.btn_disabled_text};
   `}
@@ -38,9 +40,11 @@ export const Arrow = styled.div`
   opacity: 0.54;
   border-left-color: transparent;
   border-bottom-color: transparent;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 
-  ${props => props.disabled &&`
+  ${props =>
+    props.disabled &&
+    `
     border-right-color: ${Colors.btn_disabled_text};
     border-top-color: ${Colors.btn_disabled_text};
   `}
@@ -62,7 +66,9 @@ export const BorderBtn = styled(ContinueBtn)`
   border: 1px solid ${Colors.continue_btn};
   background: transparent;
 
-  ${props => props.disabled &&`
+  ${props =>
+    props.disabled &&
+    `
     border: 1px solid ${Colors.main_disabled};
     color: ${Colors.btn_disabled_text};
   `}
@@ -84,7 +90,8 @@ export const ChooseWayBtn = styled.button`
   letter-spacing: -0.4px;
   color: ${Colors.text_black};
   background: transparent;
-  border-radius: ${props => props.second ? "0px 10px 10px 0px" : "10px 0px 0px 10px"};
+  border-radius: ${props =>
+    props.second ? "0px 10px 10px 0px" : "10px 0px 0px 10px"};
   border: 0.5px solid rgba(0, 0, 0, 0.1);
   outline: none;
 
@@ -93,4 +100,12 @@ export const ChooseWayBtn = styled.button`
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.24);
     border: 1px solid ${Colors.continue_btn};
   }
+`;
+
+export const SubmitBtn = styled(ContinueBtn)`
+  width: 130px;
+  height: 29px;
+  padding: 0;
+  border-radius: 4px;
+  font: 12px Open Sans, sans-serif;
 `;
