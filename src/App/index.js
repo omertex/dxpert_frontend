@@ -13,6 +13,7 @@ import {
 } from "../pages";
 import SearchFilter from "../pages/SearchFilter";
 import { Switch, Route } from "react-router-dom";
+import Routes from "./Routing";
 
 function App() {
   const [chosenWay, setChosenWay] = useState("employer");
@@ -21,7 +22,8 @@ function App() {
     <Styled.App>
       <Header chosenWay={chosenWay} />
       <Styled.Content>
-        <Switch>
+        <Routes />
+        {/* <Switch>
           <Route exact path="/" component={ChooseWay} />
           <Route path="/employer/search-filter" component={SearchFilter} />
           <Route
@@ -34,7 +36,7 @@ function App() {
           <Route path="/employer/balance" component={EmployerBalance} />
           <Route path="/employer/my-requests" component={EmployerRequests} />
           <Route path="/employer/profile" component={EmployerProfile} />
-        </Switch>
+        </Switch> */}
       </Styled.Content>
       <Footer />
     </Styled.App>

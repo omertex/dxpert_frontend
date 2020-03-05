@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Colors } from '../../configuration/Colors';
 
 export const Container = styled.div`
-  width: 1024px;
+  width: 930px;
   margin: 0 auto;
   padding-top: 15px;
   box-sizing: border-box;

@@ -31,13 +31,14 @@ const Input = withStyles({
 })(TextField);
 
 export const TextInput = memo(
-  ({ placeholder, width, value, error, changed, blured }) => {
+  ({ placeholder, width, value, error, changed, blured, name }) => {
     return (
       <Input
         value={value}
         error={error}
         onChange={changed}
         onBlur={blured}
+        name={name}
         style={
           error ? { width: `${width}`, color: "red" } : { width: `${width}` }
         }

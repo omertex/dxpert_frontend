@@ -26,8 +26,12 @@ export const BorderBtn = ({ text, disabled, clicked }) => (
   </Styled.BorderBtn>
 );
 
-export const ChooseWayBtn = ({ text, clicked, second }) => (
-  <Styled.ChooseWayBtn onClick={clicked} second={second}>
+export const ChooseWayBtn = ({ text, clicked, second, chosen }) => (
+  <Styled.ChooseWayBtn 
+    chosen={chosen}
+    onClick={clicked} 
+    second={second}
+  >
     {text}
   </Styled.ChooseWayBtn>
 );
@@ -53,7 +57,12 @@ export const ActionBtn = ({ text, disabled, clicked }) => (
 );
 
 export const SubmitBtn = ({ text, disabled, clicked, width }) => (
-  <Styled.SubmitBtn onClick={clicked} disabled={disabled} width={width}>
+  <Styled.SubmitBtn 
+    type="submit" 
+    onClick={clicked} 
+    disabled={disabled} 
+    width={width}
+  >
     {text}
   </Styled.SubmitBtn>
 );

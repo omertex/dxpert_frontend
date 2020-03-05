@@ -3,11 +3,12 @@ import * as Styled from "./styled";
 import { QuickSearch } from "../../shared-components/StyledInput";
 import Logo from "../../assets/images/logo.png";
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default ({ chosenWay }) => (
+const Header = ({ chosenWay }) => (
   <Styled.Header>
     <Styled.Container>
-      <Link to={"/" + chosenWay + "/profile"}>
+      <Link to={chosenWay ? "/" + chosenWay + "/profile" : "/"}>
       <img src={Logo} alt="Logo" />
       </Link>
       { chosenWay === "employer"
@@ -16,8 +17,8 @@ export default ({ chosenWay }) => (
               <QuickSearch />
             </Styled.Input>
             <Styled.Nav>
-              <Styled.MenuLink to={"/" + chosenWay + "/my-requests"}>My requests</Styled.MenuLink>
-              <Styled.MenuLink to={"/" + chosenWay + "/search-filter"}>Search</Styled.MenuLink>
+              <Styled.MenuLink to={"/" + chosenWay + "/requests"}>My requests</Styled.MenuLink>
+              <Styled.MenuLink to={"/" + chosenWay + "/search"}>Search</Styled.MenuLink>
               <Styled.BalanceLink to={"/" + chosenWay + "/balance"}>
                 1343
                 <span>DXP</span>
@@ -27,7 +28,7 @@ export default ({ chosenWay }) => (
         : <>
             <Styled.Nav>
               <Styled.MenuLink to={"/" + chosenWay + "/profile"}>My profile</Styled.MenuLink>
-              <Styled.MenuLink to={"/" + chosenWay + "/my-requests"}>Requests</Styled.MenuLink>
+              <Styled.MenuLink to={"/" + chosenWay + "/requests"}>Requests</Styled.MenuLink>
               <Styled.BalanceLink to={"/" + chosenWay + "/balance"}>
                 1343
                 <span>DXP</span>
@@ -38,3 +39,11 @@ export default ({ chosenWay }) => (
     </Styled.Container>
   </Styled.Header>
 );
+
+const mapStateToProps = state => {
+  return {
+    chosenWay: state.chosenWay
+  }
+};
+
+export default connect(mapStateToProps)(Header);

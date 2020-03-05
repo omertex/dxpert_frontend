@@ -3,8 +3,11 @@ import * as Styled from './styled';
 import { UploadBtn, CreateBtn, ContinueBtn } from '../../shared-components/Buttons';
 import UploadImg from '../../assets/images/upload.png';
 import { Password } from '../../shared-components/StyledInput';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { UnlockWallet } from '../CreateWallet/Success/styled';
 
-export default () => (
+const Unlock = (({ history, chosenWay }) => (
   <Styled.Container>
     <Styled.Paper>
       <h2>Unlock your Wallet</h2>
@@ -16,8 +19,19 @@ export default () => (
         <Styled.CreateNewWallet to="/create-wallet">
           <CreateBtn text="Create new wallet" />
         </Styled.CreateNewWallet>
-        <ContinueBtn text="Unlock the wallet" disabled />
+        <ContinueBtn 
+          clicked={() => history.push("/" + chosenWay + "/profile")}
+          text="Unlock the wallet"
+        />
       </Styled.Buttons>
     </Styled.Paper>
   </Styled.Container>
-)
+))
+
+const mapStateToProps = state => {
+  return {
+    chosenWay: state.chosenWay
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(Unlock));

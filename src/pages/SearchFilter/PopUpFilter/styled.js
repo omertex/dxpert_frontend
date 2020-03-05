@@ -34,7 +34,7 @@ export const Paper = styled.div`
 `;
 
 export const Filters = styled.div`
-  width: 1024px;
+  width: 930px;
   margin: 0 auto;
   padding: 20px 0 0 0;
   display: flex:
@@ -107,6 +107,6 @@ export const InputGroup = styled.div`
   margin-bottom: 85px;
 
   #skills {
-    flex-basis: 660px;
+    flex-basis: 612px;
   }
 `;
