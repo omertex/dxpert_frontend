@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Styled from "./styled";
 import { Header, Footer } from "../shared-components";
 import {
@@ -8,28 +8,32 @@ import {
   UnlockWallet,
   Profile,
   EmployerBalance,
-  EmployerRequests
+  EmployerRequests,
+  EmployerProfile
 } from "../pages";
 import SearchFilter from "../pages/SearchFilter";
 import { Switch, Route } from "react-router-dom";
 
 function App() {
+  const [chosenWay, setChosenWay] = useState("employer");
+
   return (
     <Styled.App>
-      <Header />
+      <Header chosenWay={chosenWay} />
       <Styled.Content>
         <Switch>
           <Route exact path="/" component={ChooseWay} />
-          <Route path="/search-filter" component={SearchFilter} />
+          <Route path="/employer/search-filter" component={SearchFilter} />
           <Route
             path="/wallet-creation-tutorial"
             component={WalletCreationTutorial}
           />
           <Route path="/create-wallet" component={CreateWallet} />
           <Route path="/unlock-wallet" component={UnlockWallet} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/balance" component={EmployerBalance} />
-          <Route path="/my-requests" component={EmployerRequests} />
+          <Route path="/applicant/profile" component={Profile} />
+          <Route path="/employer/balance" component={EmployerBalance} />
+          <Route path="/employer/my-requests" component={EmployerRequests} />
+          <Route path="/employer/profile" component={EmployerProfile} />
         </Switch>
       </Styled.Content>
       <Footer />

@@ -27,7 +27,7 @@ export const Name = styled.div`
 export const Edit = styled.button`
   font: 12px Open Sans, sans-serif;
   line-height: 16px;
-  letter-spacing: -0.4px;
+  letter-spacing: 0.03rem;
   background-color: ${Colors.bg_white};
   border: none;
   outline: none;
