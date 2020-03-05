@@ -20,7 +20,7 @@ export const WalletID = styled.p`
   text-decoration: underline;
   width: 80px;
   flex-shrink: 0;
-  margin: 0;
+  margin: 0 15px;
   color: rgba(0, 0, 0, 0.87);
 `;
 

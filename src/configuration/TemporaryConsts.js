@@ -106,3 +106,54 @@ export const TRANSACTIONS = [
     txFee: "0.2"
   },
 ]
+
+export const EMPLOYER_REQUESTS = [
+  {
+    status: "completed",
+    walletID: "walletID",
+    gender: "M",
+    age: "28",
+    skills: "Adobe Illustrator, Photoshop, After Effects, Figma",
+    time: "10.49 AM"
+  },
+  {
+    status: "pending",
+    walletID: "walletID",
+    gender: "W",
+    age: "22",
+    skills: "Ranorex, Selenium, C#, Apache, Tomcat, JVMs, Linux, MySQL",
+    time: "10.49 PM"
+  },
+  {
+    status: "pending",
+    walletID: "walletID",
+    gender: "M",
+    age: "29",
+    skills: "Adobe Illustrator, Photoshop, After Effects, Figma",
+    time: "10.49 AM"
+  },
+  {
+    status: "completed",
+    walletID: "walletID",
+    gender: "W",
+    age: "28",
+    skills: "Swift, Objective-C,  UIKit, Foundation, GCD, CoreData, CoreAnimation, Realm, Cocoapods, XCode, Instruments, Git, gitflow,Swift, Objective-C,  UIKit, Foundation, GCD, CoreData, CoreAnimation, Realm, Cocoapods, XCode, Instruments, Git, gitflow, Swift, Objective-C,  UIKit, Foundation, GCD, CoreData, CoreAnimation, Realm, Cocoapods, XCode, Instruments, Git, gitflow",
+    time: "6.49 PM"
+  },
+  {
+    status: "failed",
+    walletID: "walletID",
+    gender: "M",
+    age: "33",
+    skills: "Adobe Illustrator, Photoshop, After Effects, Figma",
+    time: "8.23 AM"
+  },
+  {
+    status: "completed",
+    walletID: "walletID",
+    gender: "M",
+    age: "28",
+    skills: "Running A/B tests, analytical skills with attention to details, UA experience...",
+    time: "10.49 AM"
+  },
+]

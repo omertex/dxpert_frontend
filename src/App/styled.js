@@ -11,6 +11,9 @@ export const App = styled.div`
 export const Content = styled.div`
   position: relative;
   width: 100%;
+  flex-grow: 1;
   margin-bottom: auto;
   background: ${Colors.sub_bg};
+  display: flex;
+  flex-flow: column;
 `;
