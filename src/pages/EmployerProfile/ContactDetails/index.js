@@ -1,9 +1,12 @@
 import React from "react";
 import * as Styled from "./styled";
-import InfoContainer from "../InfoContainer";
-import { SubmitBtn } from "../../Buttons";
-import { FilterSelect } from "../../FilterSelect";
-import Info from './Info';
+import InfoContainer from "../../../shared-components/ProfileInfo/InfoContainer";
+import { SubmitBtn } from "../../../shared-components/Buttons";
+import { FilterSelect } from "../../../shared-components/FilterSelect";
+import Info from "./Info";
+import { TextInput } from '../../../shared-components/FilterInputs';
+import { MultiSelect } from '../../../shared-components/MultiSelect';
+import { TextArea } from '../../../shared-components/FilterTextAreas';
 
 const data = [
   { id: "ten", value: "10", title: "Ten" },
@@ -25,7 +28,24 @@ export default () => {
 
   const Editable = () => (
     <Styled.Form>
-      <FilterSelect data={data} width="290px" placeholder="Select Country" />
+      <Info title="Company">
+        <TextInput width="290px" />
+      </Info>
+      <Info title="E-mail">
+        <TextInput width="290px" />
+      </Info>
+      <Info title="Country">
+        <MultiSelect width="290px" />
+      </Info>
+      <Info title="City">
+        <MultiSelect width="290px" />
+      </Info>
+      <Info title="Web-site">
+        <TextInput width="290px" />
+      </Info>
+      <Info title="About company">
+        <TextArea width="390px" />
+      </Info>
       <Styled.SubmitBox>
         <SubmitBtn text="submit" />
       </Styled.SubmitBox>
