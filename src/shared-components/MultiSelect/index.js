@@ -75,7 +75,7 @@ export const MultiSelect = memo(
         multiple
         // id="multiSelect"
         width={width}
-        options={data}
+        options={data || []}
         classes={{
           option: classes.option,
           paper: classes.paper
