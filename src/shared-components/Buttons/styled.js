@@ -117,6 +117,11 @@ export const ChooseWayBtn = styled.button`
   border: 0.5px solid rgba(0, 0, 0, 0.1);
   outline: none;
 
+  ${props => props.chosen &&`
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.24);
+    border: 1px solid ${Colors.continue_btn};
+  `}
+
   :hover {
     cursor: pointer;
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.24);

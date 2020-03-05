@@ -2,8 +2,10 @@ import React from "react";
 import { ContinueBtn, BorderBtn, ChooseWayBtn } from '../../shared-components/Buttons';
 import * as Styled from "./styled";
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../store/actions';
 
-function ChooseWay() {
+function ChooseWay({ onChooseWay, chosenWay }) {
   return (
     <Styled.Container>
       <h3>
@@ -14,9 +16,13 @@ function ChooseWay() {
       <h4>Choose your way</h4>
       <Styled.RoleWrapper>
         <ChooseWayBtn 
+          chosen={ chosenWay === "applicant"}
+          clicked={() => onChooseWay("applicant")}
           text="For applicants" 
         />
         <ChooseWayBtn 
+          chosen={ chosenWay === "employer"}
+          clicked={() => onChooseWay("employer")}
           text="For employers"
           second= { true }
         />
@@ -25,13 +31,13 @@ function ChooseWay() {
         <Link to="/wallet-creation-tutorial">
           <BorderBtn 
             text="Create account" 
-            disabled={ false } 
+            disabled={ !chosenWay } 
           />
         </Link>
         <Link to="/unlock-wallet">
           <ContinueBtn
             text="Connect account" 
-            disabled={ false } 
+            disabled={ !chosenWay } 
           />
         </Link>
       </Styled.AccountWrapper>
@@ -39,4 +45,16 @@ function ChooseWay() {
   );
 }
 
-export default ChooseWay;
+const mapStateToProps = state => {
+  return {
+    chosenWay: state.chosenWay
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onChooseWay: (way) => dispatch({type: actionTypes.CHOOSE_WAY, way})
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChooseWay);

@@ -65,14 +65,15 @@ export const MultiSelect = memo(
     error,
     changed,
     blured,
-    defaultValue
+    defaultValue,
+    name
   }) => {
     const classes = useStyles();
 
     return (
       <Complete
         multiple
-        id="multiSelect"
+        // id="multiSelect"
         width={width}
         options={data}
         classes={{
@@ -81,6 +82,7 @@ export const MultiSelect = memo(
         }}
         getOptionLabel={option => option.title}
         defaultValue={defaultValue}
+        name={name}
         filterSelectedOptions
         renderInput={params => (
           <Input

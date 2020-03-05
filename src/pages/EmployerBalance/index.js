@@ -4,6 +4,7 @@ import ShortInfo from '../../shared-components/ShortInfo';
 import { SubmitBtn } from '../../shared-components/Buttons';
 import Transaction, { TableHeader } from './Transaction';
 import { TRANSACTIONS } from '../../configuration/TemporaryConsts';
+import PageName from '../../shared-components/PageName';
 
 const transactions = TRANSACTIONS.map(({ date, id, type, value, status, txFee }) => (
   <Transaction 
@@ -19,7 +20,7 @@ const transactions = TRANSACTIONS.map(({ date, id, type, value, status, txFee })
 export default () => (
   <Styled.Container>
     <ShortInfo />
-    <Styled.PageTitle>Balance</Styled.PageTitle>
+    <PageName pageName={"Balance"}/>
     <Styled.InfoBlock>
 
       <Styled.WalletDetails>

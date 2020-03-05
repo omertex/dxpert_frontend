@@ -2,52 +2,83 @@ import React from "react";
 import * as Styled from "./styled";
 import InfoContainer from "../../../shared-components/ProfileInfo/InfoContainer";
 import { SubmitBtn } from "../../../shared-components/Buttons";
-import { FilterSelect } from "../../../shared-components/FilterSelect";
 import Info from "./Info";
 import { TextInput } from '../../../shared-components/FilterInputs';
 import { MultiSelect } from '../../../shared-components/MultiSelect';
 import { TextArea } from '../../../shared-components/FilterTextAreas';
+import { LANGUAGES} from '../../../configuration/TemporaryConsts';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../store/actions';
 
-const data = [
-  { id: "ten", value: "10", title: "Ten" },
-  { id: "twenty", value: "20", title: "Twenty" },
-  { id: "thirty", value: "30", title: "Thirty" }
-];
+const InfoBlock = ({ onChangeDetails, details }) => {
 
-export default () => {
   const Displayed = () => (
     <Styled.DisplayedInfo>
-      <Info title="Company" description="Omertex" />
-      <Info title="E-mail" description="Omertex@omertex.com" />
-      <Info title="Country" description="USA" />
-      <Info title="City" description="New-York" />
-      <Info title="Web-site" description="Omertex.com" />
-      <Info title="About company" description="Software product development company" />
+      <Info title="Company" description={details.company} />
+      <Info title="E-mail" description={details.email} />
+      <Info title="Country" description={details.country} />
+      <Info title="City" description={details.city} />
+      <Info title="Web-site" description={details.website} />
+      <Info title="About company" description={details.aboutCompany} />
     </Styled.DisplayedInfo>
   );
 
   const Editable = () => (
     <Styled.Form>
       <Info title="Company">
-        <TextInput width="290px" />
+        <TextInput 
+          changed={(e) => onChangeDetails(e)}
+          value={details.company}
+          name="company" 
+          width="290px" 
+        />
       </Info>
       <Info title="E-mail">
-        <TextInput width="290px" />
+        <TextInput 
+          changed={(e) => onChangeDetails(e)}
+          value={details.email}
+          name="email" 
+          width="290px" 
+        />
       </Info>
       <Info title="Country">
-        <MultiSelect width="290px" />
+        <MultiSelect 
+          changed={(e) => onChangeDetails(e)}
+          value={details.country}
+          name="country" 
+          width="290px" 
+          data={LANGUAGES}
+        />
       </Info>
       <Info title="City">
-        <MultiSelect width="290px" />
+        <MultiSelect 
+          changed={(e) => onChangeDetails(e)}
+          value={details.city}
+          name="city" 
+          width="290px" 
+          data={LANGUAGES}
+        />
       </Info>
       <Info title="Web-site">
-        <TextInput width="290px" />
+        <TextInput 
+          changed={(e) => onChangeDetails(e)}
+          value={details.website}
+          name="website"  
+          width="290px" 
+        />
       </Info>
       <Info title="About company">
-        <TextArea width="390px" />
+        <TextArea 
+          changed={(e) => onChangeDetails(e)}
+          value={details.aboutCompany}
+          name="aboutCompany" 
+          width="390px" 
+        />
       </Info>
       <Styled.SubmitBox>
-        <SubmitBtn text="submit" />
+        <SubmitBtn 
+          text="submit" 
+        />
       </Styled.SubmitBox>
     </Styled.Form>
   );
@@ -60,3 +91,17 @@ export default () => {
     />
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    details: state.companyDetails
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onChangeDetails: (e) => dispatch({ type: actionTypes.CHANGE_DETAILS, data: e.target })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoBlock);

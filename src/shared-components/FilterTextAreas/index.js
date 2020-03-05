@@ -6,7 +6,7 @@ import { Colors } from "../../configuration/Colors";
 const Area = withStyles({
   root: {
     "& .MuiOutlinedInput-root": {
-      padding: "10px 20px",
+      padding: "8px 12px",
       backgroundColor: `${Colors.inputs}`,
       "&.Mui-focused fieldset": {
         borderColor: `${Colors.main_header}`,
@@ -15,18 +15,20 @@ const Area = withStyles({
     },
     "& .MuiOutlinedInput-input": {
       padding: "0",
-      textAlign: "left"
+      textAlign: "left",
+      fontSize: 12
     }
   }
 })(TextField);
 
 export const TextArea = memo(
-  ({ placeholder, width, value, error, changed, blured, rows }) => {
+  ({ placeholder, width, value, error, changed, blured, rows, name }) => {
     return (
       <Area
         multiline
         value={value}
         error={error}
+        name={name}
         onChange={changed}
         onBlur={blured}
         style={
