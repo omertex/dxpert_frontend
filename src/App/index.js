@@ -7,8 +7,8 @@ import {
   WalletCreationTutorial,
   UnlockWallet,
   Profile,
-  Balance,
-  Requests
+  EmployerBalance,
+  EmployerRequests
 } from "../pages";
 import SearchFilter from "../pages/SearchFilter";
 import { Switch, Route } from "react-router-dom";
@@ -28,8 +28,8 @@ function App() {
           <Route path="/create-wallet" component={CreateWallet} />
           <Route path="/unlock-wallet" component={UnlockWallet} />
           <Route path="/profile" component={Profile} />
-          <Route path="/balance" component={Balance} />
-          <Route path="/my-requests" component={Requests} />
+          <Route path="/balance" component={EmployerBalance} />
+          <Route path="/my-requests" component={EmployerRequests} />
         </Switch>
       </Styled.Content>
       <Footer />

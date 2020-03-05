@@ -14,4 +14,6 @@ export const Content = styled.div`
   flex-grow: 1;
   margin-bottom: auto;
   background: ${Colors.sub_bg};
+  display: flex;
+  flex-flow: column;
 `;
