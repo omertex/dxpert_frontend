@@ -21,7 +21,8 @@ const Input = withStyles({
     },
     "& .MuiOutlinedInput-input": {
       padding: 0,
-      textAlign: "center",
+      marginLeft: 7,
+      textAlign: "left",
       fontSize: 12,
       overflow: "hidden",
       whiteSpace: "nowrap"

@@ -6,6 +6,8 @@ import ApplicantContacts from "../../shared-components/ProfileInfo/ApplicantCont
 import AboutMe from "../../shared-components/ProfileInfo/AboutMe";
 import Skills from "../../shared-components/ProfileInfo/Skills";
 import Languages from "../../shared-components/ProfileInfo/Languages";
+import WorkExperience from "../../shared-components/ProfileInfo/WorkExperience";
+import Education from "../../shared-components/ProfileInfo/Education";
 
 export default () => (
   <Styled.Container>
@@ -15,5 +17,7 @@ export default () => (
     <AboutMe />
     <Skills />
     <Languages />
+    <WorkExperience />
+    <Education />
   </Styled.Container>
 );
