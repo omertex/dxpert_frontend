@@ -42,7 +42,7 @@ const Header = ({ chosenWay }) => (
 
 const mapStateToProps = state => {
   return {
-    chosenWay: state.chosenWay
+    chosenWay: state.test.chosenWay
   }
 };
 

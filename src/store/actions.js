@@ -1,2 +1,0 @@
-export const CHOOSE_WAY = 'CHOOSE_WAY';
-export const CHANGE_DETAILS = 'CHANGE_DETAILS';

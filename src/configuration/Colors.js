@@ -7,6 +7,7 @@ export const Colors = {
   continue_btn: "#55A8C0",
   btn_disabled_text: "#767676",
   success: "#4CAF50",
+  error: "#F85D5D",
 
   //additional
   bg_white: "#FFFFFF",

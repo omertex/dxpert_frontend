@@ -3,7 +3,7 @@ import { ContinueBtn, BorderBtn, ChooseWayBtn } from '../../shared-components/Bu
 import * as Styled from "./styled";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as actionTypes from '../../store/actions/actionTypes';
 
 function ChooseWay({ onChooseWay, chosenWay }) {
   return (
@@ -47,7 +47,7 @@ function ChooseWay({ onChooseWay, chosenWay }) {
 
 const mapStateToProps = state => {
   return {
-    chosenWay: state.chosenWay
+    chosenWay: state.test.chosenWay
   }
 }
 

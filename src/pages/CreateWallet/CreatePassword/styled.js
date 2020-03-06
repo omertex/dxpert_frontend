@@ -11,7 +11,7 @@ export const Paper = styled.div`
   flex-flow: column;
   align-items: center;
   width: 770px;
-  height: 490px;
+  // height: 490px;
   margin: 0 auto;
   padding: 29px 160px 25px;
   box-sizing: border-box;
@@ -50,19 +50,20 @@ export const Container = styled.div`
 
 export const Form = styled.div`
   align-self: stretch;
-  height: 215px;
+  // height: 215px;
   display: flex;
   flex-flow: column;
   align-items: center;
 `;
 
 export const Inputs = styled.div`
+  position: relative;
   width: 100%;
-  height: 115px;
+  min-height: 115px;
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  margin-bottom: 62px;
+  margin-bottom: 50px;
 `;
 
 export const Unlock = styled(Link)`
@@ -92,4 +93,82 @@ export const Disclaimer = styled.div`
       text-decoration: none;
     }
   }
+`;
+
+export const Tip = styled.div`
+  padding: 15px 30px;
+  box-sizing: border-box;
+  margin: 12px 0;
+  border: 1px solid ${Colors.main_disabled};
+  border-radius: 4px;
+  background: ${Colors.sub_bg};
+`;
+
+export const Requirements = styled.p`
+  font-size: 12px;
+  line-height: 16px;
+  color: ${Colors.text_black};
+  margin: 0 0 8px;
+  text-align: left;
+`;
+
+export const Checkers = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+export const Lenght = styled.p`
+  position: relative;
+  font-size: 10px;
+  line-height: 14px;
+  color:${Colors.text_black};
+  opacity: 0.5;
+  padding-left: 10px;
+  margin: 0 25px 0 0;
+  transition: all 200ms ease;
+
+  :before {
+    display: block;
+    position: absolute;
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: ${Colors.text_black};
+    opacity: 0.5;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 200ms ease;
+  }
+
+  ${props => props.error &&`
+    color: ${Colors.error};
+    opacity: 1;
+
+    :before {
+      background-color: ${Colors.error};
+      opacity: 1;
+    }
+  `};
+`;
+
+export const Includes = styled(Lenght)``;
+
+export const ConfirmError = styled.p`
+    position: absolute;
+    left: 14px;
+    bottom: -20px;
+    font-size: 12px;
+    line-height: 16px;
+    color: ${Colors.error};
+    text-align: left;
+`;
+
+export const Buttons = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 `;

@@ -180,14 +180,14 @@ export const Password = memo(
     return (
       <FormControl className={classes.input} variant="outlined">
         <InputLabel htmlFor="password" style={error ? { color: "red" } : null}>
-          {error ? message : label}
+          {label}
         </InputLabel>
         <OutlinedInput
           value={value}
           error={error}
           onChange={changed}
           onBlur={blured}
-          helperText={message}
+          helperText={label}
           id="password"
           type={showPassword ? "text" : "password"}
           endAdornment={
@@ -209,21 +209,21 @@ export const Password = memo(
 );
 
 export const Confirm = memo(
-  ({ id, label, value, error, changed, blured, message }) => {
+  ({ label, value, error, changed, blured }) => {
     const [showPassword, setShowPassword] = useState(false);
     const classes = useStyles();
 
     return (
       <FormControl className={classes.input} variant="outlined">
         <InputLabel htmlFor="confirm" style={error && { color: "red" }}>
-          {error ? message : label}
+          {label}
         </InputLabel>
         <OutlinedInput
           value={value}
           error={error}
           onChange={changed}
           onBlur={blured}
-          helperText={message}
+          helperText={label}
           id="confirm"
           type={showPassword ? "text" : "password"}
           endAdornment={
