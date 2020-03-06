@@ -15,5 +15,6 @@ export const Colors = {
   link_gray: "#cacaca",
   sub_bg: "#FBFBFB",
   inputs: "#FAFAFA",
-  tag: "#c6d7ea"
+  tag: "#c6d7ea",
+  error: "#F85D5D"
 };

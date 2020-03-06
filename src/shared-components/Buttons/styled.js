@@ -75,7 +75,7 @@ export const ActionBtn = styled(PreviousBtn)`
 `;
 
 export const BlueTextBtn = styled(ActionBtn)`
-    text-transform: uppercase;
+  text-transform: uppercase;
 `;
 
 export const CreateBtn = styled(PreviousBtn)`
@@ -117,12 +117,13 @@ export const ChooseWayBtn = styled.button`
   border: 0.5px solid rgba(0, 0, 0, 0.1);
   outline: none;
 
-  ${props => props.chosen &&`
+  ${props =>
+      props.chosen &&
+      `
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.24);
     border: 1px solid ${Colors.continue_btn};
   `}
-
-  :hover {
+    :hover {
     cursor: pointer;
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.24);
     border: 1px solid ${Colors.continue_btn};
@@ -130,10 +131,25 @@ export const ChooseWayBtn = styled.button`
 `;
 
 export const SubmitBtn = styled(ContinueBtn)`
-  width: ${props => props.width ? props.width : `130px`};
+  width: ${props => (props.width ? props.width : `130px`)};
   height: 29px;
   flex-shrink: 0;
   padding: 0;
   border-radius: 4px;
   font: 12px Open Sans, sans-serif;
+`;
+
+export const DeclineBtn = styled(SubmitBtn)`
+  background: transparent;
+  color: ${Colors.error};
+
+  ${props =>
+    props.disabled &&
+    `
+    color: ${Colors.btn_disabled_text};
+
+    :hover {
+      cursor: not-allowed;
+    }
+  `}
 `;

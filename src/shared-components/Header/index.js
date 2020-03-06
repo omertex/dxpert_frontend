@@ -19,7 +19,7 @@ const Header = ({ chosenWay }) => (
             <Styled.Nav>
               <Styled.MenuLink to={"/" + chosenWay + "/requests"}>My requests</Styled.MenuLink>
               <Styled.MenuLink to={"/" + chosenWay + "/search"}>Search</Styled.MenuLink>
-              <Styled.BalanceLink to={"/" + chosenWay + "/balance"}>
+              <Styled.BalanceLink to={"/balance"}>
                 1343
                 <span>DXP</span>
               </Styled.BalanceLink>
@@ -29,7 +29,7 @@ const Header = ({ chosenWay }) => (
             <Styled.Nav>
               <Styled.MenuLink to={"/" + chosenWay + "/profile"}>My profile</Styled.MenuLink>
               <Styled.MenuLink to={"/" + chosenWay + "/requests"}>Requests</Styled.MenuLink>
-              <Styled.BalanceLink to={"/" + chosenWay + "/balance"}>
+              <Styled.BalanceLink to={"/balance"}>
                 1343
                 <span>DXP</span>
               </Styled.BalanceLink>

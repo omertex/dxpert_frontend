@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Colors } from '../../configuration/Colors';
+import styled from "styled-components";
+import { Colors } from "../../configuration/Colors";
 
 export const Underlayer = styled.div`
   position: fixed;
@@ -8,7 +8,7 @@ export const Underlayer = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, .3);
+  background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(4px);
 `;
 
@@ -25,7 +25,9 @@ export const PopUpContent = styled.div`
   box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.24), 0px 0px 8px rgba(0, 0, 0, 0.12);
   transition: all 300ms ease;
 
-  ${props => !props.visible &&`
+  ${props =>
+    !props.visible &&
+    `
     display: none;
   `}
 `;

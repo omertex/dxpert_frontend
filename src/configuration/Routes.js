@@ -2,11 +2,12 @@ import { lazy } from 'react';
 
 export const chooseWay = "/",
   createWallet = "/create-wallet",
-  employerBalance = "/employer/balance",
+  employerBalance = "/balance",
   employerProfile = "/employer/profile",
   employerRequests = "/employer/requests",
   employerSearch = "/employer/search",
   applicantProfile = "/applicant/profile",
+  applicantRequests = "/applicant/requests",
   unlockWallet = "/unlock-wallet",
   walletCreationTutorial = "/wallet-creation-tutorial";
 
@@ -17,6 +18,7 @@ const EmployerProfile = lazy(() => import("../pages/EmployerProfile"));
 const EmployerRequests = lazy(() => import("../pages/EmployerRequests"));
 const EmployerSearch = lazy(() => import("../pages/SearchFilter"));
 const ApplicantProfile = lazy(() => import("../pages/Profile"));
+const ApplicantRequests = lazy(() => import("../pages/ApplicantRequests"));
 const UnlockWallet = lazy(() => import("../pages/UnlockWallet"));
 const WalletCreationTutorial = lazy(() => import("../pages/WalletCreationTutorial"));
 
@@ -41,6 +43,9 @@ export const ROUTES = [
   },
   { path: applicantProfile,
     component: ApplicantProfile
+  },
+  { path: applicantRequests,
+    component: ApplicantRequests
   },
   { path: unlockWallet,
     component: UnlockWallet

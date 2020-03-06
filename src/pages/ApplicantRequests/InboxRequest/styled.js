@@ -19,58 +19,22 @@ export const Request = styled.div`
   transition: all 300ms ease;
 
   :hover {
-    cursor: pointer;
     box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.2), 0px 3px 16px rgba(0, 0, 0, 0.12),
       0px 9px 12px rgba(0, 0, 0, 0.14);
   }
-
-  ${props =>
-    props.status === "completed" &&
-    `
-    border-color: ${Colors.success};
-  `}
-
-  ${props =>
-    props.status === "failed" &&
-    `
-    border-color: red;
-  `}
 `;
 
-export const Completed = styled(CheckCircleOutlinedIcon)`
-  color: ${Colors.success};
-  margin-right: 17px;
-`;
-
-export const Failed = styled(CancelOutlinedIcon)`
-  color: red;
-  margin-right: 17px;
-`;
-
-export const Pending = styled(QueryBuilderOutlinedIcon)`
-  color: ${Colors.main_disabled};
-  margin-right: 17px;
-`;
-
-export const WalletID = styled.p`
+export const Company = styled.p`
   font-size: 16px;
   line-height: 24px;
+  font-weight: 600;
+  text-align: left;
   text-decoration: underline;
-  width: 80px;
+  min-width: 130px;
   flex-shrink: 0;
   margin: 0;
-  margin-right: 30px;
+  margin: 0 30px 0 35px;
   color: rgba(0, 0, 0, 0.87);
-`;
-
-export const Gender = styled.p`
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  padding: 8px;
-  box-sizing: border-box;
-  text-transform: uppercase;
-  margin: 0;
 `;
 
 export const Skills = styled.p`
@@ -80,12 +44,10 @@ export const Skills = styled.p`
   color: rgba(0, 0, 0, 0.53);
   padding: 8px 20px 8px 8px;
   box-sizing: border-box;
-  margin: 0 auto 0 30px;
+  margin: 0 auto 0 0;
   text-align: left;
   overflow: hidden;
 `;
-
-export const Age = styled(Gender)``;
 
 export const Time = styled(Skills)`
   padding: 0;
@@ -109,4 +71,11 @@ export const Expand = styled(ExpandMoreIcon)`
     `
     transform: rotate(180deg);
   `}
+`;
+
+export const Buttons = styled.div`
+  min-width: 230px;
+  margin-left: 12px;
+  display: flex;
+  justify-content: space-between;
 `;

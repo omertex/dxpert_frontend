@@ -15,14 +15,15 @@ export const LANGUAGES = [
   { id: "de", title: "German" },
   { id: "fr", title: "French" },
   { id: "ru", title: "Russian" }
-]
+];
 
 export const SEARCHED_RESULTS = [
   {
     walletID: "Wallet ID",
     gender: "m",
     age: "28",
-    skills: "Adobe Illustrator, Photoshop, Figma, Sketch, After Effect, Figma, Sketch, After Effect",
+    skills:
+      "Adobe Illustrator, Photoshop, Figma, Sketch, After Effect, Figma, Sketch, After Effect",
     requested: "false"
   },
   {
@@ -36,7 +37,8 @@ export const SEARCHED_RESULTS = [
     walletID: "Wallet ID",
     gender: "m",
     age: "22",
-    skills: "Adobe Illustrator, Photoshop, Sketch, After Effect, Figma, Sketch, After Effect",
+    skills:
+      "Adobe Illustrator, Photoshop, Sketch, After Effect, Figma, Sketch, After Effect",
     requested: "true"
   },
   {
@@ -45,6 +47,34 @@ export const SEARCHED_RESULTS = [
     age: "24",
     skills: "After Effect",
     requested: "false"
+  }
+];
+
+export const APPLICANT_REQUESTS = [
+  {
+    company: "Omertex",
+    skills:
+      "Adobe Illustrator, Photoshop, Figma, Sketch, After Effect, Figma, Sketch, After Effect",
+    status: "allowed",
+    time: "5:09 PM"
+  },
+  {
+    company: "Children",
+    skills: "Photoshop, Figma, Sketch",
+    status: "declined",
+    time: "7:32 PM"
+  },
+  {
+    company: "Lorem ipsum",
+    skills: "After Effects, Adobe Illustrator",
+    status: "allowed",
+    time: "10:49 AM"
+  },
+  {
+    company: "DarYou",
+    skills: "Figma",
+    status: "declined",
+    time: "11:10 AM"
   }
 ];
 
@@ -104,8 +134,8 @@ export const TRANSACTIONS = [
     value: "1DXP",
     status: "Failed",
     txFee: "0.2"
-  },
-]
+  }
+];
 
 export const EMPLOYER_REQUESTS = [
   {
@@ -137,7 +167,8 @@ export const EMPLOYER_REQUESTS = [
     walletID: "walletID",
     gender: "W",
     age: "28",
-    skills: "Swift, Objective-C,  UIKit, Foundation, GCD, CoreData, CoreAnimation, Realm, Cocoapods, XCode, Instruments, Git, gitflow,Swift, Objective-C,  UIKit, Foundation, GCD, CoreData, CoreAnimation, Realm, Cocoapods, XCode, Instruments, Git, gitflow, Swift, Objective-C,  UIKit, Foundation, GCD, CoreData, CoreAnimation, Realm, Cocoapods, XCode, Instruments, Git, gitflow",
+    skills:
+      "Swift, Objective-C,  UIKit, Foundation, GCD, CoreData, CoreAnimation, Realm, Cocoapods, XCode, Instruments, Git, gitflow,Swift, Objective-C,  UIKit, Foundation, GCD, CoreData, CoreAnimation, Realm, Cocoapods, XCode, Instruments, Git, gitflow, Swift, Objective-C,  UIKit, Foundation, GCD, CoreData, CoreAnimation, Realm, Cocoapods, XCode, Instruments, Git, gitflow",
     time: "6.49 PM"
   },
   {
@@ -153,7 +184,8 @@ export const EMPLOYER_REQUESTS = [
     walletID: "walletID",
     gender: "M",
     age: "28",
-    skills: "Running A/B tests, analytical skills with attention to details, UA experience...",
+    skills:
+      "Running A/B tests, analytical skills with attention to details, UA experience...",
     time: "10.49 AM"
-  },
-]
+  }
+];
