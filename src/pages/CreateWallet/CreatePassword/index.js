@@ -7,8 +7,9 @@ import * as Styled from "./styled";
 import { Transition } from "react-transition-group";
 import { transitionStyles } from "../transitionStyles";
 import { connect } from "react-redux";
-import * as ACTION_TYPES from '../../../store/actions/actionTypes';
 import * as actions from '../../../store/actions';
+import { mnemonics } from '../../../configuration/temporaryMnemonics';
+import { generateMnemonics } from '../../../configuration/helpers';
 
 const defaultTip = {
   transform: "scale(0)",
@@ -33,7 +34,8 @@ const CreatePassword = withRouter(({
   agreedTerms,
   downloadKeystoreFile,
   keyStoreFileDownloaded,
-  history
+  history,
+  genMnemonics
 }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -70,6 +72,11 @@ const CreatePassword = withRouter(({
       setPswd("");
     }
   };
+
+  const clickedNext = () => {
+    genMnemonics(generateMnemonics(mnemonics));
+    clicked();
+  }
 
   return (
     <Transition in={isShown} timeout={100} unmountOnExit>
@@ -150,7 +157,7 @@ const CreatePassword = withRouter(({
                       clicked={ () => history.push('/wallet-creation-tutorial') }
                       text="Previous" />
                   <ContinueBtn 
-                    clicked={ clicked }
+                    clicked={ clickedNext }
                     text="Continue" />
                 </Styled.Buttons>
             }
@@ -186,7 +193,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setPswd: password => dispatch(actions.setPassword(password)),
     agreeTerms: () => dispatch(actions.agreeTerms()),
-    downloadKeystoreFile: () => dispatch(actions.downloadKeystoreFile())
+    downloadKeystoreFile: () => dispatch(actions.downloadKeystoreFile()),
+    genMnemonics: mnems => dispatch(actions.generateMnemonics(mnems))
   }
 }
 

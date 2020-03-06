@@ -18,3 +18,10 @@ export const downloadKeystoreFile = () => {
     type: ACTION_TYPES.AUTH.DOWNLOAD_KEYSTORE_FILE
   }
 }
+
+export const generateMnemonics = mnemonics => {
+  return {
+    type: ACTION_TYPES.AUTH.GENERATE_MNEMONICS,
+    mnemonics
+  }
+}

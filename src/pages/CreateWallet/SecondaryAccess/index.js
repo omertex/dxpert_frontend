@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ContinueBtn, PreviousBtn } from '../../../shared-components/Buttons';
 import * as Styled from './styled';
 import { Transition } from 'react-transition-group';
 import { transitionStyles } from '../transitionStyles';
+import { connect } from 'react-redux';
 
-export default ({ isShown, clickedContinue, clickedPrevious }) => (
+const randomOne = Math.floor(Math.random() * 24);
+const randomTwo = Math.floor(Math.random() * 24);
+const randomThree = Math.floor(Math.random() * 24);
+
+const SecondaryAccess =  ({ isShown, clickedContinue, clickedPrevious, mnemonics }) => {
+  const [correctInput, setCorrectInput] = useState([
+    {"first": true},
+    {"second": true},
+    {"third": true}
+  ]);
+
+  const checkInput = e => {
+    if (e.target.value === e.target.name) {
+      setCorrectInput([...correctInput, { [e.target.id]: true }]);
+    } else {
+      setCorrectInput([...correctInput, { [e.target.id]: false }]);
+    }
+  }
+
+  return (
   <Transition
     in={ isShown }
     timeout={ 300 }
@@ -24,16 +44,31 @@ export default ({ isShown, clickedContinue, clickedPrevious }) => (
           <Styled.Notification>Please select the Mnemonic Phrase in the correct order to ensure that your copy is correct</Styled.Notification>
           <Styled.Phrases>
             <Styled.SinglePhrase>
-              <span id="number">#1</span>
-              <Styled.InputPhrase type="text" />
+              <span id="number" >#{randomOne}</span>
+              <Styled.InputPhrase 
+                id="first"
+                name={mnemonics[randomOne]}
+                onChange={ checkInput } 
+                type="text"
+                error={ !correctInput["first"] } />
             </Styled.SinglePhrase>
             <Styled.SinglePhrase>
-              <span id="number">#2</span>
-              <Styled.InputPhrase type="text" />
+              <span id="number">#{randomTwo}</span>
+              <Styled.InputPhrase 
+                id="second"
+                name={mnemonics[randomTwo]}
+                onChange={ checkInput } 
+                type="text"
+                error={ !correctInput["second"] } />
             </Styled.SinglePhrase>
             <Styled.SinglePhrase>
-              <span id="number">#3</span>
-              <Styled.InputPhrase type="text" />
+              <span id="number">#{randomThree}</span>
+              <Styled.InputPhrase 
+                id="third"
+                name={mnemonics[randomThree]}
+                onChange={ checkInput } 
+                type="text"
+                error={ !correctInput["third"] } />
             </Styled.SinglePhrase>
           </Styled.Phrases>
           <Styled.Buttons>
@@ -48,4 +83,13 @@ export default ({ isShown, clickedContinue, clickedPrevious }) => (
       </Styled.Paper>
     ) }
   </Transition>
-)
+  )
+}
+
+const mapStateToProps = state => {
+  return {
+    mnemonics: state.auth.mnemonics
+  }
+}
+
+export default connect(mapStateToProps)(SecondaryAccess);

@@ -100,4 +100,8 @@ export const InputPhrase = styled.input`
   :focus {
     border-color: ${Colors.continue_btn};
   }
+
+  ${props => props.error &&`
+    border-color: ${Colors.error};
+  `}
 `;

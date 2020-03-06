@@ -1,5 +1,6 @@
 export {
   agreeTerms,
   setPassword,
-  downloadKeystoreFile
+  downloadKeystoreFile,
+  generateMnemonics
 } from './auth';

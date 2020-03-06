@@ -3,8 +3,17 @@ import { ContinueBtn, PreviousBtn } from '../../../shared-components/Buttons';
 import * as Styled from './styled';
 import { Transition } from 'react-transition-group';
 import { transitionStyles } from '../transitionStyles';
+import { connect } from 'react-redux';
 
-export default ({ isShown, clickedContinue, clickedPrevious, viewPrivateKey }) => (
+const backupMnemonics = ({ isShown, clickedContinue, clickedPrevious, viewPrivateKey, mnemonics }) => {
+  const showMnemonics = mnemonics.map((mnemonic, i) => (
+    <Styled.SingleMnemonic>
+      <span id="number">{i + 1}</span>
+      <p id="text">{mnemonic}</p>
+    </Styled.SingleMnemonic>
+  ))
+
+  return (
   <Transition
     in={ isShown }
     timeout={ 300 }
@@ -23,102 +32,7 @@ export default ({ isShown, clickedContinue, clickedPrevious, viewPrivateKey }) =
           <h3>Please back up mnemonic</h3>
           <Styled.Notification>Back up the text below on paper and keep it somewhere secret and safe</Styled.Notification>
           <Styled.Mnemonics>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
-            <Styled.SingleMnemonic>
-              <span id="number">#1</span>
-              <p id="text">lorem</p>
-            </Styled.SingleMnemonic>
+            { showMnemonics }
           </Styled.Mnemonics>
           <Styled.ViewMyKey onClick={ viewPrivateKey }>View My Private Key</Styled.ViewMyKey>
           <Styled.Buttons>
@@ -133,4 +47,13 @@ export default ({ isShown, clickedContinue, clickedPrevious, viewPrivateKey }) =
       </Styled.Paper>
     ) }
   </Transition>
-)
+  )
+}
+
+const mapStateToProps = state => {
+  return {
+    mnemonics: state.auth.mnemonics
+  }
+}
+
+export default connect(mapStateToProps)(backupMnemonics);
