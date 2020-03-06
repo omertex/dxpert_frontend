@@ -208,44 +208,42 @@ export const Password = memo(
   }
 );
 
-export const Confirm = memo(
-  ({ label, value, error, changed, blured }) => {
-    const [showPassword, setShowPassword] = useState(false);
-    const classes = useStyles();
+export const Confirm = memo(({ label, value, error, changed, blured }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const classes = useStyles();
 
-    return (
-      <FormControl className={classes.input} variant="outlined">
-        <InputLabel htmlFor="confirm" style={error && { color: "red" }}>
-          {label}
-        </InputLabel>
-        <OutlinedInput
-          value={value}
-          error={error}
-          onChange={changed}
-          onBlur={blured}
-          helperText={label}
-          id="confirm"
-          type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={() => setShowPassword(!showPassword)}
-                edge="end"
-              >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-          labelWidth={70}
-        />
-      </FormControl>
-    );
-  }
-);
+  return (
+    <FormControl className={classes.input} variant="outlined">
+      <InputLabel htmlFor="confirm" style={error && { color: "red" }}>
+        {label}
+      </InputLabel>
+      <OutlinedInput
+        value={value}
+        error={error}
+        onChange={changed}
+        onBlur={blured}
+        helperText={label}
+        id="confirm"
+        type={showPassword ? "text" : "password"}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={() => setShowPassword(!showPassword)}
+              edge="end"
+            >
+              {showPassword ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          </InputAdornment>
+        }
+        labelWidth={70}
+      />
+    </FormControl>
+  );
+});
 
 export const QuickSearch = memo(
-  ({ id, label, value, error, changed, blured, message }) => {
+  ({ id, label, value, error, onChange, onKeyPress, blured, message }) => {
     const classes = useStyles();
 
     return (
@@ -255,10 +253,11 @@ export const QuickSearch = memo(
           value={value}
           error={error}
           label={label}
-          onChange={changed}
+          onChange={onChange}
           onBlur={blured}
           helperText={message}
-          placeholder="Quick search"
+          onKeyPress={onKeyPress}
+          placeholder="Enter skills separated by commas"
           id="quick-search"
           type={"search"}
           InputProps={{
