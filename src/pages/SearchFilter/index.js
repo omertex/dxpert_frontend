@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Styled from "./styled";
 import { BlueTextBtn } from "../../shared-components/Buttons";
 import StyledCheckbox from "../../shared-components/StyledCheckbox";
@@ -10,10 +10,17 @@ import FilterBlock from "./FilterBlock";
 import { PopUp } from "../../shared-components";
 import PopUpContent from "./PopUpContent";
 import PopUpFilter from "./PopUpFilter";
+import { useLocation } from "react-router-dom";
 
 export default () => {
+  const urlParams = useLocation();
+  useEffect(() => {
+    if (!urlParams.search) setShownFilterPopUp(true);
+  }, []);
+
   const [isShownPopUp, setShownPopUp] = useState(false);
-  const [isShownFilterPopUp, setShownFilterPopUp] = useState(true);
+  const [isShownFilterPopUp, setShownFilterPopUp] = useState(false);
+  // const [formData, setFormData] = useState({});
 
   const openPopUp = () => setShownPopUp(true);
   const closePopUp = () => setShownPopUp(false);
@@ -63,9 +70,9 @@ export default () => {
         <PopUpContent clickedOK={confirmSend} clickedCancel={closePopUp} />
       </PopUp>
 
-      <PopUpFilter 
-        isShown={ isShownFilterPopUp }
-        closeFilter={ closeFilterPopUp }
+      <PopUpFilter
+        isShown={isShownFilterPopUp}
+        closeFilter={closeFilterPopUp}
       />
     </>
   );

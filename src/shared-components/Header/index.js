@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Styled from "./styled";
 import { QuickSearch } from "../../shared-components/StyledInput";
 import Logo from "../../assets/images/logo.png";
@@ -6,10 +6,32 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 const Header = ({ chosenWay }) => {
+  useEffect(() => {
+    setDoRedirect(false);
+  });
+
   const [doRedirect, setDoRedirect] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [redirectURL, setRedirectURL] = useState();
+
+  const handleChange = e => {
+    const { value, name } = e.currentTarget;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   const goToSearch = e => {
     if (e.key === "Enter") {
-      setDoRedirect(true);
+      const search = formData.quick.trim();
+      if (search.length) {
+        var re = /\s*,\s*/;
+        const skills = search.split(re);
+        setRedirectURL("?s=" + skills.join("+"));
+        setFormData({ quick: "" });
+        setDoRedirect(true);
+      }
     }
   };
 
@@ -22,7 +44,12 @@ const Header = ({ chosenWay }) => {
         {chosenWay === "employer" ? (
           <>
             <Styled.Input>
-              <QuickSearch onKeyPress={goToSearch} />
+              <QuickSearch
+                name="quick"
+                value={formData.quick}
+                onKeyPress={goToSearch}
+                onChange={handleChange}
+              />
             </Styled.Input>
             <Styled.Nav>
               <Styled.MenuLink to={"/" + chosenWay + "/requests"}>
@@ -58,7 +85,7 @@ const Header = ({ chosenWay }) => {
         <Redirect
           to={{
             pathname: "/employer/search",
-            search: "?utm=your+face"
+            search: redirectURL
           }}
         />
       )}
