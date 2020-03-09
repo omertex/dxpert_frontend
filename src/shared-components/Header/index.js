@@ -5,7 +5,7 @@ import Logo from "../../assets/images/logo.png";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const Header = ({ chosenWay }) => (
+const Header = ({ chosenWay, isAuth }) => (
   <Styled.Header>
     <Styled.Container>
       <Link to={chosenWay ? "/" + chosenWay + "/profile" : "/"}>
@@ -42,6 +42,7 @@ const Header = ({ chosenWay }) => (
 
 const mapStateToProps = state => {
   return {
+    isAuth: state.isAuth,
     chosenWay: state.test.chosenWay
   }
 };

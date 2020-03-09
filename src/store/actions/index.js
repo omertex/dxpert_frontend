@@ -1,5 +1,10 @@
 export {
   agreeTerms,
   setPassword,
-  downloadKeystoreFile
-} from './auth';
+  downloadKeystoreFile,
+  generateMnemonics,
+  selectMnemonicsToCheck,
+  authorize,
+  createNewWallet,
+  generatePublicKey
+} from "./auth";

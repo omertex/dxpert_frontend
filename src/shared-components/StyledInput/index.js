@@ -173,7 +173,7 @@ export const Multiline = memo(
 );
 
 export const Password = memo(
-  ({ id, label, value, error, changed, blured, message }) => {
+  ({ label, value, error, changed, blured, ref}) => {
     const [showPassword, setShowPassword] = useState(false);
     const classes = useStyles();
 
@@ -183,11 +183,12 @@ export const Password = memo(
           {label}
         </InputLabel>
         <OutlinedInput
+          ref={ref}
           value={value}
           error={error}
           onChange={changed}
           onBlur={blured}
-          helperText={label}
+          // helperText={label}
           id="password"
           type={showPassword ? "text" : "password"}
           endAdornment={
@@ -223,7 +224,7 @@ export const Confirm = memo(
           error={error}
           onChange={changed}
           onBlur={blured}
-          helperText={label}
+          // helperText={label}
           id="confirm"
           type={showPassword ? "text" : "password"}
           endAdornment={

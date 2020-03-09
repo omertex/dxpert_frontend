@@ -100,4 +100,15 @@ export const InputPhrase = styled.input`
   :focus {
     border-color: ${Colors.continue_btn};
   }
+
+  ${props => props.error &&`
+    border-color: ${Colors.error};
+  `}
+`;
+
+export const ErrorMessage = styled.p`
+  font-size: 12px;
+  line-height: 16px;
+  color: ${Colors.error};
+  text-align: left;
 `;
