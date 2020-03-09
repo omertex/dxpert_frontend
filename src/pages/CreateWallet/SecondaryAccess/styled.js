@@ -105,3 +105,10 @@ export const InputPhrase = styled.input`
     border-color: ${Colors.error};
   `}
 `;
+
+export const ErrorMessage = styled.p`
+  font-size: 12px;
+  line-height: 16px;
+  color: ${Colors.error};
+  text-align: left;
+`;

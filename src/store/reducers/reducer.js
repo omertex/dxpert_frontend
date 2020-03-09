@@ -1,7 +1,7 @@
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  chosenWay: "",
+  chosenWay: "employer",
   companyDetails: {
     company: "Omer",
     email: "",
@@ -10,10 +10,10 @@ const initialState = {
     website: "",
     aboutCompany: ""
   }
-}
+};
 
-export default ( state = initialState, action ) => {
-  switch ( action.type ) {
+export default (state = initialState, action) => {
+  switch (action.type) {
     case actionTypes.CHOOSE_WAY:
       return {
         ...state,
@@ -26,7 +26,7 @@ export default ( state = initialState, action ) => {
           ...state.companyDetails,
           [action.data.name]: action.data.value
         }
-      }
+      };
   }
   return state;
 };

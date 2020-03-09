@@ -24,6 +24,7 @@ export const Note = styled.p`
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.03rem;
+  text-align: left;
   margin: 0 0 13px;
 
   :before {
@@ -48,7 +49,7 @@ export const Alert = styled(Note)`
 
 export const KeyDisplay = styled.div`
   width: 100%;
-  height: 100px;
+  min-height: 100px;
   border: 0.5px solid rgba(0, 0, 0, .3);
   border-radius: 4px;
   background: ${Colors.sub_bg};

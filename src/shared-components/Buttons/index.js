@@ -1,7 +1,7 @@
 import React from "react";
 import * as Styled from "./styled.js";
 
-export const ContinueBtn = ({ text, disabled, clicked, arrow }) => (
+export const ContinueBtn = ({ text, disabled, clicked, arrow, children }) => (
   <Styled.ContinueBtn onClick={clicked} disabled={disabled} arrow={arrow}>
     {text}
     {arrow ? <Styled.Arrow font-size="small" disabled={disabled} /> : null}

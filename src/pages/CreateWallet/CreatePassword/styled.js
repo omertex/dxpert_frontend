@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { Colors } from '../../../configuration/Colors';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { Colors } from "../../../configuration/Colors";
+import { Link } from "react-router-dom";
 
 export const Paper = styled.div`
   position: absolute;
@@ -122,7 +122,7 @@ export const Lenght = styled.p`
   position: relative;
   font-size: 10px;
   line-height: 14px;
-  color:${Colors.text_black};
+  color: ${Colors.text_black};
   opacity: 0.5;
   padding-left: 10px;
   margin: 0 25px 0 0;
@@ -131,7 +131,7 @@ export const Lenght = styled.p`
   :before {
     display: block;
     position: absolute;
-    content: '';
+    content: "";
     width: 4px;
     height: 4px;
     border-radius: 50%;
@@ -143,7 +143,9 @@ export const Lenght = styled.p`
     transition: all 200ms ease;
   }
 
-  ${props => props.error &&`
+  ${props =>
+    props.error &&
+    `
     color: ${Colors.error};
     opacity: 1;
 
@@ -157,13 +159,13 @@ export const Lenght = styled.p`
 export const Includes = styled(Lenght)``;
 
 export const ConfirmError = styled.p`
-    position: absolute;
-    left: 14px;
-    bottom: -20px;
-    font-size: 12px;
-    line-height: 16px;
-    color: ${Colors.error};
-    text-align: left;
+  position: absolute;
+  left: 14px;
+  bottom: -20px;
+  font-size: 12px;
+  line-height: 16px;
+  color: ${Colors.error};
+  text-align: left;
 `;
 
 export const Buttons = styled.div`
