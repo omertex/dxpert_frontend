@@ -3,13 +3,13 @@ import * as Styled from "./styled";
 import InfoContainer from "../InfoContainer";
 import { SubmitBtn } from "../../Buttons";
 import { MultiSelect } from "../../MultiSelect";
-import { SKILLS } from '../../../configuration/TemporaryConsts';
+import { SKILLS } from "../../../configuration/TemporaryConsts";
 
 export default () => {
   const Displayed = () => (
     <Styled.TagsContainer>
       {SKILLS.map(item => (
-        <Styled.Tag key={item.id}>{item.title}</Styled.Tag>
+        <Styled.Tag key={item}>{item}</Styled.Tag>
       ))}
     </Styled.TagsContainer>
   );

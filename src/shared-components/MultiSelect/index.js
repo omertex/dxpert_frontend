@@ -67,7 +67,9 @@ export const MultiSelect = memo(
     return (
       <Autocomplete
         multiple
-        width={width}
+        style={{
+          width: `${width}`
+        }}
         options={data || []}
         classes={{
           tag: classes.tag,
@@ -76,7 +78,7 @@ export const MultiSelect = memo(
           paper: classes.paper
         }}
         onChange={(e, value) => onChange(name, value)}
-        getOptionLabel={option => option.title}
+        getOptionLabel={option => option}
         value={value}
         disabled={disabled}
         filterSelectedOptions

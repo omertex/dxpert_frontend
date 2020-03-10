@@ -43,6 +43,8 @@ export default props => {
   const [isShownFilterPopUp, setShownFilterPopUp] = useState();
   const [formData, setFormData] = useState({ ...initialState });
 
+  // http://localhost:3000/employer/search?skills=react+redux&country=minsk&education=nuHZ&languages=asd+asd
+
   useEffect(() => {
     setOldUrl(urlParams.search);
   }, []);
@@ -65,13 +67,25 @@ export default props => {
   const requestParsing = () => {
     const params = urlParams.search.slice(1).split("&");
     const couple = params.map(x => x.split("="));
-    let newState = {};
+    let newState = { ...initialState };
 
     couple.map(item => {
-      newState = {
-        ...newState,
-        [item[0]]: item[1]
-      };
+      switch (item[0]) {
+        case "skills":
+        case "languages":
+          newState = {
+            ...newState,
+            [item[0]]: item[1].split("+")
+          };
+          break;
+        case "country":
+        case "education":
+          newState = {
+            ...newState,
+            [item[0]]: item[1]
+          };
+          break;
+      }
     });
 
     setFormData(prevState => ({

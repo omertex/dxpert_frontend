@@ -24,7 +24,7 @@ const Header = props => {
         var re = /\s*,\s*/;
         const skills = search.split(re);
         setFormData({ quick: "" });
-        props.history.push("/employer/search?s=" + skills.join("+"));
+        props.history.push("/employer/search?skills=" + skills.join("+"));
       }
     }
   };
