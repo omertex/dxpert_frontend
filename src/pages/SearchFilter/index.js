@@ -12,15 +12,38 @@ import PopUpContent from "./PopUpContent";
 import PopUpFilter from "./PopUpFilter";
 import { useLocation } from "react-router-dom";
 
+const initialState = {
+  skills: [],
+  gender: {
+    male: false,
+    female: false
+  },
+  country: "",
+  age: {
+    from: "",
+    to: ""
+  },
+  languages: [],
+  experience: {
+    from: "",
+    to: ""
+  },
+  education: ""
+};
+
 export default () => {
   const urlParams = useLocation();
   useEffect(() => {
     if (!urlParams.search) setShownFilterPopUp(true);
   }, []);
 
+  useEffect(() => {
+    console.log(formData);
+  });
+
   const [isShownPopUp, setShownPopUp] = useState(false);
   const [isShownFilterPopUp, setShownFilterPopUp] = useState(false);
-  // const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({ ...initialState });
 
   const openPopUp = () => setShownPopUp(true);
   const closePopUp = () => setShownPopUp(false);
@@ -33,6 +56,7 @@ export default () => {
   const searchedResults = SEARCHED_RESULTS.map(
     ({ walletID, gender, age, skills, requested }) => (
       <SearchResult
+        key={walletID}
         walletID={walletID}
         gender={gender}
         age={age}
@@ -57,7 +81,7 @@ export default () => {
           </Styled.Option>
         </Styled.SearchInfo>
         <Styled.SearchBlock>
-          <FilterBlock />
+          <FilterBlock callback={setFormData} />
           <Styled.Results>
             {searchedResults}
             <BlueTextBtn text="Send to all" />

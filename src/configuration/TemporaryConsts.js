@@ -19,7 +19,7 @@ export const LANGUAGES = [
 
 export const SEARCHED_RESULTS = [
   {
-    walletID: "Wallet ID",
+    walletID: "WalletID1",
     gender: "m",
     age: "28",
     skills:
@@ -27,14 +27,14 @@ export const SEARCHED_RESULTS = [
     requested: "false"
   },
   {
-    walletID: "Wallet ID",
+    walletID: "WalletID2",
     gender: "w",
     age: "31",
     skills: "Photoshop, Figma,After Effect",
     requested: "false"
   },
   {
-    walletID: "Wallet ID",
+    walletID: "WalletID3",
     gender: "m",
     age: "22",
     skills:
@@ -42,7 +42,7 @@ export const SEARCHED_RESULTS = [
     requested: "true"
   },
   {
-    walletID: "Wallet ID",
+    walletID: "WalletID4",
     gender: "w",
     age: "24",
     skills: "After Effect",

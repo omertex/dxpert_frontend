@@ -6,11 +6,12 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 const Header = ({ chosenWay }) => {
+  const [doRedirect, setDoRedirect] = useState(false);
+
   useEffect(() => {
     setDoRedirect(false);
-  });
+  }, [doRedirect]);
 
-  const [doRedirect, setDoRedirect] = useState(false);
   const [formData, setFormData] = useState({});
   const [redirectURL, setRedirectURL] = useState();
 

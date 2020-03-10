@@ -22,26 +22,20 @@ const Input = withStyles({
   }
 })(TextField);
 
-const Complete = withStyles({
-  root: {
-    width: props => props.width,
-    "& .MuiAutocomplete-tag": {
-      height: "24px",
-      borderRadius: "4px",
-      backgroundColor: `${Colors.tag}`,
-      font: "10px Open Sans, sans-serif",
-      lineHeight: "14px",
-      color: `${Colors.text_black}`
-    },
-    "& .MuiAutocomplete-input": {
-      marginLeft: "10px",
-      font: "12px Open Sans, sans-serif",
-      lineHeight: "14px"
-    }
-  }
-})(Autocomplete);
-
 const useStyles = makeStyles({
+  tag: {
+    height: "24px",
+    borderRadius: "4px",
+    backgroundColor: `${Colors.tag}`,
+    font: "10px Open Sans, sans-serif",
+    lineHeight: "14px",
+    color: `${Colors.text_black}`
+  },
+  input: {
+    marginLeft: "10px",
+    font: "12px Open Sans, sans-serif",
+    lineHeight: "14px"
+  },
   option: {
     height: 28,
     font: "12px Open Sans, sans-serif",
@@ -57,39 +51,28 @@ const useStyles = makeStyles({
 });
 
 export const MultiSelect = memo(
-  ({
-    data,
-    placeholder,
-    width,
-    value,
-    error,
-    changed,
-    blured,
-    defaultValue,
-    name
-  }) => {
+  ({ data, placeholder, width, value, error, onChange, blured, name }) => {
     const classes = useStyles();
 
     return (
-      <Complete
+      <Autocomplete
         multiple
-        // id="multiSelect"
         width={width}
         options={data || []}
         classes={{
+          tag: classes.tag,
+          input: classes.input,
           option: classes.option,
           paper: classes.paper
         }}
+        onChange={(e, value) => onChange(name, value)}
         getOptionLabel={option => option.title}
-        defaultValue={defaultValue}
-        name={name}
+        value={value}
         filterSelectedOptions
         renderInput={params => (
           <Input
             {...params}
-            value={value}
             error={error}
-            onChange={changed}
             onBlur={blured}
             width={width}
             style={
