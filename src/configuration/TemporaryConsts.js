@@ -1,20 +1,24 @@
 export const SKILLS = [
-  { id: "ra", title: "React" },
-  { id: "rd", title: "Redux" },
-  { id: "bp", title: "Bootstrap" },
-  { id: "mui", title: "Material UI" },
-  { id: "js", title: "JavaScript" },
-  { id: "jq", title: "JQuery" },
-  { id: "css", title: "Css" },
-  { id: "html", title: "HTML" }
+  { title: "React" },
+  { title: "Redux" },
+  { title: "Angular" },
+  { title: "Vue" },
+  { title: "Bootstrap" },
+  { title: "Material UI" },
+  { title: "JavaScript" },
+  { title: "JQuery" },
+  { title: "Css" },
+  { title: "HTML" },
+  { title: "UX/UI" },
+  { title: "Git" }
 ];
 
 export const LANGUAGES = [
-  { id: "en", title: "English" },
-  { id: "es", title: "Spanish" },
-  { id: "de", title: "German" },
-  { id: "fr", title: "French" },
-  { id: "ru", title: "Russian" }
+  { title: "English" },
+  { title: "Spanish" },
+  { title: "German" },
+  { title: "French" },
+  { title: "Russian" }
 ];
 
 export const SEARCHED_RESULTS = [

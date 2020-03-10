@@ -51,7 +51,17 @@ const useStyles = makeStyles({
 });
 
 export const MultiSelect = memo(
-  ({ data, placeholder, width, value, error, onChange, blured, name }) => {
+  ({
+    data,
+    placeholder,
+    width,
+    value,
+    error,
+    onChange,
+    blured,
+    name,
+    disabled
+  }) => {
     const classes = useStyles();
 
     return (
@@ -68,6 +78,7 @@ export const MultiSelect = memo(
         onChange={(e, value) => onChange(name, value)}
         getOptionLabel={option => option.title}
         value={value}
+        disabled={disabled}
         filterSelectedOptions
         renderInput={params => (
           <Input

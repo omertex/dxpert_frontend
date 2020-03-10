@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as Styled from "./styled";
 import { QuickSearch } from "../../shared-components/StyledInput";
 import Logo from "../../assets/images/logo.png";
-import { Link, Redirect } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { compose } from "redux";
 import { connect } from "react-redux";
 
-const Header = ({ chosenWay }) => {
-  const [doRedirect, setDoRedirect] = useState(false);
-
-  useEffect(() => {
-    setDoRedirect(false);
-  }, [doRedirect]);
-
-  const [formData, setFormData] = useState({});
-  const [redirectURL, setRedirectURL] = useState();
+const Header = props => {
+  const [formData, setFormData] = useState({ quick: "" });
 
   const handleChange = e => {
     const { value, name } = e.currentTarget;
@@ -29,13 +23,13 @@ const Header = ({ chosenWay }) => {
       if (search.length) {
         var re = /\s*,\s*/;
         const skills = search.split(re);
-        setRedirectURL("?s=" + skills.join("+"));
         setFormData({ quick: "" });
-        setDoRedirect(true);
+        props.history.push("/employer/search?s=" + skills.join("+"));
       }
     }
   };
 
+  const chosenWay = props.chosenWay;
   return (
     <Styled.Header>
       <Styled.Container>
@@ -82,14 +76,6 @@ const Header = ({ chosenWay }) => {
           </>
         )}
       </Styled.Container>
-      {doRedirect && (
-        <Redirect
-          to={{
-            pathname: "/employer/search",
-            search: redirectURL
-          }}
-        />
-      )}
     </Styled.Header>
   );
 };
@@ -100,4 +86,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Header);
+export default compose(withRouter, connect(mapStateToProps))(Header);

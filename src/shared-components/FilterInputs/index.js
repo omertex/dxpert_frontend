@@ -31,7 +31,17 @@ const Input = withStyles({
 })(TextField);
 
 export const TextInput = memo(
-  ({ placeholder, width, value, error, onChange, blured, name, type }) => {
+  ({
+    placeholder,
+    width,
+    value,
+    error,
+    onChange,
+    blured,
+    name,
+    type,
+    disabled
+  }) => {
     return (
       <Input
         value={value}
@@ -40,6 +50,7 @@ export const TextInput = memo(
         onBlur={blured}
         name={name}
         type={type}
+        disabled={disabled}
         style={
           error ? { width: `${width}`, color: "red" } : { width: `${width}` }
         }

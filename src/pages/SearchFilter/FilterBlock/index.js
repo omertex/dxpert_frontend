@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as Styled from "./styled";
 
 import { TextInput } from "../../../shared-components/FilterInputs";
-import { ActionBtn, SubmitBtn } from "../../../shared-components/Buttons";
+import { ActionBtn } from "../../../shared-components/Buttons";
 import { MultiSelect } from "../../../shared-components/MultiSelect";
 import { SKILLS, LANGUAGES } from "../../../configuration/TemporaryConsts";
 import StyledCheckbox from "../../../shared-components/StyledCheckbox";
