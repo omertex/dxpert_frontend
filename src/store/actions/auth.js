@@ -52,3 +52,10 @@ export const generatePublicKey = publicKey => {
     publicKey
   }
 }
+
+export const chooseWay = way => {
+  return {
+    type: ACTION_TYPES.AUTH.CHOOSE_WAY,
+    way
+  }
+}

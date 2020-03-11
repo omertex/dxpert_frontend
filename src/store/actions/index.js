@@ -6,5 +6,11 @@ export {
   selectMnemonicsToCheck,
   authorize,
   createNewWallet,
-  generatePublicKey
+  generatePublicKey,
+  chooseWay
 } from "./auth";
+
+export {
+  getTxsById,
+  setTxs
+} from "./requests";
