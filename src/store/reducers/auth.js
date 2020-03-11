@@ -8,7 +8,8 @@ const initialState = {
   keyStoreFileDownloaded: false,
   mnemonics: [],
   selectedMnemonics: [],
-  publicKey: ""
+  publicKey: "",
+  choosenWay: ""
 };
 
 const agreeTerms = (state, action) => {
@@ -46,6 +47,10 @@ const createNewWallet = (state, action) => {
   });
 };
 
+const chooseWay = (state, action) => {
+  return updateObject(state, { chosenWay: action.way })
+};
+
 const generatePublicKey = (state, action) => {
   return updateObject(state, { publicKey: action.publicKey });
 }
@@ -68,6 +73,8 @@ const reducer = (state = initialState, action) => {
       return createNewWallet(state, action);
     case ACTION_TYPES.AUTH.GENERATE_PUBLIC_KEY:
       return generatePublicKey(state, action);
+    case ACTION_TYPES.AUTH.CHOOSE_WAY:
+      return chooseWay(state, action);
     default:
       return state;
   }

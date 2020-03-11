@@ -18,7 +18,7 @@ export const Container = styled.div`
   h4 {
     font-weight: normal;
     margin-bottom: 12px;
-    color: #4b4b4b;
+    color: ${props => props.isWayChosen ? "#4b4b4b" : Colors.continue_btn};
   }
 `;
 

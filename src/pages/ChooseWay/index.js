@@ -7,7 +7,7 @@ import * as actionTypes from '../../store/actions/actionTypes';
 
 function ChooseWay({ onChooseWay, chosenWay }) {
   return (
-    <Styled.Container>
+    <Styled.Container isWayChosen={chosenWay}>
       <h3>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nisl, vivamus
         orci, sed curabitur condimentum ut eget volutpat ornare. Sed
@@ -47,13 +47,13 @@ function ChooseWay({ onChooseWay, chosenWay }) {
 
 const mapStateToProps = state => {
   return {
-    chosenWay: state.test.chosenWay
+    chosenWay: state.auth.chosenWay
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onChooseWay: (way) => dispatch({type: actionTypes.CHOOSE_WAY, way})
+    onChooseWay: (way) => dispatch({type: actionTypes.AUTH.CHOOSE_WAY, way})
   }
 };
 
