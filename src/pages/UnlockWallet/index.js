@@ -59,7 +59,7 @@ const Unlock = (({ history, chosenWay, pswd, authorize, createNewWallet }) => {
 
 const mapStateToProps = state => {
   return {
-    chosenWay: state.test.chosenWay,
+    chosenWay: state.auth.chosenWay,
     pswd: state.auth.password
   }
 }

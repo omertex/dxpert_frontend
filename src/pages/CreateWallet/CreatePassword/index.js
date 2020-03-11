@@ -90,7 +90,7 @@ const CreatePassword = withRouter(
     };
 
     const onDownloadKey = () => {
-      // downloadKey();
+      downloadKey();
       downloadKeystoreFile();
     };
 

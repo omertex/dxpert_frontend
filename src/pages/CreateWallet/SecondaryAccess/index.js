@@ -26,7 +26,7 @@ const SecondaryAccess = ({
 
   const mnemonicsToBeChecked = selectedMnemonics.map(({ index, value }, i) => {
     return (
-      <Styled.SinglePhrase>
+      <Styled.SinglePhrase key={i}>
         <span id="number">#{index + 1}</span>
         <Styled.InputPhrase
           ref={mainRef}

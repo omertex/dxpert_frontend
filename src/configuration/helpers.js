@@ -1,4 +1,3 @@
-import React from 'react';
 import cryptico from 'cryptico';
 
 export const generateMnemonics = baseMnemonicsArray => {
@@ -18,8 +17,16 @@ export const selectMnemonics = array => {
 
 export const generatePublicKey = (passPhrase, bits) => {
   const phrase = passPhrase.join(',');
-  const RSAkey = cryptico.generateRSAKey(phrase, bits);
-  const publicKey = cryptico.publicKeyString(RSAkey);
-  return publicKey;
+  const privateKey = cryptico.generateRSAKey(phrase, bits);
+  const publicKey = cryptico.publicKeyString(privateKey);
+  return {
+    privateKey,
+    publicKey
+  };
+}
+
+export const constructMnemonicPhrase = mnemonicsArray => {
+  const phrase = mnemonicsArray.reduce((acc, cur) => acc + cur.value, "");
+  return phrase;
 }
 
