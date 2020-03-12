@@ -36,6 +36,7 @@ const SecondaryAccess = ({
           onChange={checkInput}
           type="text"
           error={!correctInput[i]}
+          correct={correctInput[i]}
         />
       </Styled.SinglePhrase>
     );

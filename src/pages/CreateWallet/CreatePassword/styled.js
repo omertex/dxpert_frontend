@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Colors } from "../../../configuration/Colors";
 import { Link } from "react-router-dom";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export const Paper = styled.div`
   position: absolute;
@@ -173,4 +174,26 @@ export const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+`;
+
+
+export const DownloadingKeystore = styled.div`
+    position: absolute;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+`;
+
+export const Loading = styled(CircularProgress)`
+  position: absolute;
+  z-index: 1010;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
 `;

@@ -6,7 +6,8 @@ import {
   getTxsByIdSaga
 } from "./requests";
 import {
-  savePrivateKeySaga
+  savePrivateKeySaga,
+  generateKeyPairSaga
 } from "./auth";
 
 export function* watchRequests() {
@@ -15,4 +16,5 @@ export function* watchRequests() {
 
 export function* watchAuth() {
   yield takeEvery(ACTION_TYPES.AUTH.SAVE_PRIVATE_KEY, savePrivateKeySaga);
+  yield takeEvery(ACTION_TYPES.AUTH.GENERATE_KEY_PAIR, generateKeyPairSaga)
 }

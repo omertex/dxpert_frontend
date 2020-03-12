@@ -95,10 +95,16 @@ export const InputPhrase = styled.input`
   padding: 5px;
   box-sizing: border-box;
   transition: all 200ms ease;
+  text-align: center;
 
-  :hover,
-  :focus {
-    border-color: ${Colors.continue_btn};
+  ${props => props.correct &&`
+    font-weight: 600;
+    color: ${Colors.main_header};
+    border-color: ${Colors.main_header};
+  `}
+
+  :hover {
+    border-color: ${props => props.correct ? Colors.main_header : Colors.continue_btn};
   }
 
   ${props => props.error &&`

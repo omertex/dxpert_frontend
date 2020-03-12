@@ -1,6 +1,6 @@
 import { create, dump, recover, exportToFile } from "keythereum-pure-js";
 
-function createWallet(password) {
+export function createWallet(password) {
   const params = {keyBytes: 32, ivBytes: 16};
   const dk = create(params);
 

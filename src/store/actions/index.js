@@ -9,7 +9,8 @@ export {
   createNewWallet,
   generatePublicKey,
   chooseWay,
-  savePrivateKey
+  savePrivateKey,
+  generateKeyPair
 } from "./auth";
 
 export {

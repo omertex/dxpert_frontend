@@ -11,7 +11,8 @@ const initialState = {
   selectedMnemonics: [],
   publicKey: "",
   chosenWay: "",
-  privateKeySaved: false
+  privateKeySaved: false,
+  privateKey: ""
 };
 
 const agreeTerms = (state, action) => {
@@ -49,7 +50,11 @@ const createNewWallet = (state, action) => {
     password: "",
     keyStoreFileDownloaded: false,
     mnemonics: [],
-    selectedMnemonics: []
+    mnemonicPhrase: "",
+    selectedMnemonics: [],
+    publicKey: "",
+    privateKeySaved: false,
+    privateKey: ""
   });
 };
 
@@ -62,7 +67,7 @@ const generatePublicKey = (state, action) => {
 }
 
 const savePrivateKey = (state, action) => {
-  return updateObject(state, { privateKeySaved: true } )
+  return updateObject(state, { privateKeySaved: true, privateKey: action.key } )
 }
 
 const reducer = (state = initialState, action) => {

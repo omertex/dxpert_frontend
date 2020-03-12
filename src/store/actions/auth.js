@@ -73,3 +73,10 @@ export const savePrivateKey = key => {
     key
   }
 }
+
+export const generateKeyPair = phrase => {
+  return {
+    type: ACTION_TYPES.AUTH.GENERATE_KEY_PAIR,
+    phrase
+  }
+}

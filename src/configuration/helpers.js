@@ -15,9 +15,9 @@ export const selectMnemonics = array => {
   return array.filter((mnem, i) => i === randomOne || i === randomTwo || i === randomThree) //TODO: take random piece of array
 }
 
-export const generatePublicKey = (passPhrase, bits) => {
-  const phrase = passPhrase.join(',');
-  const privateKey = cryptico.generateRSAKey(phrase, bits);
+export const generatePublicKey = passPhrase => {
+  // const phrase = passPhrase.join(',');
+  const privateKey = cryptico.generateRSAKey(passPhrase, 1024);
   const publicKey = cryptico.publicKeyString(privateKey);
   return {
     privateKey,
