@@ -9,7 +9,8 @@ import Pagination from "../../shared-components/Pagination";
 import { ActionBtn } from "../../shared-components/Buttons";
 import { TextInput } from "../../shared-components/FilterInputs";
 import { MultiSelect } from "../../shared-components/MultiSelect";
-import { SKILLS, LANGUAGES } from "../../configuration/TemporaryConsts";
+import { RadioBtn } from "../../shared-components/StyledRadioBtn";
+import { SKILLS, LANGUAGES, GENDER } from "../../configuration/TemporaryConsts";
 import { PopUp } from "../../shared-components";
 import PopUpContent from "./PopUpContent";
 import PopUpFilter from "./PopUpFilter";
@@ -17,20 +18,13 @@ import { useLocation } from "react-router-dom";
 
 const initialState = {
   skills: [],
-  gender: {
-    male: false,
-    female: false
-  },
+  sex: "",
   country: "",
-  age: {
-    from: "",
-    to: ""
-  },
+  age_from: "",
+  age_to: "",
   languages: [],
-  experience: {
-    from: "",
-    to: ""
-  },
+  exp_from: "",
+  exp_to: "",
   education: ""
 };
 
@@ -38,33 +32,24 @@ let delayedSending;
 
 export default props => {
   const urlParams = useLocation();
-  const [oldUrl, setOldUrl] = useState();
   const [isShownPopUp, setShownPopUp] = useState(false);
-  const [isShownFilterPopUp, setShownFilterPopUp] = useState();
+  const [isShownFilterPopUp, setShownFilterPopUp] = useState(!urlParams.search);
   const [formData, setFormData] = useState({ ...initialState });
 
-  // http://localhost:3000/employer/search?skills=react+redux&country=minsk&education=nuHZ&languages=asd+asd
+  // http://localhost:3000/employer/search?skills=git+css&country=minsk&education=higher&languages=en+ru&sex=m&age_from=10&age_to=20&exp_from=20&exp_to=60
 
   useEffect(() => {
-    setOldUrl(urlParams.search);
+    if (urlParams.search) urlParsing();
   }, []);
 
   useEffect(() => {
-    if (urlParams.search !== oldUrl) {
-      setOldUrl(urlParams.search);
-      requestParsing();
-    }
-  });
-
-  useEffect(() => {
     clearTimeout(delayedSending);
-
     delayedSending = setTimeout(() => {
-      console.log(formData);
+      if (urlCreate()) console.log(formData);
     }, 500);
   }, [formData]);
 
-  const requestParsing = () => {
+  const urlParsing = () => {
     const params = urlParams.search.slice(1).split("&");
     const couple = params.map(x => x.split("="));
     let newState = { ...initialState };
@@ -73,13 +58,24 @@ export default props => {
       switch (item[0]) {
         case "skills":
         case "languages":
+          const keys = item[0] === "skills" ? SKILLS : LANGUAGES;
+          const newItem = item[1]
+            .split("+")
+            .map(x => keys.find(f => f.value === x))
+            .filter(x => x !== undefined);
+
           newState = {
             ...newState,
-            [item[0]]: item[1].split("+")
+            [item[0]]: newItem
           };
           break;
+        case "sex":
         case "country":
         case "education":
+        case "age_from":
+        case "age_to":
+        case "exp_from":
+        case "exp_to":
           newState = {
             ...newState,
             [item[0]]: item[1]
@@ -94,21 +90,31 @@ export default props => {
     }));
   };
 
+  const urlCreate = () => {
+    let url = "/employer/search?";
+    for (let item in formData) {
+      switch (item) {
+        case "skills":
+        case "languages":
+          if (formData[item].length) {
+            const keys = formData[item].map(x => x.value);
+            url += `${item}=${keys.join("+")}&`;
+          }
+          break;
+        default:
+          const value = String(formData[item]).trim();
+          if (value.length) url += `${item}=${value}&`;
+          break;
+      }
+    }
+    props.history.push(url.slice(0, -1));
+    return url.slice(16, -1);
+  };
+
   const multiSelectChange = (name, value) => {
     setFormData(prevState => ({
       ...prevState,
       [name]: value
-    }));
-  };
-
-  const checkBoxChange = e => {
-    const { name, checked } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      gender: {
-        ...prevState.gender,
-        [name]: checked
-      }
     }));
   };
 
@@ -120,19 +126,20 @@ export default props => {
     }));
   };
 
-  const rangeChange = (e, objName) => {
-    const { value, name } = e.currentTarget;
-    setFormData(prevState => ({
-      ...prevState,
-      [objName]: {
-        ...prevState[objName],
-        [name]: value
-      }
-    }));
+  const radioChange = e => {
+    const { value, name } = e.target;
+    if (value !== undefined && name !== undefined) {
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: formData[name] !== value ? value : ""
+      }));
+    }
   };
 
   const clearAll = () => {
-    props.history.push("/employer/search");
+    setFormData({ ...initialState }, () => {
+      props.history.push("/employer/search");
+    });
   };
 
   const openPopUp = () => setShownPopUp(true);
@@ -192,22 +199,18 @@ export default props => {
                 <p id="label">Gender</p>
                 <Styled.Options>
                   <Styled.Option>
-                    <StyledCheckbox
-                      value="male"
-                      name="male"
-                      onChange={checkBoxChange}
-                      checked={formData.gender.male}
+                    <RadioBtn
+                      data={[GENDER[0]]}
+                      checked={formData.sex === "m"}
+                      name="sex"
+                      onClick={radioChange}
                     />
-                    <p id="after">Male</p>
-                  </Styled.Option>
-                  <Styled.Option>
-                    <StyledCheckbox
-                      value="female"
-                      name="female"
-                      onChange={checkBoxChange}
-                      checked={formData.gender.female}
+                    <RadioBtn
+                      data={[GENDER[1]]}
+                      checked={formData.sex === "f"}
+                      name="sex"
+                      onClick={radioChange}
                     />
-                    <p id="after">Female</p>
                   </Styled.Option>
                 </Styled.Options>
               </Styled.Input>
@@ -219,20 +222,20 @@ export default props => {
                     <p id="before">From</p>
                     <TextInput
                       width="55px"
-                      name="from"
+                      name="age_from"
                       type="number"
-                      onChange={e => rangeChange(e, "age")}
-                      value={formData.age.from}
+                      onChange={handleChange}
+                      value={formData.age_from}
                     />
                   </Styled.Option>
                   <Styled.Option>
                     <p id="before">To</p>
                     <TextInput
                       width="55px"
-                      name="to"
+                      name="age_to"
                       type="number"
-                      onChange={e => rangeChange(e, "age")}
-                      value={formData.age.to}
+                      onChange={handleChange}
+                      value={formData.age_to}
                     />
                   </Styled.Option>
                 </Styled.Options>
@@ -245,7 +248,6 @@ export default props => {
                   name="country"
                   onChange={handleChange}
                   value={formData.country}
-                  disabled={true}
                 />
               </Styled.Input>
 
@@ -258,7 +260,6 @@ export default props => {
                   name="languages"
                   onChange={multiSelectChange}
                   value={formData.languages}
-                  disabled={true}
                 />
               </Styled.Input>
 
@@ -269,22 +270,20 @@ export default props => {
                     <p id="before">From</p>
                     <TextInput
                       width="55px"
-                      name="from"
+                      name="exp_from"
                       type="number"
-                      onChange={e => rangeChange(e, "experience")}
-                      value={formData.experience.from}
-                      disabled={true}
+                      onChange={handleChange}
+                      value={formData.exp_from}
                     />
                   </Styled.Option>
                   <Styled.Option>
                     <p id="before">To</p>
                     <TextInput
                       width="55px"
-                      name="to"
+                      name="exp_to"
                       type="number"
-                      onChange={e => rangeChange(e, "experience")}
-                      value={formData.experience.to}
-                      disabled={true}
+                      onChange={handleChange}
+                      value={formData.exp_to}
                     />
                   </Styled.Option>
                 </Styled.Options>
@@ -297,7 +296,6 @@ export default props => {
                   name="education"
                   onChange={handleChange}
                   value={formData.education}
-                  disabled={true}
                 />
               </Styled.Input>
             </Styled.Form>
@@ -317,6 +315,7 @@ export default props => {
       <PopUpFilter
         isShown={isShownFilterPopUp}
         closeFilter={closeFilterPopUp}
+        setData={setFormData}
       />
     </>
   );

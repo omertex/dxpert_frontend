@@ -36,14 +36,18 @@ const Group = withStyles({
   }
 })(props => <RadioGroup {...props} />);
 
-export const RadioBtn = ({ data }) => (
-  <Group defaultValue={data[0].value} name="radios">
+export const RadioBtn = ({ data, value, onChange, name, onClick, checked }) => (
+  <Group defaultValue={value} name={name}>
     {data.map(item => (
       <Form
         labelPlacement="end"
-        control={<StyledRadio value={item.value} />}
+        value={item.value}
+        checked={checked}
+        control={<StyledRadio />}
         key={item.value}
         label={item.label}
+        onChange={onChange}
+        onClick={onClick}
       />
     ))}
   </Group>

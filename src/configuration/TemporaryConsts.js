@@ -1,19 +1,87 @@
 export const SKILLS = [
-  "React",
-  "Redux",
-  "Angular",
-  "Vue",
-  "Bootstrap",
-  "Material UI",
-  "JavaScript",
-  "JQuery",
-  "Css",
-  "HTML",
-  "UX/UI",
-  "Git"
+  {
+    label: "React",
+    value: "react"
+  },
+  {
+    label: "Redux",
+    value: "redux"
+  },
+  {
+    label: "Angular",
+    value: "angular"
+  },
+  {
+    label: "Vue",
+    value: "vue"
+  },
+  {
+    label: "Bootstrap",
+    value: "bootstrap"
+  },
+  {
+    label: "Material UI",
+    value: "material ui"
+  },
+  {
+    label: "JavaScript",
+    value: "javascript"
+  },
+  {
+    label: "JQuery",
+    value: "jquery"
+  },
+  {
+    label: "Css",
+    value: "css"
+  },
+  {
+    label: "HTML",
+    value: "html"
+  },
+  {
+    label: "UX/UI",
+    value: "ux/ui"
+  },
+  {
+    label: "Git",
+    value: "git"
+  }
 ];
 
-export const LANGUAGES = ["English", "Spanish", "German", "French", "Russian"];
+export const LANGUAGES = [
+  {
+    label: "English",
+    value: "en"
+  },
+  {
+    label: "Spanish",
+    value: "es"
+  },
+  {
+    label: "German",
+    value: "de"
+  },
+  {
+    label: "French",
+    value: "fr"
+  },
+  {
+    label: "Russian",
+    value: "ru"
+  }
+];
+
+export const GENDER = [
+  {
+    label: "Male",
+    value: "m"
+  },
+  {
+    label: "Female",
+    value: "f"
+  }
+];
 
 export const SEARCHED_RESULTS = [
   {

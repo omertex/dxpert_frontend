@@ -9,7 +9,7 @@ export default () => {
   const Displayed = () => (
     <Styled.TagsContainer>
       {LANGUAGES.map(item => (
-        <Styled.Tag key={item}>{item}</Styled.Tag>
+        <Styled.Tag key={item.value}>{item.label}</Styled.Tag>
       ))}
     </Styled.TagsContainer>
   );

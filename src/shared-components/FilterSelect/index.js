@@ -88,8 +88,8 @@ export const FilterSelect = memo(
           <span>{placeholder || "None"}</span>
         </Item>
         {(data || []).map(item => (
-          <Item key={item.id} value={item.value}>
-            {item.title}
+          <Item key={item} value={item}>
+            {item}
           </Item>
         ))}
       </Input>

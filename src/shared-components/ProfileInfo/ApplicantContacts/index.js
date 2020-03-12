@@ -6,18 +6,10 @@ import { FilterSelect } from "../../FilterSelect";
 import { TextInput } from "../../FilterInputs";
 import { DatePicker } from "../../StyledDatePicker";
 import { RadioBtn } from "../../StyledRadioBtn";
+import { GENDER } from "../../../configuration/TemporaryConsts";
 import Info from "../Info";
 
-const dataSelect = [
-  { id: "ten", value: "10", title: "Ten" },
-  { id: "twenty", value: "20", title: "Twenty" },
-  { id: "thirty", value: "30", title: "Thirty" }
-];
-
-const dataRadio = [
-  { value: "f", label: "Female" },
-  { value: "m", label: "Male" }
-];
+const dataSelect = ["Ten", "Twenty", "Thirty"];
 
 export default () => {
   const Displayed = () => (
@@ -48,7 +40,7 @@ export default () => {
           />
         </Info>
         <Info title="Gender">
-          <RadioBtn data={dataRadio} />
+          <RadioBtn data={GENDER} value={GENDER[0].value} />
         </Info>
         <Info title="Date of birth">
           <DatePicker width="190px" />
