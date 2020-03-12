@@ -11,10 +11,11 @@ import { TextInput } from "../../shared-components/FilterInputs";
 import { MultiSelect } from "../../shared-components/MultiSelect";
 import { RadioBtn } from "../../shared-components/StyledRadioBtn";
 import { SKILLS, LANGUAGES, GENDER } from "../../configuration/TemporaryConsts";
+import ApolloClient, { gql } from "apollo-boost";
+import { useLocation } from "react-router-dom";
 import { PopUp } from "../../shared-components";
 import PopUpContent from "./PopUpContent";
 import PopUpFilter from "./PopUpFilter";
-import { useLocation } from "react-router-dom";
 
 const initialState = {
   skills: [],
@@ -35,8 +36,39 @@ export default props => {
   const [isShownPopUp, setShownPopUp] = useState(false);
   const [isShownFilterPopUp, setShownFilterPopUp] = useState(!urlParams.search);
   const [formData, setFormData] = useState({ ...initialState });
+  const [requsetData, setRequestData] = useState([]);
 
   // http://localhost:3000/employer/search?skills=git+css&country=minsk&education=higher&languages=en+ru&sex=m&age_from=10&age_to=20&exp_from=20&exp_to=60
+
+  useEffect(() => {
+    const client = new ApolloClient({
+      uri: "https://dxp-gql-app.herokuapp.com/v1/graphql"
+    });
+    client
+      .query({
+        query: gql`
+          query bySkills($public_data: jsonb, $sex: bpchar) {
+            resume(
+              where: {
+                sex: { _eq: $sex }
+                public_data: { _contains: $public_data }
+              }
+            ) {
+              public_data
+              birth_date
+              sex
+            }
+          }
+        `,
+        variables: {
+          sex: "m",
+          public_data: {
+            skills: ["c++", "go"]
+          }
+        }
+      })
+      .then(result => setRequestData(result["data"]["resume"]));
+  }, []);
 
   useEffect(() => {
     if (urlParams.search) urlParsing();
@@ -150,15 +182,15 @@ export default props => {
   };
   const closeFilterPopUp = () => setShownFilterPopUp(false);
 
-  const searchedResults = SEARCHED_RESULTS.map(
-    ({ walletID, gender, age, skills, requested }) => (
+  const searchedResults = requsetData.map(
+    ({ public_data, birth_date, sex }) => (
       <SearchResult
-        key={walletID}
-        walletID={walletID}
-        gender={gender}
-        age={age}
-        skills={skills}
-        requested={requested}
+        key={Math.random()}
+        walletID={"walletID"}
+        gender={sex}
+        age={birth_date}
+        skills={public_data["skills"].join(", ")}
+        requested={"requested"}
         clickedSend={openPopUp}
       />
     )
@@ -226,6 +258,7 @@ export default props => {
                       type="number"
                       onChange={handleChange}
                       value={formData.age_from}
+                      disabled={true}
                     />
                   </Styled.Option>
                   <Styled.Option>
@@ -236,6 +269,7 @@ export default props => {
                       type="number"
                       onChange={handleChange}
                       value={formData.age_to}
+                      disabled={true}
                     />
                   </Styled.Option>
                 </Styled.Options>
@@ -248,6 +282,7 @@ export default props => {
                   name="country"
                   onChange={handleChange}
                   value={formData.country}
+                  disabled={true}
                 />
               </Styled.Input>
 
@@ -260,6 +295,7 @@ export default props => {
                   name="languages"
                   onChange={multiSelectChange}
                   value={formData.languages}
+                  disabled={true}
                 />
               </Styled.Input>
 
@@ -274,6 +310,7 @@ export default props => {
                       type="number"
                       onChange={handleChange}
                       value={formData.exp_from}
+                      disabled={true}
                     />
                   </Styled.Option>
                   <Styled.Option>
@@ -284,6 +321,7 @@ export default props => {
                       type="number"
                       onChange={handleChange}
                       value={formData.exp_to}
+                      disabled={true}
                     />
                   </Styled.Option>
                 </Styled.Options>
@@ -296,6 +334,7 @@ export default props => {
                   name="education"
                   onChange={handleChange}
                   value={formData.education}
+                  disabled={true}
                 />
               </Styled.Input>
             </Styled.Form>

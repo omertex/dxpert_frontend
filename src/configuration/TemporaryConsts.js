@@ -8,6 +8,18 @@ export const SKILLS = [
     value: "redux"
   },
   {
+    label: "C++",
+    value: "c++"
+  },
+  {
+    label: "GO",
+    value: "go"
+  },
+  {
+    label: "JavaScript",
+    value: "js"
+  },
+  {
     label: "Angular",
     value: "angular"
   },
@@ -22,10 +34,6 @@ export const SKILLS = [
   {
     label: "Material UI",
     value: "material ui"
-  },
-  {
-    label: "JavaScript",
-    value: "javascript"
   },
   {
     label: "JQuery",
