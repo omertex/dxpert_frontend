@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as Styled from "./styled";
 import { BlueTextBtn } from "../../shared-components/Buttons";
-import StyledCheckbox from "../../shared-components/StyledCheckbox";
-import { SEARCHED_RESULTS } from "../../configuration/TemporaryConsts";
+// import StyledCheckbox from "../../shared-components/StyledCheckbox";
 import ShortInfo from "../../shared-components/ShortInfo";
 import SearchResult from "../../shared-components/SearchResult";
 import Pagination from "../../shared-components/Pagination";
@@ -36,39 +35,7 @@ export default props => {
   const [isShownPopUp, setShownPopUp] = useState(false);
   const [isShownFilterPopUp, setShownFilterPopUp] = useState(!urlParams.search);
   const [formData, setFormData] = useState({ ...initialState });
-  const [requsetData, setRequestData] = useState([]);
-
-  // http://localhost:3000/employer/search?skills=git+css&country=minsk&education=higher&languages=en+ru&sex=m&age_from=10&age_to=20&exp_from=20&exp_to=60
-
-  useEffect(() => {
-    const client = new ApolloClient({
-      uri: "https://dxp-gql-app.herokuapp.com/v1/graphql"
-    });
-    client
-      .query({
-        query: gql`
-          query bySkills($public_data: jsonb, $sex: bpchar) {
-            resume(
-              where: {
-                sex: { _eq: $sex }
-                public_data: { _contains: $public_data }
-              }
-            ) {
-              public_data
-              birth_date
-              sex
-            }
-          }
-        `,
-        variables: {
-          sex: "m",
-          public_data: {
-            skills: ["c++", "go"]
-          }
-        }
-      })
-      .then(result => setRequestData(result["data"]["resume"]));
-  }, []);
+  const [requestData, setRequestData] = useState([]);
 
   useEffect(() => {
     if (urlParams.search) urlParsing();
@@ -77,7 +44,7 @@ export default props => {
   useEffect(() => {
     clearTimeout(delayedSending);
     delayedSending = setTimeout(() => {
-      if (urlCreate()) console.log(formData);
+      if (urlCreate()) sendRequest();
     }, 500);
   }, [formData]);
 
@@ -92,7 +59,7 @@ export default props => {
         case "languages":
           const keys = item[0] === "skills" ? SKILLS : LANGUAGES;
           const newItem = item[1]
-            .split("+")
+            .split("%")
             .map(x => keys.find(f => f.value === x))
             .filter(x => x !== undefined);
 
@@ -130,7 +97,7 @@ export default props => {
         case "languages":
           if (formData[item].length) {
             const keys = formData[item].map(x => x.value);
-            url += `${item}=${keys.join("+")}&`;
+            url += `${item}=${keys.join("%")}&`;
           }
           break;
         default:
@@ -141,6 +108,119 @@ export default props => {
     }
     props.history.push(url.slice(0, -1));
     return url.slice(16, -1);
+  };
+
+  const sendRequest = () => {
+    const variables = {
+      public_data: {}
+    };
+    const query = gql`
+      query bySkills(
+        $public_data: jsonb
+        $sex: bpchar
+        $country: String
+        $age_from: date
+        $age_to: date
+        $exp_from: smallint
+        $exp_to: smallint
+      ) {
+        resume(
+          where: {
+            sex: { _eq: $sex }
+            country: { _eq: $country }
+            public_data: { _contains: $public_data }
+            _and: [
+              { birth_date: { _gt: $age_to } }
+              { birth_date: { _lt: $age_from } }
+              { total_experience: { _gt: $exp_from } }
+              { total_experience: { _lt: $exp_to } }
+            ]
+          }
+        ) {
+          public_data
+          birth_date
+          sex
+        }
+      }
+    `;
+    const getYear = value => {
+      const birth_date = new Date();
+      birth_date.setFullYear(birth_date.getFullYear() - value);
+      return birth_date.toISOString();
+    };
+
+    for (let item in formData) {
+      switch (item) {
+        case "skills":
+        case "languages":
+          if (formData[item].length) {
+            const keys = formData[item].map(x => x.value);
+            variables.public_data[`${item}`] = keys;
+          }
+          break;
+        case "education":
+          const education = String(formData[item]).trim();
+          if (education.length) {
+            variables.public_data[`${item}`] = [{ facility: education }];
+          }
+          break;
+        case "sex":
+        case "country":
+          const value = String(formData[item]).trim();
+          if (value.length) variables[item] = value;
+          break;
+        case "exp_from":
+        case "exp_to":
+          if (formData[item] > 0) variables[item] = formData[item];
+          break;
+        case "age_from":
+        case "age_to":
+          if (formData[item] > 0) {
+            variables[item] = getYear(formData[item]);
+          }
+          break;
+      }
+    }
+
+    const client = new ApolloClient({
+      uri: "https://dxp-gql-app.herokuapp.com/v1/graphql"
+    });
+
+    client
+      .query({
+        query,
+        variables
+      })
+      .then(result => setRequestData(result["data"]["resume"]))
+      .catch(error => console.log(error));
+  };
+
+  const renderResults = () => {
+    const getAge = birth_date => {
+      return (
+        new Date().getFullYear() -
+        new Date(new Date() - new Date(birth_date)).getFullYear()
+      );
+    };
+
+    if (requestData.length) {
+      return (
+        <>
+          {requestData.map(({ public_data, birth_date, sex }) => (
+            <SearchResult
+              key={Math.random()}
+              gender={sex}
+              age={getAge(birth_date)}
+              skills={public_data["skills"].join(", ")}
+              requested={false}
+              clickedSend={openPopUp}
+            />
+          ))}
+          <BlueTextBtn text="Send to all" />
+          <Pagination />
+        </>
+      );
+    }
   };
 
   const multiSelectChange = (name, value) => {
@@ -169,9 +249,8 @@ export default props => {
   };
 
   const clearAll = () => {
-    setFormData({ ...initialState }, () => {
-      props.history.push("/employer/search");
-    });
+    setFormData({ ...initialState });
+    props.history.push("/employer/search");
   };
 
   const openPopUp = () => setShownPopUp(true);
@@ -182,11 +261,10 @@ export default props => {
   };
   const closeFilterPopUp = () => setShownFilterPopUp(false);
 
-  const searchedResults = requsetData.map(
+  const searchedResults = requestData.map(
     ({ public_data, birth_date, sex }) => (
       <SearchResult
         key={Math.random()}
-        walletID={"walletID"}
         gender={sex}
         age={birth_date}
         skills={public_data["skills"].join(", ")}
@@ -201,13 +279,13 @@ export default props => {
       <Styled.Container>
         <ShortInfo />
         <Styled.SearchInfo>
-          <Styled.Found>
+          {/* <Styled.Found>
             We found {SEARCHED_RESULTS.length} users with similar skills
           </Styled.Found>
           <Styled.Option>
             <StyledCheckbox value="exact-match" />
             <p id="after">exact match</p>
-          </Styled.Option>
+          </Styled.Option> */}
         </Styled.SearchInfo>
         <Styled.SearchBlock>
           <Styled.Filters>
@@ -258,7 +336,6 @@ export default props => {
                       type="number"
                       onChange={handleChange}
                       value={formData.age_from}
-                      disabled={true}
                     />
                   </Styled.Option>
                   <Styled.Option>
@@ -269,7 +346,6 @@ export default props => {
                       type="number"
                       onChange={handleChange}
                       value={formData.age_to}
-                      disabled={true}
                     />
                   </Styled.Option>
                 </Styled.Options>
@@ -282,7 +358,6 @@ export default props => {
                   name="country"
                   onChange={handleChange}
                   value={formData.country}
-                  disabled={true}
                 />
               </Styled.Input>
 
@@ -295,7 +370,6 @@ export default props => {
                   name="languages"
                   onChange={multiSelectChange}
                   value={formData.languages}
-                  disabled={true}
                 />
               </Styled.Input>
 
@@ -310,7 +384,6 @@ export default props => {
                       type="number"
                       onChange={handleChange}
                       value={formData.exp_from}
-                      disabled={true}
                     />
                   </Styled.Option>
                   <Styled.Option>
@@ -321,7 +394,6 @@ export default props => {
                       type="number"
                       onChange={handleChange}
                       value={formData.exp_to}
-                      disabled={true}
                     />
                   </Styled.Option>
                 </Styled.Options>
@@ -334,15 +406,12 @@ export default props => {
                   name="education"
                   onChange={handleChange}
                   value={formData.education}
-                  disabled={true}
                 />
               </Styled.Input>
             </Styled.Form>
           </Styled.Filters>
           <Styled.Results>
-            {searchedResults}
-            <BlueTextBtn text="Send to all" />
-            <Pagination />
+            {requestData.length ? renderResults() : null}
           </Styled.Results>
         </Styled.SearchBlock>
       </Styled.Container>

@@ -60,23 +60,23 @@ export const SKILLS = [
 export const LANGUAGES = [
   {
     label: "English",
-    value: "en"
+    value: "English"
   },
   {
     label: "Spanish",
-    value: "es"
+    value: "Spanish"
   },
   {
     label: "German",
-    value: "de"
+    value: "German"
   },
   {
     label: "French",
-    value: "fr"
+    value: "French"
   },
   {
     label: "Russian",
-    value: "ru"
+    value: "Russian"
   }
 ];
 
