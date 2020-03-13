@@ -24,33 +24,43 @@ const WalletCreationTutorial = lazy(() => import("../pages/WalletCreationTutoria
 
 export const ROUTES = [
   { path: chooseWay,
-    component: ChooseWay
+    component: ChooseWay,
+    needAuth: false
   },
   { path: createWallet,
-    component: CreateWallet
+    component: CreateWallet,
+    needAuth: false
   },
   { path: employerBalance,
-    component: EmployerBalance
+    component: EmployerBalance,
+    needAuth: true
   },
   { path: employerProfile,
-    component: EmployerProfile
+    component: EmployerProfile,
+    needAuth: true
   },
   { path: employerRequests,
-    component: EmployerRequests
+    component: EmployerRequests,
+    needAuth: true
   },
   { path: employerSearch,
-    component: EmployerSearch
+    component: EmployerSearch,
+    needAuth: true
   },
   { path: applicantProfile,
-    component: ApplicantProfile
+    component: ApplicantProfile,
+    needAuth: true
   },
   { path: applicantRequests,
-    component: ApplicantRequests
+    component: ApplicantRequests,
+    needAuth: true
   },
   { path: unlockWallet,
-    component: UnlockWallet
+    component: UnlockWallet,
+    needAuth: false
   },
   { path: walletCreationTutorial,
-    component: WalletCreationTutorial
+    component: WalletCreationTutorial,
+    needAuth: false
   },
 ]
