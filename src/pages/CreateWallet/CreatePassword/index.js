@@ -217,7 +217,7 @@ const CreatePassword = withRouter(
                   <StyledCheckbox
                     value="agreed-terms"
                     checked={agreedTerms}
-                    changed={agreeTerms}
+                    onChange={agreeTerms}
                   />
                   <p>
                     I understand that DXpert cannot recover or reset my password

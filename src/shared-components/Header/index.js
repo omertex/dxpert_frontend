@@ -33,7 +33,7 @@ const Header = props => {
   const isAuth = props.isAuth;
   return (
     <Styled.Header>
-      <Styled.Container>
+      <Styled.Container isAuth={isAuth}>
         <Link to={chosenWay ? "/" + chosenWay + "/profile" : "/"}>
           <img src={Logo} alt="Logo" />
         </Link>
@@ -80,7 +80,7 @@ const Header = props => {
       ) : null}
     </Styled.Container>
   </Styled.Header>
-);
+)};
 
 const mapStateToProps = state => {
   return {
