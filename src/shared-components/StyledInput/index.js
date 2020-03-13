@@ -173,7 +173,7 @@ export const Multiline = memo(
 );
 
 export const Password = memo(
-  ({ id, label, value, error, changed, blured, message }) => {
+  ({ label, value, error, changed, blured, ref}) => {
     const [showPassword, setShowPassword] = useState(false);
     const classes = useStyles();
 
@@ -183,11 +183,12 @@ export const Password = memo(
           {label}
         </InputLabel>
         <OutlinedInput
+          ref={ref}
           value={value}
           error={error}
           onChange={changed}
           onBlur={blured}
-          helperText={label}
+          // helperText={label}
           id="password"
           type={showPassword ? "text" : "password"}
           endAdornment={
@@ -212,35 +213,36 @@ export const Confirm = memo(({ label, value, error, changed, blured }) => {
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
 
-  return (
-    <FormControl className={classes.input} variant="outlined">
-      <InputLabel htmlFor="confirm" style={error && { color: "red" }}>
-        {label}
-      </InputLabel>
-      <OutlinedInput
-        value={value}
-        error={error}
-        onChange={changed}
-        onBlur={blured}
-        helperText={label}
-        id="confirm"
-        type={showPassword ? "text" : "password"}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={() => setShowPassword(!showPassword)}
-              edge="end"
-            >
-              {showPassword ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          </InputAdornment>
-        }
-        labelWidth={70}
-      />
-    </FormControl>
-  );
-});
+    return (
+      <FormControl className={classes.input} variant="outlined">
+        <InputLabel htmlFor="confirm" style={error && { color: "red" }}>
+          {label}
+        </InputLabel>
+        <OutlinedInput
+          value={value}
+          error={error}
+          onChange={changed}
+          onBlur={blured}
+          // helperText={label}
+          id="confirm"
+          type={showPassword ? "text" : "password"}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={() => setShowPassword(!showPassword)}
+                edge="end"
+              >
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+          labelWidth={70}
+        />
+      </FormControl>
+    );
+  }
+);
 
 export const QuickSearch = memo(
   ({

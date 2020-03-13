@@ -77,13 +77,14 @@ export const SingleMnemonic = styled.div`
   box-sizing: border-box;
 
   #number {
-    font-size: 6px;
+    font-size: 10px;
     font-weight: 600;
-    line-height: 8px;
+    line-height: 1;
     letter-spacing: 0.03rem;
-    color: ${Colors.main_disabled};
+    color: ${Colors.link_gray};
     align-self: flex-start;
     margin: 0 10px 0 0;
+    width: 12px;
   }
 
   #text {

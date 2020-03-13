@@ -61,6 +61,7 @@ export const WalletID = styled.p`
   margin: 0;
   margin-right: 30px;
   color: rgba(0, 0, 0, 0.87);
+  word-wrap: break-word;
 `;
 
 export const Gender = styled.p`

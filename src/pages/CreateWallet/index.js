@@ -62,6 +62,10 @@ export default () => {
     setShownPopUp(true);
   }
 
+  const closeViewPrivateKey = () => {
+    setShownPopUp(false);
+  }
+
   const closePopUp = () => {
     setShownConfirmation(true);
   }
@@ -102,7 +106,7 @@ export default () => {
       <ViewMyKey 
         closePopUp={ closePopUp }
         clickedGoBack={ backToPrivateKey }
-        clickedConfirm={ toSecondaryAccess }
+        clickedConfirm={ closeViewPrivateKey }
         confirmClose={ isShownConfirmation } />
     </PopUp>
     </>

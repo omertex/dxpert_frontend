@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-import { Colors } from '../../../configuration/Colors';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { Colors } from "../../../configuration/Colors";
+import { Link } from "react-router-dom";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export const Paper = styled.div`
   position: absolute;
@@ -122,7 +123,7 @@ export const Lenght = styled.p`
   position: relative;
   font-size: 10px;
   line-height: 14px;
-  color:${Colors.text_black};
+  color: ${Colors.text_black};
   opacity: 0.5;
   padding-left: 10px;
   margin: 0 25px 0 0;
@@ -131,7 +132,7 @@ export const Lenght = styled.p`
   :before {
     display: block;
     position: absolute;
-    content: '';
+    content: "";
     width: 4px;
     height: 4px;
     border-radius: 50%;
@@ -143,7 +144,9 @@ export const Lenght = styled.p`
     transition: all 200ms ease;
   }
 
-  ${props => props.error &&`
+  ${props =>
+    props.error &&
+    `
     color: ${Colors.error};
     opacity: 1;
 
@@ -157,13 +160,13 @@ export const Lenght = styled.p`
 export const Includes = styled(Lenght)``;
 
 export const ConfirmError = styled.p`
-    position: absolute;
-    left: 14px;
-    bottom: -20px;
-    font-size: 12px;
-    line-height: 16px;
-    color: ${Colors.error};
-    text-align: left;
+  position: absolute;
+  left: 14px;
+  bottom: -20px;
+  font-size: 12px;
+  line-height: 16px;
+  color: ${Colors.error};
+  text-align: left;
 `;
 
 export const Buttons = styled.div`
@@ -171,4 +174,26 @@ export const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+`;
+
+
+export const DownloadingKeystore = styled.div`
+    position: absolute;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+`;
+
+export const Loading = styled(CircularProgress)`
+  position: absolute;
+  z-index: 1010;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
 `;

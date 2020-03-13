@@ -30,13 +30,15 @@ const Header = props => {
   };
 
   const chosenWay = props.chosenWay;
+  const isAuth = props.isAuth;
   return (
     <Styled.Header>
       <Styled.Container>
         <Link to={chosenWay ? "/" + chosenWay + "/profile" : "/"}>
           <img src={Logo} alt="Logo" />
         </Link>
-        {chosenWay === "employer" ? (
+      {isAuth ? (
+        chosenWay === "employer" ? (
           <>
             <Styled.Input>
               <QuickSearch
@@ -74,15 +76,16 @@ const Header = props => {
               </Styled.BalanceLink>
             </Styled.Nav>
           </>
-        )}
-      </Styled.Container>
-    </Styled.Header>
-  );
-};
+        )
+      ) : null}
+    </Styled.Container>
+  </Styled.Header>
+);
 
 const mapStateToProps = state => {
   return {
-    chosenWay: state.test.chosenWay
+    isAuth: state.auth.isAuth,
+    chosenWay: state.auth.chosenWay
   };
 };
 

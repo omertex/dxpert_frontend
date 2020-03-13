@@ -15,7 +15,7 @@ export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${props => props.isAuth ? "space-between" : "center"};
 `;
 
 export const ContainerCenter = styled(Container)`
