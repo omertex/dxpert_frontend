@@ -83,6 +83,7 @@ export const SelectKeystore = styled.input`
 `;
 
 export const Label = styled.label`
+  padding: 8px 16px 8px 48px;
   margin-bottom: 23px;
   font-size: 14px;
 `;

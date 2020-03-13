@@ -98,11 +98,11 @@ export const BorderBtn = styled(ContinueBtn)`
 `;
 
 export const UploadBtn = styled(BorderBtn)`
-  padding: 8px 16px 8px 48px;
+  padding: 0;
   position: relative;
   background: url(${props => props.src}) no-repeat 16px center;
   background-blend-mode: saturation;
-  margin-bottom: 10px;
+  margin-bottom: 23px;
   align-self: center;
   ${props => props.disabled &&`
     color: ${Colors.btn_disabled_text};
