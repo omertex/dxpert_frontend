@@ -1,0 +1,118 @@
+[
+  {
+    "height": "361383",
+    "txhash": "77FA154DCDF0CB5C86935E2B6C04187D653DFB3447B1595B2D6EBF5882CFECB3",
+    "raw_log": "[{\"msg_index\":0,\"success\":true,\"log\":\"\",\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"module\",\"value\":\"dxpert\"},{\"key\":\"sender\",\"value\":\"cosmos1e00jz2rjc398qwpke369222dv47jvnzf68smtv\"},{\"key\":\"action\",\"value\":\"UploadResume\"},{\"key\":\"action\",\"value\":\"UploadResume\"}]}]}]",
+    "logs": [
+      {
+        "msg_index": 0,
+        "success": true,
+        "log": "",
+        "events": [
+          {
+            "type": "message",
+            "attributes": [
+              {
+                "key": "module",
+                "value": "dxpert"
+              },
+              {
+                "key": "sender",
+                "value": "cosmos1e00jz2rjc398qwpke369222dv47jvnzf68smtv"
+              },
+              {
+                "key": "action",
+                "value": "UploadResume"
+              },
+              {
+                "key": "action",
+                "value": "UploadResume"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "gas_wanted": "200000",
+    "gas_used": "57480",
+    "tx": {
+      "type": "cosmos-sdk/StdTx",
+      "value": {
+        "msg": [
+          {
+            "type": "dxpert/UploadResume",
+            "value": {
+              "resume": {
+                "public_data": {
+                  "skills": [
+                    "c++",
+                    "go",
+                    "best sax player in the world"
+                  ],
+                  "age": 23,
+                  "sex": 0
+                },
+                "private_data": {
+                  "name": "YazptOmATcNlGnl8b+rS+wLKACCBiGaQJQlELBWZyau5ooYcGk0k23DE75oZlIf83sVzzwAgsbakR8VYex0n6K48B7dFwyFIQdA6Wl1gd7lGZtvQLI5iJqGSdCD52yNMMUdNaGwMNTUX0iW1G95jVP5Y7OX6uRFaBuZ07QY/zi5g0RZyv5c=",
+                  "experience": [
+                    {
+                      "company": "Cgi7awT5k+lMSepuqdX1ewLKACDz1CaPigzKI6JjJsAVGMEO0QTdu82SkddQqUKmqjQ3kAAgOMuPJfQ8Hmtdztj9GtHecyL/htlog53f2+VIfFtFGrhk2bkbCj4aFBMKvotskWFeFjzRKx7qR/3FQp1NNzxb10k5AYu4fvXFYB+cpdltiCo=",
+                      "from": "me1nuspEWde5DTRHWtdh2ALKACAIBs63ru7xj8ebT5YQQFiqNWQNG5I6Uw6tUnT/wwsPgAAg0KiTnlBknVCFXLpEe2h+2lARNrnunnC+GlliviQ0NH7Q2ALg1+dTw6KB476Vj+vn0gpvMSY9nqy4gf7B5TfDhVIadP/Z3bZeEewy4JzNap4jTbjduBamaonXF3qUJGCW",
+                      "to": "cPp52QWSvpbfE3je6y/C/wLKACDzqibA0tswTBZLtZqY4LNeGLO/cCHcUzz9EuVBV7bDHwAghKuDQyGsT9hjhtM3t1qSoSXyb0/Rz/c+xZGOdyfhwIn0Bck3E08g8ILACSDRS+2XAJwC2n4QxxRp0yTRm64yaWGUGQqeFKUe5B2ZlePcI2V5SqyetUbDEdoVHy/H31mA",
+                      "Position": "T+jGf4obkbQ/Et/PAx8LvALKACBJHn2iyr2JniQjYZS38RAbxli2YWS+epDC/HY3r3PIEwAgr6AGU7bOWx4eLVkZ9Ra5Ir5S6Gp+qlYlyRyxPqSB6E9TNhiv5/E7v7TELKdQe8rfo25voT2EInstarH62JK5X5n9UlfT+ar1WwNV2ejHUvj8ve/lV3zp+Y89HNW6zgme"
+                    }
+                  ]
+                },
+                "suggested_price": [
+                  {
+                    "denom": "coin",
+                    "amount": "10"
+                  }
+                ]
+              },
+              "address": "cosmos1e00jz2rjc398qwpke369222dv47jvnzf68smtv"
+            }
+          }
+        ],
+        "fee": {
+          "amount": [],
+          "gas": "200000"
+        },
+        "signatures": [
+          {
+            "pub_key": {
+              "type": "tendermint/PubKeySecp256k1",
+              "value": "A9GLekJPW875GC+QUkHdi5vXl5IhbQg4OaP4oKo6UN5T"
+            },
+            "signature": "TGl93ZtQn1EteqAzkjW0isIyFBj1Svsi9yoKcDZxeIELc1ns4aDwy8M00Jb8RbUj/UwT5ls5fy7ZonbAn797bQ=="
+          }
+        ],
+        "memo": ""
+      }
+    },
+    "timestamp": "2020-03-04T08:21:20Z",
+    "events": [
+      {
+        "type": "message",
+        "attributes": [
+          {
+            "key": "module",
+            "value": "dxpert"
+          },
+          {
+            "key": "sender",
+            "value": "cosmos1e00jz2rjc398qwpke369222dv47jvnzf68smtv"
+          },
+          {
+            "key": "action",
+            "value": "UploadResume"
+          },
+          {
+            "key": "action",
+            "value": "UploadResume"
+          }
+        ]
+      }
+    ]
+  }
+]
