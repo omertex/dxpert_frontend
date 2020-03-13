@@ -3,11 +3,14 @@ export {
   setPassword,
   downloadKeystoreFile,
   generateMnemonics,
+  constructMnemonicPhrase,
   selectMnemonicsToCheck,
   authorize,
   createNewWallet,
   generatePublicKey,
-  chooseWay
+  chooseWay,
+  savePrivateKey,
+  generateKeyPair
 } from "./auth";
 
 export {

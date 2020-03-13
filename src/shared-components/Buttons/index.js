@@ -32,9 +32,10 @@ export const ChooseWayBtn = ({ text, clicked, second, chosen }) => (
   </Styled.ChooseWayBtn>
 );
 
-export const UploadBtn = ({ text, disabled, clicked, src }) => (
+export const UploadBtn = ({ text, disabled, clicked, src, children }) => (
   <Styled.UploadBtn src={src} onClick={clicked} disabled={disabled}>
     {text}
+    {children}
   </Styled.UploadBtn>
 );
 

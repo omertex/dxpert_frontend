@@ -7,9 +7,12 @@ const initialState = {
   password: "",
   keyStoreFileDownloaded: false,
   mnemonics: [],
+  mnemonicPhrase: "",
   selectedMnemonics: [],
   publicKey: "",
-  choosenWay: ""
+  chosenWay: "",
+  privateKeySaved: false,
+  privateKey: ""
 };
 
 const agreeTerms = (state, action) => {
@@ -28,6 +31,10 @@ const generateMnemonics = (state, action) => {
   return updateObject(state, { mnemonics: action.mnemonics });
 };
 
+const constructMnemonicPhrase = (state, action) => {
+  return updateObject(state, { mnemonicPhrase: action.phrase })
+};
+
 const selectMnemonicsToCheck = (state, action) => {
   return updateObject(state, { selectedMnemonics: action.mnemonics });
 };
@@ -43,7 +50,11 @@ const createNewWallet = (state, action) => {
     password: "",
     keyStoreFileDownloaded: false,
     mnemonics: [],
-    selectedMnemonics: []
+    mnemonicPhrase: "",
+    selectedMnemonics: [],
+    publicKey: "",
+    privateKeySaved: false,
+    privateKey: ""
   });
 };
 
@@ -53,6 +64,10 @@ const chooseWay = (state, action) => {
 
 const generatePublicKey = (state, action) => {
   return updateObject(state, { publicKey: action.publicKey });
+}
+
+const savePrivateKey = (state, action) => {
+  return updateObject(state, { privateKeySaved: true, privateKey: action.key } )
 }
 
 const reducer = (state = initialState, action) => {
@@ -65,6 +80,8 @@ const reducer = (state = initialState, action) => {
       return downloadKeystoreFile(state, action);
     case ACTION_TYPES.AUTH.GENERATE_MNEMONICS:
       return generateMnemonics(state, action);
+    case ACTION_TYPES.AUTH.CONSTRUCT_MNEMONIC_PHRASE:
+      return constructMnemonicPhrase(state, action);
     case ACTION_TYPES.AUTH.SELECT_MNEMONICS_TO_CHECK:
       return selectMnemonicsToCheck(state, action);
     case ACTION_TYPES.AUTH.AUTHORIZE:
@@ -75,6 +92,8 @@ const reducer = (state = initialState, action) => {
       return generatePublicKey(state, action);
     case ACTION_TYPES.AUTH.CHOOSE_WAY:
       return chooseWay(state, action);
+    case ACTION_TYPES.AUTH.SAVE_PRIVATE_KEY:
+      return savePrivateKey(state, action);
     default:
       return state;
   }

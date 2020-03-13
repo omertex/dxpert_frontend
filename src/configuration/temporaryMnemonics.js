@@ -1,4 +1,4 @@
-export const mnemonics = [
+export const temporaryMnemonics = [
   "root", "forest", "bread", "swim",
   "head", "fork", "sun", "wind",
   "snow", "fog", "soccer", "ball",

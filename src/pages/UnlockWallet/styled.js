@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Colors } from '../../configuration/Colors';
 import { Link } from 'react-router-dom';
+import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
+import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined';
 
 export const Container = styled.div`
 position: relative;
@@ -69,4 +71,45 @@ export const Buttons = styled.div`
 
 export const CreateNewWallet = styled(Link)`
   text-decoration: none;
+`;
+
+export const SelectKeystore = styled.input`
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+`;
+
+export const Label = styled.label`
+  padding: 8px 16px 8px 48px;
+  margin-bottom: 23px;
+  font-size: 14px;
+`;
+
+export const Uploaded = styled(CheckCircleOutlineOutlinedIcon)`
+  color: ${Colors.continue_btn};
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+
+export const WrongKeystore = styled.p`
+  position: relative;
+  font-size: 14px;
+  color: ${Colors.error};
+  margin: 12px 0 0;
+  padding-left: 30px;
+  text-transform: lowercase;
+  align-self: center;
+`;
+
+export const ErrorMark = styled(ErrorOutlineOutlinedIcon)`
+  color: ${Colors.error};
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 `;

@@ -59,3 +59,24 @@ export const chooseWay = way => {
     way
   }
 }
+
+export const constructMnemonicPhrase = phrase => {
+  return {
+    type: ACTION_TYPES.AUTH.CONSTRUCT_MNEMONIC_PHRASE,
+    phrase
+  }
+}
+
+export const savePrivateKey = key => {
+  return {
+    type: ACTION_TYPES.AUTH.SAVE_PRIVATE_KEY,
+    key
+  }
+}
+
+export const generateKeyPair = phrase => {
+  return {
+    type: ACTION_TYPES.AUTH.GENERATE_KEY_PAIR,
+    phrase
+  }
+}

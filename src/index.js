@@ -7,7 +7,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import authReducer from "./store/reducers/auth";
 import requestsReducer from "./store/reducers/requests";
-import { watchGetTxsById } from "./store/sagas";
+import { watchRequests, watchAuth } from "./store/sagas";
 
 import "./index.css";
 import App from "./App";
@@ -25,7 +25,8 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
-sagaMiddleware.run(watchGetTxsById);
+sagaMiddleware.run(watchRequests);
+sagaMiddleware.run(watchAuth);
 
 ReactDOM.render(
   <Provider store={store}>

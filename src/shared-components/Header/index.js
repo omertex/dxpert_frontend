@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 const Header = ({ chosenWay, isAuth, getTsxById }) => (
   <Styled.Header>
-    <Styled.Container>
+    <Styled.Container isAuth={isAuth}>
       <Link to={chosenWay ? "/" + chosenWay + "/profile" : "/"}>
         <img src={Logo} alt="Logo" />
       </Link>

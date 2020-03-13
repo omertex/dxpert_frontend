@@ -6,7 +6,6 @@ import { transitionStyles } from "../transitionStyles";
 import { connect } from "react-redux";
 import { selectMnemonics } from "../../../configuration/helpers";
 import * as ACTIONS from "../../../store/actions";
-import { generatePublicKey } from "../../../configuration/helpers";
 
 const backupMnemonics = ({
   isShown,
@@ -14,8 +13,7 @@ const backupMnemonics = ({
   clickedPrevious,
   viewPrivateKey,
   mnemonics,
-  selectMnems,
-  genPublicKey
+  selectMnems
 }) => {
   const showMnemonics = mnemonics.map(({ index, value }, i) => (
     <Styled.SingleMnemonic key={i}>
@@ -25,12 +23,11 @@ const backupMnemonics = ({
   ));
 
   const onClickContinue = () => {
-    selectMnems(selectMnemonics(mnemonics));
+    selectMnems(selectMnemonics(mnemonics, 3));
     clickedContinue();
   };
 
   const onViewKeyClick = () => {
-    genPublicKey(generatePublicKey(["q", "e"], 1024));
     viewPrivateKey();
   }
 
@@ -73,9 +70,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    selectMnems: mnemonics =>
-      dispatch(ACTIONS.selectMnemonicsToCheck(mnemonics)),
-      genPublicKey: publicKey => dispatch(ACTIONS.generatePublicKey(publicKey)) 
+    selectMnems: mnemonics => dispatch(ACTIONS.selectMnemonicsToCheck(mnemonics))
   };
 };
 
