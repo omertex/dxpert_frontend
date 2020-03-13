@@ -1,6 +1,6 @@
-import React from 'react';
-import * as Styled from './styled';
-import { ContinueBtn, CancelBtn } from '../../../shared-components/Buttons';
+import React from "react";
+import * as Styled from "./styled";
+import { ContinueBtn, CancelBtn } from "../../../shared-components/Buttons";
 
 export default ({ clickedCancel, clickedOK }) => (
   <Styled.Container>
@@ -12,14 +12,8 @@ export default ({ clickedCancel, clickedOK }) => (
     </Styled.UserInfo>
     <Styled.Cost>it costs 1 token</Styled.Cost>
     <Styled.Buttons>
-      <CancelBtn 
-        clicked={ clickedCancel }
-        text="Cancel" 
-      />
-      <ContinueBtn 
-        clicked={ clickedOK }
-        text="Ok" 
-      />
+      <CancelBtn clicked={clickedCancel} text="Cancel" />
+      <ContinueBtn clicked={clickedOK} text="Ok" />
     </Styled.Buttons>
   </Styled.Container>
-)
+);

@@ -1,125 +1,231 @@
-import React from 'react';
-import * as Styled from './styled';
+import React, { useState } from "react";
+import * as Styled from "./styled";
 
-import { TextInput } from '../../../shared-components/FilterInputs'; 
-import { ActionBtn, SubmitBtn } from '../../../shared-components/Buttons';
-import { MultiSelect } from '../../../shared-components/MultiSelect';
-import { SKILLS, LANGUAGES } from '../../../configuration/TemporaryConsts';
-import StyledCheckbox from '../../../shared-components/StyledCheckbox';
-import IconButton from '@material-ui/core/IconButton';
+import { TextInput } from "../../../shared-components/FilterInputs";
+import { ActionBtn, SubmitBtn } from "../../../shared-components/Buttons";
+import { MultiSelect } from "../../../shared-components/MultiSelect";
+import {
+  SKILLS,
+  LANGUAGES,
+  GENDER
+} from "../../../configuration/TemporaryConsts";
+import { RadioBtn } from "../../../shared-components/StyledRadioBtn";
+import IconButton from "@material-ui/core/IconButton";
+import { Transition } from "react-transition-group";
 
-import { Transition } from 'react-transition-group';
+const initialState = {
+  skills: [],
+  sex: "",
+  country: "",
+  age_from: "",
+  age_to: "",
+  languages: [],
+  exp_from: "",
+  exp_to: "",
+  education: ""
+};
 
 const defaultStyle = {
   height: 1400,
-  overflow: 'hidden',
-  transition: 'all 300ms ease-in'
-}
+  overflow: "hidden",
+  transition: "all 300ms ease-in"
+};
 const transitionStyles = {
   enetering: { height: 0 },
   entered: { height: 1400 },
   exiting: { height: 1400 },
   exited: { height: 0 }
-}
+};
 
-export default ({ closeFilter, isShown }) => (
-  <Transition
-    in={ isShown }
-    timeout={ 400 }
-    // mountOnEnter
-    // unmountOnExit
-  >
-    { state => (
-      <Styled.Underlayer
-        style={{
-          ...defaultStyle,
-          ...transitionStyles[state]
-        }}
-      >
-        <Styled.Paper>
-          <Styled.Filters>
-            <Styled.Header>
-              <h3>Filters</h3>
-              <ActionBtn text="Clear all" />
-              <SubmitBtn text="Apply" clicked={ closeFilter }/>
-              <IconButton onClick={ closeFilter }>
-                <Styled.Close />
-              </IconButton>
-            </Styled.Header>
-            <Styled.Form>
-              <Styled.InputGroup>
-                <Styled.Input id="skills">
-                  <p id="label">Skills</p>
-                  <MultiSelect data={ SKILLS } width="100%" />
-                </Styled.Input>
+export default ({ closeFilter, isShown, setData }) => {
+  const [formData, setFormData] = useState({ ...initialState });
 
-                <Styled.Input>
-                  <p id="label">Gender</p>
-                  <Styled.Options>
-                    <Styled.Option>
-                      <StyledCheckbox value="male" />
-                      <p id="after">Male</p>
-                    </Styled.Option>
-                    <Styled.Option>
-                      <StyledCheckbox value="female" />
-                      <p id="after">Female</p>
-                    </Styled.Option>
-                  </Styled.Options>
-                </Styled.Input>
-              </Styled.InputGroup>
+  const multiSelectChange = (name, value) => {
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
-              <Styled.InputGroup>
-                <Styled.Input>
-                  <p id="label">Age</p>
-                  <Styled.Options>
-                    <Styled.Option>
-                      <p id="before">From</p>
-                      <TextInput width="55px" />
-                    </Styled.Option>
-                    <Styled.Option>
-                      <p id="before">To</p>
-                      <TextInput width="55px" />
-                    </Styled.Option>
-                  </Styled.Options>
-                </Styled.Input>
+  const handleChange = e => {
+    const { value, name } = e.currentTarget;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
-                <Styled.Input>
-                  <p id="label">Country</p>
-                  <MultiSelect data={ LANGUAGES } placeholder="Add Country" width="100%" />
-                </Styled.Input>
+  const radioChange = e => {
+    const { value, name } = e.target;
+    if (value !== undefined && name !== undefined) {
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: formData[name] !== value ? value : ""
+      }));
+    }
+  };
 
-                <Styled.Input>
-                  <p id="label">Languages</p>
-                  <MultiSelect data={ LANGUAGES } placeholder="Add Languages" width="100%" />
-                </Styled.Input>
-              </Styled.InputGroup>
+  const clearAll = () => {
+    setFormData({ ...initialState });
+  };
 
-              <Styled.InputGroup>
-                <Styled.Input>
-                  <p id="label">Work Experience</p>
-                  <Styled.Options>
-                    <Styled.Option>
-                      <p id="before">From</p>
-                      <TextInput width="55px" />
-                    </Styled.Option>
-                    <Styled.Option>
-                      <p id="before">To</p>
-                      <TextInput width="55px" />
-                    </Styled.Option>
-                  </Styled.Options>
-                </Styled.Input>
+  const sendFormData = () => {
+    setData({ ...formData });
+    closeFilter();
+  };
 
-                <Styled.Input>
-                  <p id="label">Education</p>
-                  <MultiSelect data={ LANGUAGES } placeholder="Level or Type" width="100%" />
-                </Styled.Input>
-              </Styled.InputGroup>
+  return (
+    <Transition in={isShown} timeout={0}>
+      {state => (
+        <Styled.Underlayer
+          style={{
+            ...defaultStyle,
+            ...transitionStyles[state]
+          }}
+        >
+          <Styled.Paper>
+            <Styled.Filters>
+              <Styled.Header>
+                <h3>Filters</h3>
+                <ActionBtn text="Clear all" clicked={clearAll} />
+                <SubmitBtn text="Apply" clicked={sendFormData} />
+                <IconButton onClick={closeFilter}>
+                  <Styled.Close />
+                </IconButton>
+              </Styled.Header>
+              <Styled.Form>
+                <Styled.InputGroup>
+                  <Styled.Input id="skills">
+                    <p id="label">Skills</p>
+                    <MultiSelect
+                      data={SKILLS}
+                      width="100%"
+                      name="skills"
+                      onChange={multiSelectChange}
+                      value={formData.skills}
+                    />
+                  </Styled.Input>
 
-            </Styled.Form>
-          </Styled.Filters>
-        </Styled.Paper>
-      </Styled.Underlayer>
-    ) }
-    
-  </Transition>
-)
+                  <Styled.Input>
+                    <p id="label">Gender</p>
+                    <Styled.Options>
+                      <Styled.Option>
+                        <RadioBtn
+                          data={[GENDER[0]]}
+                          checked={formData.sex === "m"}
+                          name="sex"
+                          onClick={radioChange}
+                        />
+                        <RadioBtn
+                          data={[GENDER[1]]}
+                          checked={formData.sex === "f"}
+                          name="sex"
+                          onClick={radioChange}
+                        />
+                      </Styled.Option>
+                    </Styled.Options>
+                  </Styled.Input>
+                </Styled.InputGroup>
+
+                <Styled.InputGroup>
+                  <Styled.Input>
+                    <p id="label">Age</p>
+                    <Styled.Options>
+                      <Styled.Option>
+                        <p id="before">From</p>
+                        <TextInput
+                          width="55px"
+                          name="age_from"
+                          type="number"
+                          onChange={handleChange}
+                          value={formData.age_from}
+                          disabled={true}
+                        />
+                      </Styled.Option>
+                      <Styled.Option>
+                        <p id="before">To</p>
+                        <TextInput
+                          width="55px"
+                          name="age_to"
+                          type="number"
+                          onChange={handleChange}
+                          value={formData.age_to}
+                          disabled={true}
+                        />
+                      </Styled.Option>
+                    </Styled.Options>
+                  </Styled.Input>
+
+                  <Styled.Input>
+                    <p id="label">Country</p>
+                    <TextInput
+                      placeholder="Add Country"
+                      name="country"
+                      onChange={handleChange}
+                      value={formData.country}
+                      disabled={true}
+                    />
+                  </Styled.Input>
+
+                  <Styled.Input>
+                    <p id="label">Languages</p>
+                    <MultiSelect
+                      data={LANGUAGES}
+                      placeholder="Add Languages"
+                      width="100%"
+                      name="languages"
+                      onChange={multiSelectChange}
+                      value={formData.languages}
+                      disabled={true}
+                    />
+                  </Styled.Input>
+                </Styled.InputGroup>
+
+                <Styled.InputGroup>
+                  <Styled.Input>
+                    <p id="label">Work Experience</p>
+                    <Styled.Options>
+                      <Styled.Option>
+                        <p id="before">From</p>
+                        <TextInput
+                          width="55px"
+                          name="exp_from"
+                          type="number"
+                          onChange={handleChange}
+                          value={formData.exp_from}
+                          disabled={true}
+                        />
+                      </Styled.Option>
+                      <Styled.Option>
+                        <p id="before">To</p>
+                        <TextInput
+                          width="55px"
+                          name="exp_to"
+                          type="number"
+                          onChange={handleChange}
+                          value={formData.exp_to}
+                          disabled={true}
+                        />
+                      </Styled.Option>
+                    </Styled.Options>
+                  </Styled.Input>
+
+                  <Styled.Input>
+                    <p id="label">Education</p>
+                    <TextInput
+                      placeholder="Level or Type"
+                      name="education"
+                      onChange={handleChange}
+                      value={formData.education}
+                      disabled={true}
+                    />
+                  </Styled.Input>
+                </Styled.InputGroup>
+              </Styled.Form>
+            </Styled.Filters>
+          </Styled.Paper>
+        </Styled.Underlayer>
+      )}
+    </Transition>
+  );
+};

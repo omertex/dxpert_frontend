@@ -1,25 +1,99 @@
 export const SKILLS = [
-  { id: "ra", title: "React" },
-  { id: "rd", title: "Redux" },
-  { id: "bp", title: "Bootstrap" },
-  { id: "mui", title: "Material UI" },
-  { id: "js", title: "JavaScript" },
-  { id: "jq", title: "JQuery" },
-  { id: "css", title: "Css" },
-  { id: "html", title: "HTML" }
+  {
+    label: "React",
+    value: "react"
+  },
+  {
+    label: "Redux",
+    value: "redux"
+  },
+  {
+    label: "C++",
+    value: "c++"
+  },
+  {
+    label: "GO",
+    value: "go"
+  },
+  {
+    label: "JavaScript",
+    value: "js"
+  },
+  {
+    label: "Angular",
+    value: "angular"
+  },
+  {
+    label: "Vue",
+    value: "vue"
+  },
+  {
+    label: "Bootstrap",
+    value: "bootstrap"
+  },
+  {
+    label: "Material UI",
+    value: "material ui"
+  },
+  {
+    label: "JQuery",
+    value: "jquery"
+  },
+  {
+    label: "Css",
+    value: "css"
+  },
+  {
+    label: "HTML",
+    value: "html"
+  },
+  {
+    label: "UX/UI",
+    value: "ux/ui"
+  },
+  {
+    label: "Git",
+    value: "git"
+  }
 ];
 
 export const LANGUAGES = [
-  { id: "en", title: "English" },
-  { id: "es", title: "Spanish" },
-  { id: "de", title: "German" },
-  { id: "fr", title: "French" },
-  { id: "ru", title: "Russian" }
+  {
+    label: "English",
+    value: "English"
+  },
+  {
+    label: "Spanish",
+    value: "Spanish"
+  },
+  {
+    label: "German",
+    value: "German"
+  },
+  {
+    label: "French",
+    value: "French"
+  },
+  {
+    label: "Russian",
+    value: "Russian"
+  }
+];
+
+export const GENDER = [
+  {
+    label: "Male",
+    value: "m"
+  },
+  {
+    label: "Female",
+    value: "f"
+  }
 ];
 
 export const SEARCHED_RESULTS = [
   {
-    walletID: "Wallet ID",
+    walletID: "WalletID1",
     gender: "m",
     age: "28",
     skills:
@@ -27,14 +101,14 @@ export const SEARCHED_RESULTS = [
     requested: "false"
   },
   {
-    walletID: "Wallet ID",
+    walletID: "WalletID2",
     gender: "w",
     age: "31",
     skills: "Photoshop, Figma,After Effect",
     requested: "false"
   },
   {
-    walletID: "Wallet ID",
+    walletID: "WalletID3",
     gender: "m",
     age: "22",
     skills:
@@ -42,7 +116,7 @@ export const SEARCHED_RESULTS = [
     requested: "true"
   },
   {
-    walletID: "Wallet ID",
+    walletID: "WalletID4",
     gender: "w",
     age: "24",
     skills: "After Effect",

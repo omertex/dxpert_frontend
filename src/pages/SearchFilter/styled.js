@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Colors } from '../../configuration/Colors';
+import styled from "styled-components";
+import { Colors } from "../../configuration/Colors";
 
 export const Container = styled.div`
   width: 930px;
@@ -59,10 +59,52 @@ export const Option = styled.div`
   }
 `;
 
+export const Options = styled.div`
+  width: 100%;
+  display: flex;
+  padding-left: 20px;
+`;
+
 export const Results = styled.div`
   width: 100%;
   display: flex;
   align-items: flex-end;
   flex-flow: column;
   margin-left: 30px;
+`;
+
+export const Header = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const Filters = styled.div`
+  width: 290px;
+  padding: 20px 25px;
+  border-radius: 8px;
+  background: ${Colors.bg_white};
+  display: flex:
+  flex-flow: column;
+  box-shadow: 0 0 1px ${Colors.main_disabled};
+
+  #label {
+    font-size: 16px;
+    line-height: 22px;
+    margin: 0 0 12px;
+    text-align: left;
+  }
+`;
+
+export const Input = styled.div`
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 16px;
+`;
+
+export const Form = styled.div`
+  width: 100%;
+  display: flex;
+  flex-flow: column;
 `;

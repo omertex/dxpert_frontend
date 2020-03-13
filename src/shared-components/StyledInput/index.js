@@ -209,10 +209,9 @@ export const Password = memo(
   }
 );
 
-export const Confirm = memo(
-  ({ label, value, error, changed, blured }) => {
-    const [showPassword, setShowPassword] = useState(false);
-    const classes = useStyles();
+export const Confirm = memo(({ label, value, error, changed, blured }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const classes = useStyles();
 
     return (
       <FormControl className={classes.input} variant="outlined">
@@ -246,7 +245,17 @@ export const Confirm = memo(
 );
 
 export const QuickSearch = memo(
-  ({ id, label, value, error, changed, blured, message }) => {
+  ({
+    id,
+    label,
+    value,
+    error,
+    onChange,
+    onKeyPress,
+    blured,
+    message,
+    name
+  }) => {
     const classes = useStyles();
 
     return (
@@ -256,10 +265,12 @@ export const QuickSearch = memo(
           value={value}
           error={error}
           label={label}
-          onChange={changed}
+          onChange={onChange}
           onBlur={blured}
           helperText={message}
-          placeholder="Quick search"
+          onKeyPress={onKeyPress}
+          name={name}
+          placeholder="Enter skills separated by commas"
           id="quick-search"
           type={"search"}
           InputProps={{

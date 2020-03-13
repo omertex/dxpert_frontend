@@ -22,26 +22,20 @@ const Input = withStyles({
   }
 })(TextField);
 
-const Complete = withStyles({
-  root: {
-    width: props => props.width,
-    "& .MuiAutocomplete-tag": {
-      height: "24px",
-      borderRadius: "4px",
-      backgroundColor: `${Colors.tag}`,
-      font: "10px Open Sans, sans-serif",
-      lineHeight: "14px",
-      color: `${Colors.text_black}`
-    },
-    "& .MuiAutocomplete-input": {
-      marginLeft: "10px",
-      font: "12px Open Sans, sans-serif",
-      lineHeight: "14px"
-    }
-  }
-})(Autocomplete);
-
 const useStyles = makeStyles({
+  tag: {
+    height: "24px",
+    borderRadius: "4px",
+    backgroundColor: `${Colors.tag}`,
+    font: "10px Open Sans, sans-serif",
+    lineHeight: "14px",
+    color: `${Colors.text_black}`
+  },
+  input: {
+    marginLeft: "10px",
+    font: "12px Open Sans, sans-serif",
+    lineHeight: "14px"
+  },
   option: {
     height: 28,
     font: "12px Open Sans, sans-serif",
@@ -63,33 +57,35 @@ export const MultiSelect = memo(
     width,
     value,
     error,
-    changed,
+    onChange,
     blured,
-    defaultValue,
-    name
+    name,
+    disabled
   }) => {
     const classes = useStyles();
 
     return (
-      <Complete
+      <Autocomplete
         multiple
-        // id="multiSelect"
-        width={width}
+        style={{
+          width: `${width}`
+        }}
         options={data || []}
         classes={{
+          tag: classes.tag,
+          input: classes.input,
           option: classes.option,
           paper: classes.paper
         }}
-        getOptionLabel={option => option.title}
-        defaultValue={defaultValue}
-        name={name}
+        onChange={(e, value) => onChange(name, value)}
+        getOptionLabel={option => option.label}
+        value={value}
+        disabled={disabled}
         filterSelectedOptions
         renderInput={params => (
           <Input
             {...params}
-            value={value}
             error={error}
-            onChange={changed}
             onBlur={blured}
             width={width}
             style={

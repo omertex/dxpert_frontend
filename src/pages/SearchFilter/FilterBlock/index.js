@@ -1,84 +1,211 @@
-import React from 'react';
-import * as Styled from './styled';
+import React, { useEffect, useState } from "react";
+import * as Styled from "./styled";
 
-import { TextInput } from '../../../shared-components/FilterInputs'; 
-import { ActionBtn, SubmitBtn } from '../../../shared-components/Buttons';
-import { MultiSelect } from '../../../shared-components/MultiSelect';
-import { SKILLS, LANGUAGES } from '../../../configuration/TemporaryConsts';
-import StyledCheckbox from '../../../shared-components/StyledCheckbox';
+import { TextInput } from "../../../shared-components/FilterInputs";
+import { ActionBtn } from "../../../shared-components/Buttons";
+import { MultiSelect } from "../../../shared-components/MultiSelect";
+import { SKILLS, LANGUAGES } from "../../../configuration/TemporaryConsts";
+import StyledCheckbox from "../../../shared-components/StyledCheckbox";
 
-export default () => (
-  <Styled.Filters>
-    <Styled.Header>
-      <h3>Filters</h3>
-      <ActionBtn text="Clear all" />
-    </Styled.Header>
-    <Styled.Form>
+const initialState = {
+  skills: [],
+  gender: {
+    male: false,
+    female: false
+  },
+  country: "",
+  age: {
+    from: "",
+    to: ""
+  },
+  languages: [],
+  experience: {
+    from: "",
+    to: ""
+  },
+  education: ""
+};
 
-      <Styled.Input>
-        <p id="label">Skills</p>
-        <MultiSelect data={ SKILLS } width="100%" />
-      </Styled.Input>
+let delayedSending;
 
-      <Styled.Input>
-        <p id="label">Gender</p>
-        <Styled.Options>
-          <Styled.Option>
-            <StyledCheckbox value="male" />
-            <p id="after">Male</p>
-          </Styled.Option>
-          <Styled.Option>
-            <StyledCheckbox value="female" />
-            <p id="after">Female</p>
-          </Styled.Option>
-        </Styled.Options>
-      </Styled.Input>
+export default ({ callback }) => {
+  const [formData, setFormData] = useState({ ...initialState });
 
-      <Styled.Input>
-        <p id="label">Age</p>
-        <Styled.Options>
-          <Styled.Option>
-            <p id="before">From</p>
-            <TextInput width="55px" />
-          </Styled.Option>
-          <Styled.Option>
-            <p id="before">To</p>
-            <TextInput width="55px" />
-          </Styled.Option>
-        </Styled.Options>
-      </Styled.Input>
+  useEffect(() => {
+    clearTimeout(delayedSending);
 
-      <Styled.Input>
-        <p id="label">Country</p>
-        <TextInput placeholder="Add Country" />
-      </Styled.Input>
+    delayedSending = setTimeout(() => {
+      callback({ ...formData });
+    }, 500);
+  }, [formData]);
 
-      <Styled.Input>
-        <p id="label">Languages</p>
-        <MultiSelect data={ LANGUAGES } placeholder="Add Languages" width="100%" />
-      </Styled.Input>
+  const multiSelectChange = (name, value) => {
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
-      <Styled.Input>
-        <p id="label">Work Experience</p>
-        <Styled.Options>
-          <Styled.Option>
-            <p id="before">From</p>
-            <TextInput width="55px" />
-          </Styled.Option>
-          <Styled.Option>
-            <p id="before">To</p>
-            <TextInput width="55px" />
-          </Styled.Option>
-        </Styled.Options>
-      </Styled.Input>
+  const checkBoxChange = e => {
+    const { name, checked } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      gender: {
+        ...prevState.gender,
+        [name]: checked
+      }
+    }));
+  };
 
-      <Styled.Input>
-        <p id="label">Education</p>
-        <TextInput placeholder="Level or Type" />
-      </Styled.Input>
+  const handleChange = e => {
+    const { value, name } = e.currentTarget;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
-      <SubmitBtn text="Apply" width="100%" />
+  const rangeChange = (e, objName) => {
+    const { value, name } = e.currentTarget;
+    setFormData(prevState => ({
+      ...prevState,
+      [objName]: {
+        ...prevState[objName],
+        [name]: value
+      }
+    }));
+  };
 
-    </Styled.Form>
-  </Styled.Filters>
-)
+  const clearAll = () => {
+    setFormData(initialState);
+  };
+
+  return (
+    <Styled.Filters>
+      <Styled.Header>
+        <h3>Filters</h3>
+        <ActionBtn text="Clear all" clicked={clearAll} />
+      </Styled.Header>
+      <Styled.Form>
+        <Styled.Input>
+          <p id="label">Skills</p>
+          <MultiSelect
+            data={SKILLS}
+            width="100%"
+            name="skills"
+            onChange={multiSelectChange}
+            value={formData.skills}
+          />
+        </Styled.Input>
+
+        <Styled.Input>
+          <p id="label">Gender</p>
+          <Styled.Options>
+            <Styled.Option>
+              <StyledCheckbox
+                value="male"
+                name="male"
+                onChange={checkBoxChange}
+                checked={formData.gender.male}
+              />
+              <p id="after">Male</p>
+            </Styled.Option>
+            <Styled.Option>
+              <StyledCheckbox
+                value="female"
+                name="female"
+                onChange={checkBoxChange}
+                checked={formData.gender.female}
+              />
+              <p id="after">Female</p>
+            </Styled.Option>
+          </Styled.Options>
+        </Styled.Input>
+
+        <Styled.Input>
+          <p id="label">Age</p>
+          <Styled.Options>
+            <Styled.Option>
+              <p id="before">From</p>
+              <TextInput
+                width="55px"
+                name="from"
+                type="number"
+                onChange={e => rangeChange(e, "age")}
+                value={formData.age.from}
+              />
+            </Styled.Option>
+            <Styled.Option>
+              <p id="before">To</p>
+              <TextInput
+                width="55px"
+                name="to"
+                type="number"
+                onChange={e => rangeChange(e, "age")}
+                value={formData.age.to}
+              />
+            </Styled.Option>
+          </Styled.Options>
+        </Styled.Input>
+
+        <Styled.Input>
+          <p id="label">Country</p>
+          <TextInput
+            placeholder="Add Country"
+            name="country"
+            onChange={handleChange}
+            value={formData.country}
+          />
+        </Styled.Input>
+
+        <Styled.Input>
+          <p id="label">Languages</p>
+          <MultiSelect
+            data={LANGUAGES}
+            placeholder="Add Languages"
+            width="100%"
+            name="languages"
+            onChange={multiSelectChange}
+            value={formData.languages}
+          />
+        </Styled.Input>
+
+        <Styled.Input>
+          <p id="label">Work Experience</p>
+          <Styled.Options>
+            <Styled.Option>
+              <p id="before">From</p>
+              <TextInput
+                width="55px"
+                name="from"
+                type="number"
+                onChange={e => rangeChange(e, "experience")}
+                value={formData.experience.from}
+              />
+            </Styled.Option>
+            <Styled.Option>
+              <p id="before">To</p>
+              <TextInput
+                width="55px"
+                name="to"
+                type="number"
+                onChange={e => rangeChange(e, "experience")}
+                value={formData.experience.to}
+              />
+            </Styled.Option>
+          </Styled.Options>
+        </Styled.Input>
+
+        <Styled.Input>
+          <p id="label">Education</p>
+          <TextInput
+            placeholder="Level or Type"
+            name="education"
+            onChange={handleChange}
+            value={formData.education}
+          />
+        </Styled.Input>
+      </Styled.Form>
+    </Styled.Filters>
+  );
+};
