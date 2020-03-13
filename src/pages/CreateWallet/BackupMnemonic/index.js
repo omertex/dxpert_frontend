@@ -23,7 +23,7 @@ const backupMnemonics = ({
   ));
 
   const onClickContinue = () => {
-    selectMnems(selectMnemonics(mnemonics));
+    selectMnems(selectMnemonics(mnemonics, 3));
     clickedContinue();
   };
 
