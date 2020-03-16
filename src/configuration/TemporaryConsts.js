@@ -83,11 +83,11 @@ export const LANGUAGES = [
 export const GENDER = [
   {
     label: "Male",
-    value: "m"
+    value: "male"
   },
   {
     label: "Female",
-    value: "f"
+    value: "female"
   }
 ];
 

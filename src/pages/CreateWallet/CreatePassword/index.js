@@ -11,10 +11,8 @@ import * as actions from "../../../store/actions";
 import { temporaryMnemonics } from "../../../configuration/temporaryMnemonics";
 import {
   generateMnemonics,
-  generatePublicKey,
   constructMnemonicPhrase
 } from "../../../configuration/helpers";
-import axios from "axios";
 
 const defaultTip = {
   transform: "scale(0)",
@@ -49,12 +47,9 @@ const CreatePassword = withRouter(
     agreeTerms,
     pswd,
     agreedTerms,
-    downloadKeystoreFile,
     keyStoreFileDownloaded,
     history,
     genMnemonics,
-    genPublicKey,
-    savePrivateKey,
     constMnemPhrase,
     genKeyPair
   }) => {
@@ -94,19 +89,6 @@ const CreatePassword = withRouter(
       }
     };
 
-    // const download = (filename, text) => {
-    //   const element = document.createElement("a");
-    //   element.setAttribute(
-    //     "href",
-    //     "data:text/plain;charset=utf-8," + encodeURIComponent(text)
-    //   );
-    //   element.setAttribute("download", filename);
-    //   element.style.display = "none";
-    //   document.body.appendChild(element);
-    //   element.click();
-    //   document.body.removeChild(element);
-    // };
-
     const onDownloadKey = () => {
       setDownloadingKeystore(true);
       const mnems = generateMnemonics(temporaryMnemonics);
@@ -114,10 +96,6 @@ const CreatePassword = withRouter(
       genMnemonics(mnems);
       constMnemPhrase(mnemPhrase);
       genKeyPair(mnemPhrase);
-      // genPublicKey(generatePublicKey(mnemPhrase, 1024).publicKey);
-      // savePrivateKey(generatePublicKey(mnemPhrase, 1024).privateKey);
-      // download("keystore.txt", mnemPhrase);
-      // downloadKeystoreFile();
       setDownloadingKeystore(false);
     };
 
