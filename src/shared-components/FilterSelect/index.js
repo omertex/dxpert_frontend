@@ -59,13 +59,15 @@ export const FilterSelect = memo(
     value,
     error,
     changed,
-    blured
+    blured,
+    name
   }) => {
     const classes = useStyles();
 
     return (
       <Input
         id="select"
+        name={name}
         select
         value={value}
         onChange={changed}

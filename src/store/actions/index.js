@@ -17,3 +17,12 @@ export {
   getTxsById,
   setTxs
 } from "./requests";
+
+export {
+  setAboutMe,
+  setContacts,
+  setWorkExperience,
+  setEducation,
+  setSkills,
+  setLanguages
+} from "./applicantProfile";
