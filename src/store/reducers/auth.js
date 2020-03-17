@@ -2,7 +2,7 @@ import * as ACTION_TYPES from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
 const initialState = {
-  isAuth: true,
+  isAuth: false,
   agreedTerms: false,
   password: "",
   keyStoreFileDownloaded: false,
@@ -10,7 +10,7 @@ const initialState = {
   mnemonicPhrase: "",
   selectedMnemonics: [],
   publicKey: "",
-  chosenWay: "employer",
+  chosenWay: "",
   privateKeySaved: false,
   privateKey: ""
 };

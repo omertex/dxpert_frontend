@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ContinueBtn, PreviousBtn } from "../../../shared-components/Buttons";
 import * as Styled from "./styled";
 import { Transition } from "react-transition-group";
 import { transitionStyles } from "../transitionStyles";
 import { connect } from "react-redux";
+import * as ACTIONS from '../../../store/actions';
 
 const SecondaryAccess = ({
   isShown,

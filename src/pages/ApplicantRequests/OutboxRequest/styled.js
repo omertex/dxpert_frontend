@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { Colors } from "../../../configuration/Colors";
+import CheckCircleOutlinedIcon from "@material-ui/icons/CheckCircleOutlined";
+import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+import QueryBuilderOutlinedIcon from "@material-ui/icons/QueryBuilderOutlined";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 export const Request = styled.div`

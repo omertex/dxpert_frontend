@@ -1,71 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import * as Styled from "./styled";
 import InfoContainer from "../InfoContainer";
 import { SubmitBtn } from "../../Buttons";
 import { TextArea } from "../../FilterTextAreas";
-import { connect } from "react-redux";
-import * as actionTypes from "../../../store/actions/actionTypes";
 
-const Editable = ({value, clicked, changed}) => (
-  <Styled.Form>
-    <TextArea 
-      key="text-aria"
-      placeholder="400 characters max" 
-      width="431px"
-      changed = {changed}
-      value={value} />
-    <Styled.SubmitBox>
-      <SubmitBtn
-        clicked={clicked} 
-        text="submit" 
-      />
-    </Styled.SubmitBox>
-  </Styled.Form>
-);
+export default () => {
+  const Displayed = () => (
+    <Styled.Text>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tortor, natoque
+      integer vehicula vel in nulla. Non sollicitudin ipsum, ac ultricies risus
+      integer egestas phasellus. Non sollicitudin ipsum, ac ultricies risus
+      integer egestas phasellus.
+    </Styled.Text>
+  );
 
-const Displayed = ({aboutMe}) => (
-  <Styled.Text>
-    {aboutMe}
-  </Styled.Text>
-);
-
-const AboutMe = ({ aboutMe, setAboutMe }) => {
-  const [about, setAbout] = useState("");
-
-  const onClickSubmit = e => {
-    e.preventDefault();
-    setAboutMe(about);
-  }
-
-  const handleTextAreaChange = e => {
-    setAbout(e.target.value);
-  }
-
-  
+  const Editable = () => (
+    <Styled.Form>
+      <TextArea placeholder="400 characters max" width="431px" />
+      <Styled.SubmitBox>
+        <SubmitBtn text="submit" />
+      </Styled.SubmitBox>
+    </Styled.Form>
+  );
 
   return (
     <InfoContainer
-      displayed={ <Displayed aboutMe={aboutMe}/>}
-      editable={<Editable 
-                  value={about}
-                  clicked={onClickSubmit}
-                  changed={handleTextAreaChange}
-                />}
+      displayed={<Displayed />}
+      editable={<Editable />}
       name="About me"
     />
   );
 };
-
-const mapStateToProps = state => {
-  return {
-    aboutMe: state.applicant.aboutMe
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    setAboutMe: about => dispatch({type: actionTypes.APPLICANT_PROFILE.SET_ABOUT_ME, payload: about})
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AboutMe);

@@ -31,10 +31,9 @@ const Input = withStyles({
 })(TextField);
 
 export const DatePicker = memo(
-  ({ placeholder, width, value, error, changed, blured, name }) => {
+  ({ placeholder, width, value, error, changed, blured }) => {
     return (
       <Input
-        name={name}
         value={value}
         error={error}
         type="date"

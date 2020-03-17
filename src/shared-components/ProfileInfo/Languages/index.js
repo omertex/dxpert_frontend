@@ -4,70 +4,34 @@ import InfoContainer from "../InfoContainer";
 import { SubmitBtn } from "../../Buttons";
 import { MultiSelect } from "../../MultiSelect";
 import { LANGUAGES } from "../../../configuration/TemporaryConsts";
-import { connect } from "react-redux";
-import * as actionTypes from "../../../store/actions/actionTypes";
 
-const Editable = ({ changed, submitted }) => (
-  <Styled.Form>
-    <MultiSelect
-      data={LANGUAGES}
-      placeholder="Enter language"
-      onChange={changed}
-      width="431px"
-    />
-    <Styled.SubmitBox>
-      <SubmitBtn 
-        text="submit"
-        clicked={submitted} 
-      />
-    </Styled.SubmitBox>
-  </Styled.Form>
-);
-
-const Languages = ({ langs, setLangs }) => {
-  const languages = [];
-
-  const handleChange = e => {
-    languages.push(e.target.innerHTML);
-  }
-
-  const handleSubmit = () => {
-    setLangs(languages);
-  }
-
+export default () => {
   const Displayed = () => (
     <Styled.TagsContainer>
-      { (langs.length > 0)
-        ? langs.map(item => (
-            <Styled.Tag key={item}>{item}</Styled.Tag>
-          ))
-        : <Styled.Tag>Please, select languages</Styled.Tag>
-      }
+      {LANGUAGES.map(item => (
+        <Styled.Tag key={item.value}>{item.label}</Styled.Tag>
+      ))}
     </Styled.TagsContainer>
+  );
+
+  const Editable = () => (
+    <Styled.Form>
+      <MultiSelect
+        data={LANGUAGES}
+        placeholder="Enter language"
+        width="431px"
+      />
+      <Styled.SubmitBox>
+        <SubmitBtn text="submit" />
+      </Styled.SubmitBox>
+    </Styled.Form>
   );
 
   return (
     <InfoContainer
       displayed={<Displayed />}
-      editable={<Editable 
-                  changed={handleChange}
-                  submitted={handleSubmit}
-                />}
+      editable={<Editable />}
       name="Languages"
     />
   );
 };
-
-const mapStateToProps = state => {
-  return {
-    langs: state.applicant.languages
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    setLangs: languages => dispatch({ type: actionTypes.APPLICANT_PROFILE.SET_LANGUAGES, payload: languages })
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Languages);
