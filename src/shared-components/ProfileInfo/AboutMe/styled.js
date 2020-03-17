@@ -10,7 +10,7 @@ export const Text = styled.div`
   color: ${Colors.text_black};
 `;
 
-export const Form = styled.div`
+export const Form = styled.form`
   display: flex;
   flex-flow: column;
 `;
