@@ -6,8 +6,11 @@ import Request from "./Request";
 import PageName from "../../shared-components/PageName";
 import { connect } from "react-redux";
 
-import * as ACTIONS from "../../store/actions";
-import txByIdResponse from "../../configuration/txById.json"; // INSTEAD OF LOCAL FILE THE getTsxById FUNCTION SHOULD BE USED
+import * as actionTypes from "../../store/actions/actionTypes";
+// import txByIdResponse from "../../configuration/txById.json"; // INSTEAD OF LOCAL FILE THE getTsxById FUNCTION SHOULD BE USED
+
+const txType = "UploadResume";
+const senderAddress = "cosmos1e00jz2rjc398qwpke369222dv47jvnzf68smtv";
 
 const getRequests = responseArray => {
   const requests = responseArray.map(
@@ -20,7 +23,7 @@ const getRequests = responseArray => {
           }
         }
       }
-    }) => {
+    }, key) => {
       const gotSkills = response.resume.public_data.skills.join(", ");
       const hours = Number(new Date(timestamp).getHours());
       const minutes = String(new Date(timestamp).getMinutes());
@@ -31,8 +34,8 @@ const getRequests = responseArray => {
         (hours > 12 ? " PM" : " AM");
 
       return (
-        <Request
-          status="pending"
+        <Request key={key}
+          status="completed"
           walletID={response.address.slice(0, 8)}
           gender={response.resume.public_data.sex}
           age={response.resume.public_data.age}
@@ -47,7 +50,19 @@ const getRequests = responseArray => {
 };
 
 const EmployerRequests = ({ getTsxById, reqs }) => {
-  const requests = getRequests(txByIdResponse);
+  useEffect(() => {
+    const getTransactions = async () => {
+      await getTsxById(txType, senderAddress);
+    }
+    getTransactions();
+  }, [getTsxById]);
+
+  let requests;
+  if (reqs.length > 0) {
+    requests = getRequests(reqs);
+  } else {
+    requests = "Downloading requests..."
+  }
 
   return (
     <Styled.Container>
@@ -67,7 +82,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getTsxById: id => dispatch(ACTIONS.getTxsById(id))
+    getTsxById: (txType, senderAddress) => dispatch({ type: actionTypes.REQUESTS.GET_TXS, txType, senderAddress })
   };
 };
 

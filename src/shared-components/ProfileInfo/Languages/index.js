@@ -27,8 +27,10 @@ const Editable = ({ changed, submitted }) => (
 const Languages = ({ langs, setLangs }) => {
   const languages = [];
 
-  const handleChange = e => {
-    languages.push(e.target.innerHTML);
+  const handleChange = (e, value) => {
+    value.map( val => 
+      !languages.includes(val.value) && languages.push(val.value)
+    );
   }
 
   const handleSubmit = () => {

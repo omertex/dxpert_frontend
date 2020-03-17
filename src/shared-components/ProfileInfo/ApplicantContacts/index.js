@@ -87,7 +87,7 @@ const Contacts = ({ contacts, setContacts }) => {
     <Styled.DisplayedInfo>
       <Info title="Country" description={contacts["country"] || "Belarus"} />
       <Info title="City" description={contacts["city"] || "Minsk"} />
-      <Info title="Gender" description={contacts["gender"] || "male"} />
+      <Info title="Gender" description={(contacts["gender"] === "m" ? "male" : "female") || "male"} />
       <Info title="Date of birth" description={contacts["DOB"] || "24 august 1995"} />
       <Info title="Phone Number" description={contacts["phoneNumber"] || "+375 29 1234567"} />
     </Styled.DisplayedInfo>

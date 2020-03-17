@@ -14,7 +14,7 @@ export {
 } from "./auth";
 
 export {
-  getTxsById,
+  getTxs,
   setTxs
 } from "./requests";
 

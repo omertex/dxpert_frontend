@@ -14,7 +14,7 @@ export const AUTH = {
 };
 
 export const REQUESTS = {
-  GET_TXS_BY_ID: "GET_TXS_BY_ID",
+  GET_TXS: "GET_TXS",
   SET_TXS: "SET_TXS"
 }
 
