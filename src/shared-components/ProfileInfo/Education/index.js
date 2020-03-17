@@ -79,7 +79,7 @@ const Editable = ({ submitted, changed, edu }) => (
   </Styled.Form>
 );
 
-const Education = ({ education, setEducation }) => {
+const Education = ({ education, setEducation, applicant }) => {
   const [edu, setEdu] = useState({});
 
   const handleChange = e => {
@@ -90,6 +90,7 @@ const Education = ({ education, setEducation }) => {
 
   const handleSubmit = () => {
     setEducation(edu);
+    console.log(applicant);
   }
 
   const Displayed = () => (
@@ -133,7 +134,8 @@ const Education = ({ education, setEducation }) => {
 
 const mapStateToProps = state => {
   return {
-    education: state.applicant.education
+    education: state.applicant.education,
+    applicant: state.applicant
   }
 }
 

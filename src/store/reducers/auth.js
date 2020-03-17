@@ -10,7 +10,7 @@ const initialState = {
   mnemonicPhrase: "",
   selectedMnemonics: [],
   publicKey: "",
-  chosenWay: "applicant",
+  chosenWay: "employer",
   privateKeySaved: false,
   privateKey: ""
 };
