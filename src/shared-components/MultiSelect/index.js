@@ -77,8 +77,7 @@ export const MultiSelect = memo(
           option: classes.option,
           paper: classes.paper
         }}
-        // onChange={(e, value) => onChange(name, value)}
-        onChange={onChange}
+        onChange={(e, value) => onChange(name, value)}
         getOptionLabel={option => option.label}
         value={value}
         disabled={disabled}

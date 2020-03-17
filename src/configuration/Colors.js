@@ -16,4 +16,5 @@ export const Colors = {
   sub_bg: "#FBFBFB",
   inputs: "#FAFAFA",
   tag: "#c6d7ea",
+  error: "#F85D5D"
 };

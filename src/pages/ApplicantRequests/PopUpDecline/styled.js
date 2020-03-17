@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Colors } from "../../../configuration/Colors";
+import Token from "../../../assets/images/token.png";
 
 export const Container = styled.div`
   width: 450px;
