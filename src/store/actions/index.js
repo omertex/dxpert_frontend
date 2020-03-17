@@ -26,3 +26,7 @@ export {
   setSkills,
   setLanguages
 } from "./applicantProfile";
+
+export {
+  setProfileInfo
+} from "./companyProfile";
