@@ -26,8 +26,10 @@ const Editable = ({ changed, submitted }) => (
 const Skills = ({ skills, setSkills }) => {
   const skillsList = [];
 
-  const handleChange = e => {
-    skillsList.push(e.target.innerHTML);
+  const handleChange = (e, value) => {
+    value.map( val => 
+      !skillsList.includes(val.value) && skillsList.push(val.value)
+    );
   }
 
   const handleSubmit = () => {

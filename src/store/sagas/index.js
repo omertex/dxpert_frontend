@@ -11,7 +11,7 @@ import {
 } from "./auth";
 
 export function* watchRequests() {
-  yield takeEvery(ACTION_TYPES.REQUESTS.GET_TXS_BY_ID, getTxsByIdSaga);
+  yield takeEvery(ACTION_TYPES.REQUESTS.GET_TXS, getTxsByIdSaga);
 }
 
 export function* watchAuth() {
