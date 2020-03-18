@@ -13,10 +13,7 @@ export {
   generateKeyPair
 } from "./auth";
 
-export {
-  getTxs,
-  setTxs
-} from "./requests";
+export { getTxs, setTxs } from "./requests";
 
 export {
   setAboutMe,
@@ -27,6 +24,4 @@ export {
   setLanguages
 } from "./applicantProfile";
 
-export {
-  setProfileInfo
-} from "./companyProfile";
+export { setProfileInfo } from "./companyProfile";

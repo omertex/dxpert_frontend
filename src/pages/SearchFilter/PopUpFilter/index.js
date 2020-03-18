@@ -75,7 +75,7 @@ export default ({ closeFilter, isShown, setData }) => {
   };
 
   return (
-    <Transition in={isShown} timeout={0}>
+    <Transition in={isShown} timeout={0} mountOnEnter unmountOnExit>
       {state => (
         <Styled.Underlayer
           style={{
@@ -139,7 +139,6 @@ export default ({ closeFilter, isShown, setData }) => {
                           type="number"
                           onChange={handleChange}
                           value={formData.age_from}
-                          disabled={true}
                         />
                       </Styled.Option>
                       <Styled.Option>
@@ -150,7 +149,6 @@ export default ({ closeFilter, isShown, setData }) => {
                           type="number"
                           onChange={handleChange}
                           value={formData.age_to}
-                          disabled={true}
                         />
                       </Styled.Option>
                     </Styled.Options>
@@ -163,7 +161,6 @@ export default ({ closeFilter, isShown, setData }) => {
                       name="country"
                       onChange={handleChange}
                       value={formData.country}
-                      disabled={true}
                     />
                   </Styled.Input>
 
@@ -176,7 +173,6 @@ export default ({ closeFilter, isShown, setData }) => {
                       name="languages"
                       onChange={multiSelectChange}
                       value={formData.languages}
-                      disabled={true}
                     />
                   </Styled.Input>
                 </Styled.InputGroup>
@@ -193,7 +189,6 @@ export default ({ closeFilter, isShown, setData }) => {
                           type="number"
                           onChange={handleChange}
                           value={formData.exp_from}
-                          disabled={true}
                         />
                       </Styled.Option>
                       <Styled.Option>
@@ -204,7 +199,6 @@ export default ({ closeFilter, isShown, setData }) => {
                           type="number"
                           onChange={handleChange}
                           value={formData.exp_to}
-                          disabled={true}
                         />
                       </Styled.Option>
                     </Styled.Options>
@@ -217,7 +211,6 @@ export default ({ closeFilter, isShown, setData }) => {
                       name="education"
                       onChange={handleChange}
                       value={formData.education}
-                      disabled={true}
                     />
                   </Styled.Input>
                 </Styled.InputGroup>

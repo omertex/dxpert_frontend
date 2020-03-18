@@ -1,9 +1,13 @@
 import React from "react";
-import { ContinueBtn, BorderBtn, ChooseWayBtn } from '../../shared-components/Buttons';
+import {
+  ContinueBtn,
+  BorderBtn,
+  ChooseWayBtn
+} from "../../shared-components/Buttons";
 import * as Styled from "./styled";
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions/actionTypes';
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import * as actionTypes from "../../store/actions/actionTypes";
 
 function ChooseWay({ onChooseWay, chosenWay }) {
   return (
@@ -15,30 +19,24 @@ function ChooseWay({ onChooseWay, chosenWay }) {
       </h3>
       <h4>Choose your way</h4>
       <Styled.RoleWrapper>
-        <ChooseWayBtn 
-          chosen={ chosenWay === "applicant"}
+        <ChooseWayBtn
+          chosen={chosenWay === "applicant"}
           clicked={() => onChooseWay("applicant")}
-          text="For applicants" 
+          text="For applicants"
         />
-        <ChooseWayBtn 
-          chosen={ chosenWay === "employer"}
+        <ChooseWayBtn
+          chosen={chosenWay === "employer"}
           clicked={() => onChooseWay("employer")}
           text="For employers"
-          second= { true }
+          second={true}
         />
       </Styled.RoleWrapper>
       <Styled.AccountWrapper>
         <Link to="/wallet-creation-tutorial">
-          <BorderBtn 
-            text="Create account" 
-            disabled={ !chosenWay } 
-          />
+          <BorderBtn text="Create account" disabled={!chosenWay} />
         </Link>
         <Link to="/unlock-wallet">
-          <ContinueBtn
-            text="Connect account" 
-            disabled={ !chosenWay } 
-          />
+          <ContinueBtn text="Connect account" disabled={!chosenWay} />
         </Link>
       </Styled.AccountWrapper>
     </Styled.Container>
@@ -48,13 +46,13 @@ function ChooseWay({ onChooseWay, chosenWay }) {
 const mapStateToProps = state => {
   return {
     chosenWay: state.auth.chosenWay
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
-    onChooseWay: (way) => dispatch({type: actionTypes.AUTH.CHOOSE_WAY, way})
-  }
+    onChooseWay: way => dispatch({ type: actionTypes.AUTH.CHOOSE_WAY, way })
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChooseWay);
