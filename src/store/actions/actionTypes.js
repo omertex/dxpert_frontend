@@ -16,7 +16,7 @@ export const AUTH = {
 export const REQUESTS = {
   GET_TXS: "GET_TXS",
   SET_TXS: "SET_TXS"
-}
+};
 
 export const APPLICANT_PROFILE = {
   SET_ABOUT_ME: "SET_ABOUT_ME",
@@ -25,8 +25,8 @@ export const APPLICANT_PROFILE = {
   SET_EDUCATION: "SET_EDUCATION",
   SET_SKILLS: "SET_SKILLS",
   SET_LANGUAGES: "SET_LANGUAGES"
-}
+};
 
 export const COMPANY_PROFILE = {
   SET_PROFILE_INFO: "SET_PROFILE_INFO"
-}
+};

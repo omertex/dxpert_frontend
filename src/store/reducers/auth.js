@@ -2,7 +2,7 @@ import * as ACTION_TYPES from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
 const initialState = {
-  isAuth: true,
+  isAuth: false,
   agreedTerms: false,
   password: "",
   keyStoreFileDownloaded: false,
@@ -32,7 +32,7 @@ const generateMnemonics = (state, action) => {
 };
 
 const constructMnemonicPhrase = (state, action) => {
-  return updateObject(state, { mnemonicPhrase: action.phrase })
+  return updateObject(state, { mnemonicPhrase: action.phrase });
 };
 
 const selectMnemonicsToCheck = (state, action) => {
@@ -59,16 +59,16 @@ const createNewWallet = (state, action) => {
 };
 
 const chooseWay = (state, action) => {
-  return updateObject(state, { chosenWay: action.way })
+  return updateObject(state, { chosenWay: action.way });
 };
 
 const generatePublicKey = (state, action) => {
   return updateObject(state, { publicKey: action.publicKey });
-}
+};
 
 const savePrivateKey = (state, action) => {
-  return updateObject(state, { privateKeySaved: true, privateKey: action.key } )
-}
+  return updateObject(state, { privateKeySaved: true, privateKey: action.key });
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {

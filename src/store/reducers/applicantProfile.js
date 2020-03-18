@@ -15,24 +15,24 @@ const setAboutMe = (state, action) => {
 };
 
 const setContacts = (state, action) => {
-  return updateObject(state, { contacts: action.payload })
-}
+  return updateObject(state, { contacts: action.payload });
+};
 
 const setWorkExperience = (state, action) => {
-  return updateObject(state, { workExperience: action.payload })
-}
+  return updateObject(state, { workExperience: action.payload });
+};
 
 const setEducation = (state, action) => {
-  return updateObject(state, { education: action.payload })
-}
+  return updateObject(state, { education: action.payload });
+};
 
 const setSkills = (state, action) => {
-  return updateObject(state, { skills: action.payload })
-}
+  return updateObject(state, { skills: action.payload });
+};
 
 const setLanguages = (state, action) => {
-  return updateObject(state, { languages: action.payload })
-}
+  return updateObject(state, { languages: action.payload });
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
