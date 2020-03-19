@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, Profiler } from "react";
 import * as Styled from "./styled";
-import { BlueTextBtn } from "../../shared-components/Buttons";
+import { ActionBtn, BlueTextBtn } from "../../shared-components/Buttons";
 // import StyledCheckbox from "../../shared-components/StyledCheckbox";
 import ShortInfo from "../../shared-components/ShortInfo";
 import SearchResult from "../../shared-components/SearchResult";
 import Pagination from "../../shared-components/Pagination";
-import { ActionBtn } from "../../shared-components/Buttons";
 import { TextInput } from "../../shared-components/FilterInputs";
 import { MultiSelect } from "../../shared-components/MultiSelect";
 import { RadioBtn } from "../../shared-components/StyledRadioBtn";
-import { SKILLS, LANGUAGES, GENDER } from "../../configuration/TemporaryConsts";
-import ApolloClient, { gql } from "apollo-boost";
+import { GENDER, LANGUAGES, SKILLS } from "../../configuration/TemporaryConsts";
+import { GQLUrl, SearchQuery } from "../../configuration/BackendConsts";
+import ApolloClient from "apollo-boost";
 import { useLocation } from "react-router-dom";
 import { PopUp } from "../../shared-components";
 import PopUpContent from "./PopUpContent";
 import PopUpFilter from "./PopUpFilter";
 
+const limit = 10;
 const initialState = {
   skills: [],
   sex: "",
@@ -34,8 +35,11 @@ export default props => {
   const urlParams = useLocation();
   const [isShownPopUp, setShownPopUp] = useState(false);
   const [isShownFilterPopUp, setShownFilterPopUp] = useState(!urlParams.search);
+  const [initial, setInitial] = useState(true);
   const [formData, setFormData] = useState({ ...initialState });
   const [requestData, setRequestData] = useState([]);
+  const [pagedData, setPagedData] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (urlParams.search) urlParsing();
@@ -44,12 +48,26 @@ export default props => {
   useEffect(() => {
     clearTimeout(delayedSending);
     delayedSending = setTimeout(() => {
-      if (urlCreate()) sendRequest();
+      if (initial) setInitial(false);
+      else {
+        setPage(1);
+        urlCreate();
+      }
+      sendRequest();
     }, 500);
   }, [formData]);
 
+  useEffect(() => {
+    if (!initial) urlCreate();
+  }, [page]);
+
+  useEffect(() => {
+    setPagedData(renderResults());
+  }, [page, requestData]);
+
   const urlParsing = () => {
-    const params = urlParams.search.slice(1).split("&");
+    const decodeURL = decodeURIComponent(urlParams.search);
+    const params = decodeURL.slice(1).split("&");
     const couple = params.map(x => x.split("="));
     let newState = { ...initialState };
 
@@ -59,7 +77,7 @@ export default props => {
         case "languages":
           const keys = item[0] === "skills" ? SKILLS : LANGUAGES;
           const newItem = item[1]
-            .split("%")
+            .split(",")
             .map(x => keys.find(f => f.value === x))
             .filter(x => x !== undefined);
 
@@ -67,6 +85,9 @@ export default props => {
             ...newState,
             [item[0]]: newItem
           };
+          break;
+        case "page":
+          setPage(Number(item[1]));
           break;
         case "sex":
         case "country":
@@ -90,14 +111,14 @@ export default props => {
   };
 
   const urlCreate = () => {
-    let url = "/employer/search?";
+    let url = "";
     for (let item in formData) {
       switch (item) {
         case "skills":
         case "languages":
           if (formData[item].length) {
             const keys = formData[item].map(x => x.value);
-            url += `${item}=${keys.join("%")}&`;
+            url += `${item}=${keys.join(",")}&`;
           }
           break;
         default:
@@ -106,43 +127,23 @@ export default props => {
           break;
       }
     }
-    props.history.push(url.slice(0, -1));
-    return url.slice(16, -1);
+    if (page > 1) url += `page=${page}&`;
+
+    const encodeURL = encodeURIComponent(url.slice(0, -1));
+    props.history.push(`/employer/search?${encodeURL}`);
   };
 
   const sendRequest = () => {
+    if (!isEmpty()) {
+      return;
+    }
+    const client = new ApolloClient({
+      uri: GQLUrl
+    });
     const variables = {
       public_data: {}
     };
-    const query = gql`
-      query bySkills(
-        $public_data: jsonb
-        $sex: bpchar
-        $country: String
-        $age_from: date
-        $age_to: date
-        $exp_from: smallint
-        $exp_to: smallint
-      ) {
-        resume(
-          where: {
-            sex: { _eq: $sex }
-            country: { _eq: $country }
-            public_data: { _contains: $public_data }
-            _and: [
-              { birth_date: { _gt: $age_to } }
-              { birth_date: { _lt: $age_from } }
-              { total_experience: { _gt: $exp_from } }
-              { total_experience: { _lt: $exp_to } }
-            ]
-          }
-        ) {
-          public_data
-          birth_date
-          sex
-        }
-      }
-    `;
+
     const getYear = value => {
       const birth_date = new Date();
       birth_date.setFullYear(birth_date.getFullYear() - value);
@@ -154,14 +155,7 @@ export default props => {
         case "skills":
         case "languages":
           if (formData[item].length) {
-            const keys = formData[item].map(x => x.value);
-            variables.public_data[`${item}`] = keys;
-          }
-          break;
-        case "education":
-          const education = String(formData[item]).trim();
-          if (education.length) {
-            variables.public_data[`${item}`] = [{ facility: education }];
+            variables.public_data[`${item}`] = formData[item].map(x => x.value);
           }
           break;
         case "sex":
@@ -169,26 +163,26 @@ export default props => {
           const value = String(formData[item]).trim();
           if (value.length) variables[item] = value;
           break;
+        case "age_from":
+        case "age_to":
+          if (formData[item] > 0) variables[item] = getYear(formData[item]);
+          break;
         case "exp_from":
         case "exp_to":
           if (formData[item] > 0) variables[item] = formData[item];
           break;
-        case "age_from":
-        case "age_to":
-          if (formData[item] > 0) {
-            variables[item] = getYear(formData[item]);
+        case "education":
+          const education = String(formData[item]).trim();
+          if (education.length) {
+            variables.public_data[`${item}`] = [{ facility: education }];
           }
           break;
       }
     }
 
-    const client = new ApolloClient({
-      uri: "https://dxp-gql-app.herokuapp.com/v1/graphql"
-    });
-
     client
       .query({
-        query,
+        query: SearchQuery,
         variables
       })
       .then(result => setRequestData(result["data"]["resume"]))
@@ -196,17 +190,19 @@ export default props => {
   };
 
   const renderResults = () => {
-    const getAge = birth_date => {
-      return (
-        new Date().getFullYear() -
-        new Date(new Date() - new Date(birth_date)).getFullYear()
-      );
-    };
-
     if (requestData.length) {
+      const data = requestData.slice(page * limit - limit, page * limit);
+      const count = Math.ceil(requestData.length / limit);
+      const getAge = birth_date => {
+        return (
+          new Date().getFullYear() -
+          new Date(new Date() - new Date(birth_date)).getFullYear()
+        );
+      };
+
       return (
         <>
-          {requestData.map(({ public_data, birth_date, sex }) => (
+          {data.map(({ public_data, birth_date, sex }) => (
             <SearchResult
               key={Math.random()}
               gender={sex}
@@ -217,10 +213,20 @@ export default props => {
             />
           ))}
           <BlueTextBtn text="Send to all" />
-          <Pagination />
+          <Pagination page={page} count={count} changePage={setPage} />
         </>
       );
+    } else {
+      return <Styled.Stub>Is empty</Styled.Stub>;
     }
+  };
+
+  const isEmpty = () => {
+    for (let item in formData) {
+      if (Array.isArray(formData[item])) if (formData[item].length) return true;
+      if (String(formData[item]).trim().length) return true;
+    }
+    return false;
   };
 
   const multiSelectChange = (name, value) => {
@@ -249,8 +255,11 @@ export default props => {
   };
 
   const clearAll = () => {
-    setFormData({ ...initialState });
-    props.history.push("/employer/search");
+    if (urlParams.search) {
+      setFormData({ ...initialState });
+      setRequestData([]);
+      props.history.push("/employer/search");
+    }
   };
 
   const openPopUp = () => setShownPopUp(true);
@@ -260,19 +269,6 @@ export default props => {
     alert("Request is successfuly sent");
   };
   const closeFilterPopUp = () => setShownFilterPopUp(false);
-
-  const searchedResults = requestData.map(
-    ({ public_data, birth_date, sex }) => (
-      <SearchResult
-        key={Math.random()}
-        gender={sex}
-        age={birth_date}
-        skills={public_data["skills"].join(", ")}
-        requested={"requested"}
-        clickedSend={openPopUp}
-      />
-    )
-  );
 
   return (
     <>
@@ -410,9 +406,7 @@ export default props => {
               </Styled.Input>
             </Styled.Form>
           </Styled.Filters>
-          <Styled.Results>
-            {requestData.length ? renderResults() : null}
-          </Styled.Results>
+          <Styled.Results>{pagedData}</Styled.Results>
         </Styled.SearchBlock>
       </Styled.Container>
 

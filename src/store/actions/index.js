@@ -13,7 +13,15 @@ export {
   generateKeyPair
 } from "./auth";
 
+export { getTxs, setTxs } from "./requests";
+
 export {
-  getTxsById,
-  setTxs
-} from "./requests";
+  setAboutMe,
+  setContacts,
+  setWorkExperience,
+  setEducation,
+  setSkills,
+  setLanguages
+} from "./applicantProfile";
+
+export { setProfileInfo } from "./companyProfile";
