@@ -75,7 +75,7 @@ export default ({ closeFilter, isShown, setData }) => {
   };
 
   return (
-    <Transition in={isShown} timeout={0}>
+    <Transition in={isShown} timeout={0} mountOnEnter unmountOnExit>
       {state => (
         <Styled.Underlayer
           style={{
