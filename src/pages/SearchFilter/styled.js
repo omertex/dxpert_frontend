@@ -82,9 +82,10 @@ export const Header = styled.div`
 export const Filters = styled.div`
   width: 290px;
   padding: 20px 25px;
+  margin-bottom: auto;
   border-radius: 8px;
   background: ${Colors.bg_white};
-  display: flex:
+  display: flex;
   flex-flow: column;
   box-shadow: 0 0 1px ${Colors.main_disabled};
 
@@ -107,4 +108,10 @@ export const Form = styled.div`
   width: 100%;
   display: flex;
   flex-flow: column;
+`;
+
+export const Stub = styled.div`
+  margin: auto;
+  color: #767676;
+  font-size: 14px;
 `;

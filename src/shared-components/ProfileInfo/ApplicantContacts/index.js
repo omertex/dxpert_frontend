@@ -37,34 +37,33 @@ const Editable = ({ changed, contactInfo, submitted }) => (
         />
       </Info>
       <Info title="Gender">
-        <RadioBtn 
+        <RadioBtn
           name="gender"
-          data={GENDER} 
+          data={GENDER}
           value={contactInfo["gender"]}
-          onChange={changed} 
+          onChange={changed}
         />
       </Info>
       <Info title="Date of birth">
-        <DatePicker 
+        <DatePicker
           name="DOB"
-          width="190px" 
+          width="190px"
           value={contactInfo["DOB"]}
-          changed={changed} 
+          changed={changed}
         />
       </Info>
       <Info title="Phone Number">
-        <TextInput 
+        <TextInput
           name="phoneNumber"
           onChange={changed}
           value={contactInfo["phoneNumber"]}
-          width="290px" 
-          placeholder="Phone Number" />
+          width="290px"
+          placeholder="Phone Number"
+        />
       </Info>
     </Styled.DisplayedInfo>
     <Styled.SubmitBox>
-      <SubmitBtn 
-        clicked={submitted}
-        text="submit" />
+      <SubmitBtn clicked={submitted} text="submit" />
     </Styled.SubmitBox>
   </Styled.Form>
 );
@@ -76,12 +75,12 @@ const Contacts = ({ contacts, setContacts }) => {
     setContactInfo({
       ...contactInfo,
       [e.target.name]: e.target.value
-    })
-  }
+    });
+  };
 
   const handleSubmit = () => {
     setContacts(contactInfo);
-  }
+  };
 
   const Displayed = () => (
     <Styled.DisplayedInfo>
@@ -96,11 +95,13 @@ const Contacts = ({ contacts, setContacts }) => {
   return (
     <InfoContainer
       displayed={<Displayed />}
-      editable={<Editable 
-                  changed={handleInputChange}
-                  contactInfo={contactInfo}
-                  submitted={handleSubmit}
-                />}
+      editable={
+        <Editable
+          changed={handleInputChange}
+          contactInfo={contactInfo}
+          submitted={handleSubmit}
+        />
+      }
       name="Contact details"
     />
   );
@@ -109,13 +110,17 @@ const Contacts = ({ contacts, setContacts }) => {
 const mapStateToProps = state => {
   return {
     contacts: state.applicant.contacts
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
-    setContacts: contactInfo => dispatch({ type: actionTypes.APPLICANT_PROFILE.SET_CONTACTS, payload: contactInfo })
-  }
-}
+    setContacts: contactInfo =>
+      dispatch({
+        type: actionTypes.APPLICANT_PROFILE.SET_CONTACTS,
+        payload: contactInfo
+      })
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

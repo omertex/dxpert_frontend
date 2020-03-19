@@ -15,55 +15,55 @@ const educationLevels = [
   "bachelor",
   "master",
   "doctor"
-]
+];
 
 const Editable = ({ submitted, changed, edu }) => (
   <Styled.Form>
     <Styled.DisplayedInfo>
       <Info title="Level">
-        <FilterSelect 
-          width="290px" 
+        <FilterSelect
+          width="290px"
           data={educationLevels}
           placeholder="Level or Type"
           name="level"
           value={edu["level"]}
-          onChange={changed} 
+          onChange={changed}
         />
       </Info>
       <Info title="Educational institution">
-        <TextInput 
-          width="290px" 
+        <TextInput
+          width="290px"
           placeholder="Name or abbreviation"
           name="institution"
           value={edu["institution"]}
-          onChange={changed} 
+          onChange={changed}
         />
       </Info>
       <Info title="Department">
-        <TextInput 
-          width="290px" 
+        <TextInput
+          width="290px"
           placeholder="Department"
           name="department"
           value={edu["department"]}
-          onChange={changed} 
+          onChange={changed}
         />
       </Info>
       <Info title="Specialization">
-        <TextInput 
-          width="290px" 
+        <TextInput
+          width="290px"
           placeholder="Specialization"
           name="specialization"
           value={edu["specialization"]}
-          onChange={changed} 
+          onChange={changed}
         />
       </Info>
       <Info title="Year of graduation">
-        <TextInput 
-          width="85px" 
+        <TextInput
+          width="85px"
           placeholder="Year"
           name="graduation"
           value={edu["graduation"]}
-          onChange={changed} 
+          onChange={changed}
         />
       </Info>
     </Styled.DisplayedInfo>
@@ -71,10 +71,7 @@ const Editable = ({ submitted, changed, edu }) => (
       <Styled.AddInfo>add one more place of study</Styled.AddInfo>
     </Styled.BottomBtnBox>
     <Styled.SubmitBox>
-      <SubmitBtn 
-        text="submit" 
-        clicked={submitted}
-      />
+      <SubmitBtn text="submit" clicked={submitted} />
     </Styled.SubmitBox>
   </Styled.Form>
 );
@@ -84,24 +81,28 @@ const Education = ({ education, setEducation, applicant }) => {
 
   const handleChange = e => {
     setEdu({
-      ...edu, [e.target.name]: e.target.value
-    })
-  }
+      ...edu,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = () => {
     setEducation(edu);
     console.log(applicant);
-  }
+  };
 
   const Displayed = () => (
     <React.Fragment>
       <Styled.DisplayedInfo>
-        <Info title={ education["graduation"] || "2016" }>
+        <Info title={education["graduation"] || "2016"}>
           <Styled.Education>
-            <h6>{ education["institution"] || "Belarusian State University" }</h6>
-            <p>{ education["department"] || "Faculty of social and cultural communication" }</p>
-            <p>{ education["level"] || "Bachelor’s Degree" }</p>
-            <p>{ education["specialization"] || "Design" }</p>
+            <h6>{education["institution"] || "Belarusian State University"}</h6>
+            <p>
+              {education["department"] ||
+                "Faculty of social and cultural communication"}
+            </p>
+            <p>{education["level"] || "Bachelor’s Degree"}</p>
+            <p>{education["specialization"] || "Design"}</p>
           </Styled.Education>
         </Info>
         {/* <Info title="2017">
@@ -122,11 +123,9 @@ const Education = ({ education, setEducation, applicant }) => {
   return (
     <InfoContainer
       displayed={<Displayed />}
-      editable={<Editable 
-                  changed={handleChange}
-                  submitted={handleSubmit}
-                  edu={edu}
-                />}
+      editable={
+        <Editable changed={handleChange} submitted={handleSubmit} edu={edu} />
+      }
       name="Education"
     />
   );
@@ -136,13 +135,17 @@ const mapStateToProps = state => {
   return {
     education: state.applicant.education,
     applicant: state.applicant
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
-    setEducation: edu => dispatch({type: actionTypes.APPLICANT_PROFILE.SET_EDUCATION, payload: edu})
-  }
-}
+    setEducation: edu =>
+      dispatch({
+        type: actionTypes.APPLICANT_PROFILE.SET_EDUCATION,
+        payload: edu
+      })
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Education);

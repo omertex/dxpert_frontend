@@ -14,16 +14,19 @@ const senderAddress = "cosmos1e00jz2rjc398qwpke369222dv47jvnzf68smtv";
 
 const getRequests = responseArray => {
   const requests = responseArray.map(
-    ({
-      timestamp,
-      tx: {
-        value: {
-          msg: {
-            "0": { value: response }
+    (
+      {
+        timestamp,
+        tx: {
+          value: {
+            msg: {
+              "0": { value: response }
+            }
           }
         }
-      }
-    }, key) => {
+      },
+      key
+    ) => {
       const gotSkills = response.resume.public_data.skills.join(", ");
       const hours = Number(new Date(timestamp).getHours());
       const minutes = String(new Date(timestamp).getMinutes());
@@ -34,7 +37,8 @@ const getRequests = responseArray => {
         (hours > 12 ? " PM" : " AM");
 
       return (
-        <Request key={key}
+        <Request
+          key={key}
           status="completed"
           walletID={response.address.slice(0, 8)}
           gender={response.resume.public_data.sex}
@@ -53,7 +57,7 @@ const EmployerRequests = ({ getTsxById, reqs }) => {
   useEffect(() => {
     const getTransactions = async () => {
       await getTsxById(txType, senderAddress);
-    }
+    };
     getTransactions();
   }, [getTsxById]);
 
@@ -61,7 +65,7 @@ const EmployerRequests = ({ getTsxById, reqs }) => {
   if (reqs.length > 0) {
     requests = getRequests(reqs);
   } else {
-    requests = "Downloading requests..."
+    requests = "Downloading requests...";
   }
 
   return (
@@ -82,7 +86,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getTsxById: (txType, senderAddress) => dispatch({ type: actionTypes.REQUESTS.GET_TXS, txType, senderAddress })
+    getTsxById: (txType, senderAddress) =>
+      dispatch({ type: actionTypes.REQUESTS.GET_TXS, txType, senderAddress })
   };
 };
 
