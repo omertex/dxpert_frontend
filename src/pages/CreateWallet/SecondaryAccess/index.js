@@ -1,15 +1,19 @@
 import React, { useState, useRef } from "react";
-import { ContinueBtn, PreviousBtn } from "../../../shared-components/Buttons";
+import {ContinueBtn, PreviousBtn, RightCloseBtn} from "../../../shared-components/Buttons";
 import * as Styled from "./styled";
 import { Transition } from "react-transition-group";
 import { transitionStyles } from "../transitionStyles";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import * as ACTIONS from "../../../store/actions";
 
-const SecondaryAccess = ({
+const SecondaryAccess = withRouter(({
   isShown,
   clickedContinue,
   clickedPrevious,
   selectedMnemonics,
+  history,
+  createNewWallet
 }) => {
   const [correctInput, setCorrectInput] = useState({});
 
@@ -19,6 +23,11 @@ const SecondaryAccess = ({
     } else {
       setCorrectInput({ ...correctInput, [e.target.id]: false });
     }
+  };
+
+  const close = () => {
+    createNewWallet();
+    history.push("/");
   };
 
   const mainRef = useRef(null);
@@ -43,16 +52,17 @@ const SecondaryAccess = ({
 
   return (
     <Transition in={isShown} timeout={300} mountOnEnter unmountOnExit>
-      {state => (
+      {(state) => (
         <Styled.Paper
           style={{
             ...transitionStyles.default,
-            ...transitionStyles.action[state]
+            ...transitionStyles.action[state],
           }}
         >
           <Styled.Container>
             <h2>Create New Wallet</h2>
             <h3>Choose secondary access</h3>
+            <RightCloseBtn clicked={close} label={"Close"} />
             <Styled.Notification>
               Please select the Mnemonic Phrase in the correct order to ensure
               that your copy is correct
@@ -68,8 +78,8 @@ const SecondaryAccess = ({
                   !correctInput["1"] ||
                   !correctInput["2"] ||
                   correctInput["0"] === false ||
-                    correctInput["1"] === false ||
-                    correctInput["2"] === false
+                  correctInput["1"] === false ||
+                  correctInput["2"] === false
                 }
               />
             </Styled.Buttons>
@@ -78,7 +88,7 @@ const SecondaryAccess = ({
       )}
     </Transition>
   );
-};
+});
 
 const mapStateToProps = state => {
   return {
@@ -86,4 +96,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SecondaryAccess);
+const mapDispatchToProps = dispatch => {
+  return {
+    createNewWallet: () => dispatch(ACTIONS.createNewWallet())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SecondaryAccess);

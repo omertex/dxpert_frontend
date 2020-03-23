@@ -3,7 +3,8 @@ import * as Styled from "./styled";
 import {
   UploadBtn,
   CreateBtn,
-  ContinueBtn
+  ContinueBtn,
+  RightCloseBtn,
 } from "../../shared-components/Buttons";
 import UploadImg from "../../assets/images/upload.png";
 import { Password } from "../../shared-components/StyledInput";
@@ -19,7 +20,12 @@ const Unlock = memo(
     const [isWrongKeystore, setWrongKeystore] = useState(false);
     const [chosenKeystore, setChosenKeystore] = useState("");
 
-    const checkPassword = e => {
+    const close = () => {
+      createNewWallet();
+      history.push("/");
+    };
+
+    const checkPassword = (e) => {
       if (e.target.value === pswd) {
         setCorrectPassword(true);
         setInputPassword(e.target.value);
@@ -41,9 +47,9 @@ const Unlock = memo(
       }
     };
 
-    const handleFileChosen = file => {
+    const handleFileChosen = (file) => {
       const fileReader = new FileReader();
-      fileReader.addEventListener("loadend", function() {
+      fileReader.addEventListener("loadend", function () {
         const content = fileReader.result;
         setChosenKeystore(content);
         setKeystoreUploaded(true);
@@ -57,6 +63,7 @@ const Unlock = memo(
         <Styled.Paper>
           <h2>Unlock your Wallet</h2>
           <h3>Keystore file</h3>
+          <RightCloseBtn clicked={close} label={"Close"} />
           <Styled.Notification>
             Connect an encrypted wallet file and input your password
           </Styled.Notification>
@@ -66,7 +73,7 @@ const Unlock = memo(
               type="file"
               name="upload-keystore"
               id="upload-keystore"
-              onChange={e => handleFileChosen(e.target.files[0])}
+              onChange={(e) => handleFileChosen(e.target.files[0])}
             />
             <Styled.Label for="upload-keystore">
               Upload keystore file
@@ -101,18 +108,18 @@ const Unlock = memo(
   }
 );
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     chosenWay: state.auth.chosenWay,
     pswd: state.auth.password,
-    privateKey: state.auth.privateKey
+    privateKey: state.auth.privateKey,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     authorize: () => dispatch(ACTIONS.authorize()),
-    createNewWallet: () => dispatch(ACTIONS.createNewWallet())
+    createNewWallet: () => dispatch(ACTIONS.createNewWallet()),
   };
 };
 

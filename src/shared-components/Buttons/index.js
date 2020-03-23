@@ -1,5 +1,8 @@
 import React from "react";
 import * as Styled from "./styled.js";
+import IconButton from "@material-ui/core/IconButton";
+import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
+import { withStyles } from "@material-ui/core/styles";
 
 export const ContinueBtn = ({ text, disabled, clicked, arrow, children }) => (
   <Styled.ContinueBtn onClick={clicked} disabled={disabled} arrow={arrow}>
@@ -78,3 +81,20 @@ export const BlueTextBtn = ({ text, disabled, clicked }) => (
     {text}
   </Styled.BlueTextBtn>
 );
+
+export const RightCloseBtn = withStyles({
+  root: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+  },
+})((props) => (
+  <IconButton
+    onClick={props.clicked}
+    color="standard"
+    aria-label={props.label}
+    {...props}
+  >
+    <CloseRoundedIcon />
+  </IconButton>
+));

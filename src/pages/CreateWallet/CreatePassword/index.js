@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Password, Confirm } from "../../../shared-components/StyledInput";
-import { ContinueBtn, PreviousBtn } from "../../../shared-components/Buttons";
+import {
+  ContinueBtn,
+  PreviousBtn,
+  RightCloseBtn,
+} from "../../../shared-components/Buttons";
 import StyledCheckbox from "../../../shared-components/StyledCheckbox";
 import { Link, withRouter } from "react-router-dom";
 import * as Styled from "./styled";
@@ -11,30 +15,30 @@ import * as actions from "../../../store/actions";
 import { temporaryMnemonics } from "../../../configuration/temporaryMnemonics";
 import {
   generateMnemonics,
-  constructMnemonicPhrase
+  constructMnemonicPhrase,
 } from "../../../configuration/helpers";
 
 const defaultTip = {
   transform: "scale(0)",
   transformOrigin: "left top",
-  transition: "all 100ms linear"
+  transition: "all 100ms linear",
 };
 const transitionTip = {
   entering: { transform: "scale(0)" },
   entered: { transform: "scale(1)" },
   exiting: { transform: "scale(1)" },
-  exited: { transform: "scale(0)" }
+  exited: { transform: "scale(0)" },
 };
 
 const defaultDownloading = {
   transform: "translate(-50%, -50%) scale(0)",
-  transformOrigin: "center center"
+  transformOrigin: "center center",
 };
 const transitionDownloading = {
   entering: { transform: "translate(-50%, -50%) scale(0)" },
   entered: { transform: "translate(-50%, -50%) scale(1)" },
   exiting: { transform: "translate(-50%, -50%) scale(1)" },
-  exited: { transform: "translate(-50%, -50%) scale(0)" }
+  exited: { transform: "translate(-50%, -50%) scale(0)" },
 };
 
 const shouldInclude = /(?=.*\d)(?=.*[A-Z])(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])/;
@@ -51,7 +55,8 @@ const CreatePassword = withRouter(
     history,
     genMnemonics,
     constMnemPhrase,
-    genKeyPair
+    genKeyPair,
+    createNewWallet,
   }) => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -60,7 +65,7 @@ const CreatePassword = withRouter(
     const [notConfirmed, setNotConfirmed] = useState(false);
     const [isDownloadingKeystore, setDownloadingKeystore] = useState(false);
 
-    const checkConfirm = e => {
+    const checkConfirm = (e) => {
       if (e.target.value === pswd) {
         setNotConfirmed(false);
       } else {
@@ -68,7 +73,7 @@ const CreatePassword = withRouter(
       }
     };
 
-    const passwordChanged = e => {
+    const passwordChanged = (e) => {
       if (!confirmPassword) setNotConfirmed(true);
       if (e.target.value.length < 8) {
         setLengthError(true);
@@ -99,6 +104,11 @@ const CreatePassword = withRouter(
       setDownloadingKeystore(false);
     };
 
+    const close = () => {
+      createNewWallet();
+      history.push("/");
+    };
+
     const clickedNext = () => {
       clicked();
     };
@@ -106,16 +116,17 @@ const CreatePassword = withRouter(
     return (
       <>
         <Transition in={isShown} timeout={100} unmountOnExit>
-          {state => (
+          {(state) => (
             <Styled.Paper
               style={{
                 ...transitionStyles.default,
-                ...transitionStyles.action[state]
+                ...transitionStyles.action[state],
               }}
             >
               <Styled.Container>
                 <h2>Create New Wallet</h2>
                 <h3>Create Keystore File + Password</h3>
+                <RightCloseBtn clicked={close} label={"Close"} />
                 <Styled.Form>
                   <Styled.Inputs>
                     <Password
@@ -129,16 +140,16 @@ const CreatePassword = withRouter(
                       timeout={{
                         appear: 0,
                         enter: 100,
-                        exit: 100
+                        exit: 100,
                       }}
                       mountOnEnter
                       unmountOnExit
                     >
-                      {state => (
+                      {(state) => (
                         <Styled.Tip
                           style={{
                             ...defaultTip,
-                            ...transitionTip[state]
+                            ...transitionTip[state],
                           }}
                         >
                           <Styled.Requirements>
@@ -215,11 +226,11 @@ const CreatePassword = withRouter(
           mountOnEnter
           unmountOnExit
         >
-          {state => (
+          {(state) => (
             <Styled.DownloadingKeystore
               style={{
                 ...defaultDownloading,
-                ...transitionDownloading[state]
+                ...transitionDownloading[state],
               }}
             >
               <Styled.Loading />
@@ -231,26 +242,29 @@ const CreatePassword = withRouter(
   }
 );
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     pswd: state.auth.password,
     agreedTerms: state.auth.agreedTerms,
     keyStoreFileDownloaded: state.auth.keyStoreFileDownloaded,
     mnemonics: state.auth.mnemonics,
-    mnemonicPhrase: state.auth.mnemonicPhrase
+    mnemonicPhrase: state.auth.mnemonicPhrase,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setPswd: password => dispatch(actions.setPassword(password)),
+    setPswd: (password) => dispatch(actions.setPassword(password)),
     agreeTerms: () => dispatch(actions.agreeTerms()),
     downloadKeystoreFile: () => dispatch(actions.downloadKeystoreFile()),
-    genMnemonics: mnems => dispatch(actions.generateMnemonics(mnems)),
-    genPublicKey: publicKey => dispatch(actions.generatePublicKey(publicKey)),
-    savePrivateKey: privateKey => dispatch(actions.savePrivateKey(privateKey)),
-    constMnemPhrase: phrase => dispatch(actions.constructMnemonicPhrase(phrase)),
-    genKeyPair: phrase => dispatch(actions.generateKeyPair(phrase))
+    genMnemonics: (mnems) => dispatch(actions.generateMnemonics(mnems)),
+    genPublicKey: (publicKey) => dispatch(actions.generatePublicKey(publicKey)),
+    savePrivateKey: (privateKey) =>
+      dispatch(actions.savePrivateKey(privateKey)),
+    constMnemPhrase: (phrase) =>
+      dispatch(actions.constructMnemonicPhrase(phrase)),
+    genKeyPair: (phrase) => dispatch(actions.generateKeyPair(phrase)),
+    createNewWallet: () => dispatch(actions.createNewWallet()),
   };
 };
 
