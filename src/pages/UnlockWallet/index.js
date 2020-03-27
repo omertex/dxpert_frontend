@@ -11,9 +11,15 @@ import { Password } from "../../shared-components/StyledInput";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as ACTIONS from "../../store/actions";
+import {
+  generateWalletByPrivateKey,
+  base64Decryption,
+} from "../../configuration/helpers";
+
+const shouldInclude = /(?=.*\d)(?=.*[A-Z])(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])/;
 
 const Unlock = memo(
-  ({ history, chosenWay, pswd, authorize, createNewWallet, privateKey }) => {
+  ({ history, chosenWay, authorize, newWalletData, createNewWallet }) => {
     const [isCorrectPassword, setCorrectPassword] = useState(true);
     const [inputPassword, setInputPassword] = useState("");
     const [isKeystoreUploaded, setKeystoreUploaded] = useState(false);
@@ -26,7 +32,7 @@ const Unlock = memo(
     };
 
     const checkPassword = (e) => {
-      if (e.target.value === pswd) {
+      if (e.target.value.length > 7 && shouldInclude.test(e.target.value)) {
         setCorrectPassword(true);
         setInputPassword(e.target.value);
       } else {
@@ -35,8 +41,14 @@ const Unlock = memo(
       }
     };
 
-    const onContinue = () => {
-      if (chosenKeystore === JSON.stringify(privateKey)) {
+    const onContinue = async () => {
+      if (setCorrectPassword || chosenKeystore) {
+        const privateKey = await base64Decryption(
+          chosenKeystore,
+          inputPassword
+        );
+        const wallet = generateWalletByPrivateKey(privateKey);
+        newWalletData(wallet);
         setWrongKeystore(false);
         authorize();
         history.push("/" + chosenWay + "/profile");
@@ -111,14 +123,13 @@ const Unlock = memo(
 const mapStateToProps = (state) => {
   return {
     chosenWay: state.auth.chosenWay,
-    pswd: state.auth.password,
-    privateKey: state.auth.privateKey,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     authorize: () => dispatch(ACTIONS.authorize()),
+    newWalletData: (wallet) => dispatch(ACTIONS.createWalletData(wallet)),
     createNewWallet: () => dispatch(ACTIONS.createNewWallet()),
   };
 };

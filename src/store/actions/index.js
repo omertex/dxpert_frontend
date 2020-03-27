@@ -10,7 +10,8 @@ export {
   generatePublicKey,
   chooseWay,
   savePrivateKey,
-  generateKeyPair
+  saveAddress,
+  createWalletData,
 } from "./auth";
 
 export { getTxs, setTxs } from "./requests";
@@ -21,7 +22,7 @@ export {
   setWorkExperience,
   setEducation,
   setSkills,
-  setLanguages
+  setLanguages,
 } from "./applicantProfile";
 
 export { setProfileInfo } from "./companyProfile";

@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   req: requestsReducer,
   applicant: applicantProfileReducer,
-  company: companyProfileReducer
+  company: companyProfileReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

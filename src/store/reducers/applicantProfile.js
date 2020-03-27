@@ -7,7 +7,7 @@ const initialState = {
   workExperience: {},
   education: {},
   skills: [],
-  languages: []
+  languages: [],
 };
 
 const setAboutMe = (state, action) => {

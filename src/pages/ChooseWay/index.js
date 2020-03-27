@@ -2,7 +2,7 @@ import React from "react";
 import {
   ContinueBtn,
   BorderBtn,
-  ChooseWayBtn
+  ChooseWayBtn,
 } from "../../shared-components/Buttons";
 import * as Styled from "./styled";
 import { Link } from "react-router-dom";
@@ -43,15 +43,15 @@ function ChooseWay({ onChooseWay, chosenWay }) {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    chosenWay: state.auth.chosenWay
+    chosenWay: state.auth.chosenWay,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onChooseWay: way => dispatch({ type: actionTypes.AUTH.CHOOSE_WAY, way })
+    onChooseWay: (way) => dispatch({ type: actionTypes.AUTH.CHOOSE_WAY, way }),
   };
 };
 

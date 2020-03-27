@@ -14,7 +14,7 @@ const educationLevels = [
   "upper-secondary",
   "bachelor",
   "master",
-  "doctor"
+  "doctor",
 ];
 
 const Editable = ({ submitted, changed, edu }) => (
@@ -79,10 +79,10 @@ const Editable = ({ submitted, changed, edu }) => (
 const Education = ({ education, setEducation, applicant }) => {
   const [edu, setEdu] = useState({});
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setEdu({
       ...edu,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -131,20 +131,20 @@ const Education = ({ education, setEducation, applicant }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     education: state.applicant.education,
-    applicant: state.applicant
+    applicant: state.applicant,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setEducation: edu =>
+    setEducation: (edu) =>
       dispatch({
         type: actionTypes.APPLICANT_PROFILE.SET_EDUCATION,
-        payload: edu
-      })
+        payload: edu,
+      }),
   };
 };
 

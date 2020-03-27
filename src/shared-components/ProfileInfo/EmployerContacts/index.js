@@ -74,10 +74,10 @@ const Editable = ({ changed, submitted, info }) => (
 const InfoBlock = ({ companyInfo, setCompanyInfo }) => {
   const [info, setInfo] = useState({});
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setInfo({
       ...info,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -118,19 +118,19 @@ const InfoBlock = ({ companyInfo, setCompanyInfo }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    companyInfo: state.company
+    companyInfo: state.company,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setCompanyInfo: info =>
+    setCompanyInfo: (info) =>
       dispatch({
         type: actionTypes.COMPANY_PROFILE.SET_PROFILE_INFO,
-        payload: info
-      })
+        payload: info,
+      }),
   };
 };
 

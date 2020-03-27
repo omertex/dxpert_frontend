@@ -4,13 +4,13 @@ export const getTxs = (txType, senderAddress) => {
   return {
     type: ACTION_TYPES.REQUESTS.GET_TXS,
     txType,
-    senderAddress
+    senderAddress,
   };
 };
 
-export const setTxs = payload => {
+export const setTxs = (payload) => {
   return {
     type: ACTION_TYPES.REQUESTS.SET_TXS,
-    payload
+    payload,
   };
 };

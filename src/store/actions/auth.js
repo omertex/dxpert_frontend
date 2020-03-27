@@ -2,80 +2,87 @@ import * as ACTION_TYPES from "./actionTypes";
 
 export const agreeTerms = () => {
   return {
-    type: ACTION_TYPES.AUTH.AGREE_TERMS
+    type: ACTION_TYPES.AUTH.AGREE_TERMS,
   };
 };
 
-export const setPassword = password => {
+export const setPassword = (password) => {
   return {
     type: ACTION_TYPES.AUTH.SET_PASSWORD,
-    password
+    password,
   };
 };
 
 export const downloadKeystoreFile = () => {
   return {
-    type: ACTION_TYPES.AUTH.DOWNLOAD_KEYSTORE_FILE
+    type: ACTION_TYPES.AUTH.DOWNLOAD_KEYSTORE_FILE,
   };
 };
 
-export const generateMnemonics = mnemonics => {
+export const generateMnemonics = (mnemonics) => {
   return {
     type: ACTION_TYPES.AUTH.GENERATE_MNEMONICS,
-    mnemonics
+    mnemonics,
   };
 };
 
-export const selectMnemonicsToCheck = mnemonics => {
+export const selectMnemonicsToCheck = (mnemonics) => {
   return {
     type: ACTION_TYPES.AUTH.SELECT_MNEMONICS_TO_CHECK,
-    mnemonics
+    mnemonics,
   };
 };
 
 export const authorize = () => {
   return {
-    type: ACTION_TYPES.AUTH.AUTHORIZE
+    type: ACTION_TYPES.AUTH.AUTHORIZE,
   };
 };
 
 export const createNewWallet = () => {
   return {
-    type: ACTION_TYPES.AUTH.CREATE_NEW_WALLET
+    type: ACTION_TYPES.AUTH.CREATE_NEW_WALLET,
   };
 };
 
-export const generatePublicKey = publicKey => {
+export const generatePublicKey = (publicKey) => {
   return {
     type: ACTION_TYPES.AUTH.GENERATE_PUBLIC_KEY,
-    publicKey
+    publicKey,
   };
 };
 
-export const chooseWay = way => {
+export const chooseWay = (way) => {
   return {
     type: ACTION_TYPES.AUTH.CHOOSE_WAY,
-    way
+    way,
   };
 };
 
-export const constructMnemonicPhrase = phrase => {
+export const constructMnemonicPhrase = (phrase) => {
   return {
     type: ACTION_TYPES.AUTH.CONSTRUCT_MNEMONIC_PHRASE,
-    phrase
+    phrase,
   };
 };
 
-export const savePrivateKey = key => {
+export const savePrivateKey = (key) => {
   return {
     type: ACTION_TYPES.AUTH.SAVE_PRIVATE_KEY,
-    key
+    key,
   };
 };
 
-export const generateKeyPair = phrase => {
+export const saveAddress = (address) => {
   return {
-    type: ACTION_TYPES.AUTH.GENERATE_KEY_PAIR,
-    phrase
+    type: ACTION_TYPES.AUTH.SAVE_ADDRESS,
+    address,
+  };
+};
+
+export const createWalletData = (wallet) => {
+  return {
+    type: ACTION_TYPES.AUTH.CREATE_WALLET_DATA,
+    wallet,
   };
 };

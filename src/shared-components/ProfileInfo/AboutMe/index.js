@@ -26,12 +26,12 @@ const Displayed = ({ aboutMe }) => <Styled.Text>{aboutMe}</Styled.Text>;
 const AboutMe = ({ aboutMe, setAboutMe }) => {
   const [about, setAbout] = useState("");
 
-  const onClickSubmit = e => {
+  const onClickSubmit = (e) => {
     e.preventDefault();
     setAboutMe(about);
   };
 
-  const handleTextAreaChange = e => {
+  const handleTextAreaChange = (e) => {
     setAbout(e.target.value);
   };
 
@@ -50,19 +50,19 @@ const AboutMe = ({ aboutMe, setAboutMe }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    aboutMe: state.applicant.aboutMe
+    aboutMe: state.applicant.aboutMe,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setAboutMe: about =>
+    setAboutMe: (about) =>
       dispatch({
         type: actionTypes.APPLICANT_PROFILE.SET_ABOUT_ME,
-        payload: about
-      })
+        payload: about,
+      }),
   };
 };
 
