@@ -62,10 +62,10 @@ const Editable = ({ changed, submitted, exper }) => (
 const Experience = ({ experience, setWorkExperience }) => {
   const [exper, setExper] = useState({});
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setExper({
       ...exper,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -116,19 +116,19 @@ const Experience = ({ experience, setWorkExperience }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    experience: state.applicant.workExperience
+    experience: state.applicant.workExperience,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setWorkExperience: exp =>
+    setWorkExperience: (exp) =>
       dispatch({
         type: actionTypes.APPLICANT_PROFILE.SET_WORK_EXPERIENCE,
-        payload: exp
-      })
+        payload: exp,
+      }),
   };
 };
 

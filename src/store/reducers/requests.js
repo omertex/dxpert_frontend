@@ -2,7 +2,7 @@ import * as ACTION_TYPES from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
 const initialState = {
-  request: {}
+  request: {},
 };
 
 const setTxs = (state, action) => {

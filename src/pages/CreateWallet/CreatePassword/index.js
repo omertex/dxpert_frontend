@@ -16,6 +16,8 @@ import { temporaryMnemonics } from "../../../configuration/temporaryMnemonics";
 import {
   generateMnemonics,
   constructMnemonicPhrase,
+  generateWalletByMnemonic,
+  createKeystoreFile,
 } from "../../../configuration/helpers";
 
 const defaultTip = {
@@ -55,11 +57,12 @@ const CreatePassword = withRouter(
     history,
     genMnemonics,
     constMnemPhrase,
-    genKeyPair,
+    newWalletData,
+    downloadFile,
     createNewWallet,
   }) => {
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    // const [confirmPassword, setConfirmPassword] = useState("");
     const [lengthError, setLengthError] = useState(false);
     const [includesError, setIncludesError] = useState(false);
     const [notConfirmed, setNotConfirmed] = useState(false);
@@ -74,7 +77,7 @@ const CreatePassword = withRouter(
     };
 
     const passwordChanged = (e) => {
-      if (!confirmPassword) setNotConfirmed(true);
+      // if (!confirmPassword) setNotConfirmed(true);
       if (e.target.value.length < 8) {
         setLengthError(true);
         setPassword(e.target.value);
@@ -94,13 +97,18 @@ const CreatePassword = withRouter(
       }
     };
 
-    const onDownloadKey = () => {
+    const onDownloadKey = async () => {
       setDownloadingKeystore(true);
       const mnems = generateMnemonics(temporaryMnemonics);
       const mnemPhrase = constructMnemonicPhrase(mnems);
+      const wallet = generateWalletByMnemonic(mnemPhrase);
+      const download = await createKeystoreFile(wallet.privateKey, pswd);
       genMnemonics(mnems);
       constMnemPhrase(mnemPhrase);
-      genKeyPair(mnemPhrase);
+      newWalletData(wallet);
+      if (download) {
+        downloadFile();
+      }
       setDownloadingKeystore(false);
     };
 
@@ -249,6 +257,7 @@ const mapStateToProps = (state) => {
     keyStoreFileDownloaded: state.auth.keyStoreFileDownloaded,
     mnemonics: state.auth.mnemonics,
     mnemonicPhrase: state.auth.mnemonicPhrase,
+    privateKey: state.auth.privateKey,
   };
 };
 
@@ -256,14 +265,14 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setPswd: (password) => dispatch(actions.setPassword(password)),
     agreeTerms: () => dispatch(actions.agreeTerms()),
-    downloadKeystoreFile: () => dispatch(actions.downloadKeystoreFile()),
+    downloadFile: () => dispatch(actions.downloadKeystoreFile()),
     genMnemonics: (mnems) => dispatch(actions.generateMnemonics(mnems)),
     genPublicKey: (publicKey) => dispatch(actions.generatePublicKey(publicKey)),
     savePrivateKey: (privateKey) =>
       dispatch(actions.savePrivateKey(privateKey)),
     constMnemPhrase: (phrase) =>
       dispatch(actions.constructMnemonicPhrase(phrase)),
-    genKeyPair: (phrase) => dispatch(actions.generateKeyPair(phrase)),
+    newWalletData: (wallet) => dispatch(actions.createWalletData(wallet)),
     createNewWallet: () => dispatch(actions.createNewWallet()),
   };
 };

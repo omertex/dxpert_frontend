@@ -12,7 +12,7 @@ import * as actionTypes from "../../store/actions/actionTypes";
 const txType = "UploadResume";
 const senderAddress = "cosmos1e00jz2rjc398qwpke369222dv47jvnzf68smtv";
 
-const getRequests = responseArray => {
+const getRequests = (responseArray) => {
   const requests = responseArray.map(
     (
       {
@@ -20,10 +20,10 @@ const getRequests = responseArray => {
         tx: {
           value: {
             msg: {
-              "0": { value: response }
-            }
-          }
-        }
+              "0": { value: response },
+            },
+          },
+        },
       },
       key
     ) => {
@@ -78,16 +78,16 @@ const EmployerRequests = ({ getTsxById, reqs }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    reqs: state.req.request
+    reqs: state.req.request,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getTsxById: (txType, senderAddress) =>
-      dispatch({ type: actionTypes.REQUESTS.GET_TXS, txType, senderAddress })
+      dispatch({ type: actionTypes.REQUESTS.GET_TXS, txType, senderAddress }),
   };
 };
 
