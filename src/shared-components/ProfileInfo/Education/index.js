@@ -105,14 +105,14 @@ const Education = ({ education, setEducation, applicant }) => {
             <p>{education["specialization"] || "Design"}</p>
           </Styled.Education>
         </Info>
-        {/* <Info title="2017">
+        <Info title="2017">
           <Styled.Education>
             <h6>Belarusian State University</h6>
             <p>Faculty of social and cultural communication</p>
             <p>Bachelor’s Degree</p>
             <p>Design</p>
           </Styled.Education>
-        </Info> */}
+        </Info>
       </Styled.DisplayedInfo>
       <Styled.BottomBtnBox>
         <Styled.AddInfo>add Education</Styled.AddInfo>
