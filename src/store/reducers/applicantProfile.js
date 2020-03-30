@@ -2,12 +2,12 @@ import * as ACTION_TYPES from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
 const initialState = {
-  aboutMe: "About me...",
+  aboutMe: "",
   contacts: {},
   workExperience: {},
   education: {},
   skills: [],
-  languages: []
+  languages: [],
 };
 
 const setAboutMe = (state, action) => {

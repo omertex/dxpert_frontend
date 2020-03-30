@@ -20,39 +20,39 @@ export default () => {
   const toSecurityNotification = () => {
     setShownCreatePswd(false);
     setShownSecNotification(true);
-  }
+  };
 
   const backToCreatePswd = () => {
     setShownCreatePswd(true);
     setShownSecNotification(false);
-  }
+  };
 
   const toBackupMnemonic = () => {
     setShownSecNotification(false);
     setShownBackupMnemonic(true);
-  }
+  };
 
   const backToSecurityNotification = () => {
     setShownSecNotification(true);
     setShownBackupMnemonic(false);
-  }
+  };
 
   const toSecondaryAccess = () => {
     setShownConfirmation(false);
     setShownPopUp(false);
     setShownBackupMnemonic(false);
     setShownSecondaryAccess(true);
-  }
+  };
 
   const backToBackupMnemonic = () => {
     setShownBackupMnemonic(true);
     setShownSecondaryAccess(false);
-  }
+  };
 
   const toSuccess = () => {
     setShownSecondaryAccess(false);
     setShownSuccess(true);
-  }
+  };
 
   // const toUnlockWallet = () => {
   //   setShownSuccess(false); // should go to the Unlock Wallet page
@@ -60,19 +60,19 @@ export default () => {
 
   const viewPrivateKey = () => {
     setShownPopUp(true);
-  }
+  };
 
   const closeViewPrivateKey = () => {
     setShownPopUp(false);
-  }
+  };
 
   const closePopUp = () => {
     setShownConfirmation(true);
-  }
+  };
 
   const backToPrivateKey = () => {
     setShownConfirmation(false);
-  }
+  };
 
   return (
     <>

@@ -1,0 +1,10 @@
+[{
+  "alg": "A128CBC",
+  "ext": true,
+  "k": "Vsmsr2ONVDl6uEtbL0R3bg",
+  "key_ops": [
+    "encrypt",
+    "decrypt"
+  ],
+  "kty": "oct"
+}]

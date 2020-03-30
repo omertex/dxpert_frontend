@@ -6,7 +6,7 @@ const initialState = {
   country: "",
   city: "",
   website: "",
-  aboutCompany: ""
+  aboutCompany: "",
 };
 
 const reducer = (state = initialState, action) => {

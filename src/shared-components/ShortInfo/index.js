@@ -2,16 +2,16 @@ import React from "react";
 import * as Styled from "./styled";
 import DefaultAvatar from "../../assets/images/default_avatar.svg";
 
-export default ({ needWalletInfo }) => (
+export default ({ address }) => (
   <Styled.Container>
     <Styled.Profile>
       <Styled.Avatar src={DefaultAvatar} alt="Your avatar" />
       <Styled.NikName>Your Name</Styled.NikName>
     </Styled.Profile>
-    { needWalletInfo
+    { address
       &&  <Styled.Wallet>
-            <span>Wallet ID</span>
-            <span>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</span>
+            <span>Wallet Address</span>
+            <span>{address}</span>
           </Styled.Wallet>
     }
   </Styled.Container>

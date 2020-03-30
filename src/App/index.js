@@ -1,46 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Styled from "./styled";
 import { Header, Footer } from "../shared-components";
-import {
-  CreateWallet,
-  ChooseWay,
-  WalletCreationTutorial,
-  UnlockWallet,
-  Profile,
-  EmployerBalance,
-  EmployerRequests,
-  EmployerProfile
-} from "../pages";
-import SearchFilter from "../pages/SearchFilter";
-import { Switch, Route } from "react-router-dom";
 import Routes from "./Routing";
+import * as ACTIONS from "../store/actions";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import PageLoading from "../shared-components/PageLoading";
 
-function App() {
-  const [chosenWay, setChosenWay] = useState("employer");
+const App = ({
+  history,
+  authorize,
+  savePrivateKey,
+  savePublicKey,
+  saveAddress,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const privateKey = localStorage.getItem("dxpert_private_key");
+  const publicKey = localStorage.getItem("dxpert_public_key");
+  const address = localStorage.getItem("dxpert_address");
+
+  useEffect(() => {
+    if (privateKey && publicKey && address) {
+      setIsLoading(true);
+      setTimeout(() => {
+        authorize();
+        savePrivateKey(privateKey);
+        savePublicKey(publicKey);
+        saveAddress(address);
+        history.push("/applicant/profile");
+        setIsLoading(false);
+      }, 500);
+    }
+  }, []);
 
   return (
-    <Styled.App>
-      <Header chosenWay={chosenWay} />
-      <Styled.Content>
-        <Routes />
-        {/* <Switch>
-          <Route exact path="/" component={ChooseWay} />
-          <Route path="/employer/search-filter" component={SearchFilter} />
-          <Route
-            path="/wallet-creation-tutorial"
-            component={WalletCreationTutorial}
-          />
-          <Route path="/create-wallet" component={CreateWallet} />
-          <Route path="/unlock-wallet" component={UnlockWallet} />
-          <Route path="/applicant/profile" component={Profile} />
-          <Route path="/employer/balance" component={EmployerBalance} />
-          <Route path="/employer/my-requests" component={EmployerRequests} />
-          <Route path="/employer/profile" component={EmployerProfile} />
-        </Switch> */}
-      </Styled.Content>
-      <Footer />
-    </Styled.App>
+    <>
+      {isLoading && <PageLoading />}
+      <Styled.App>
+        <Header />
+        <Styled.Content>
+          <Routes />
+        </Styled.Content>
+        <Footer />
+      </Styled.App>
+    </>
   );
-}
+};
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    authorize: () => dispatch(ACTIONS.authorize()),
+    savePrivateKey: (privateKey) =>
+      dispatch(ACTIONS.savePrivateKey(privateKey)),
+    savePublicKey: (publicKey) =>
+      dispatch(ACTIONS.generatePublicKey(publicKey)),
+    saveAddress: (address) => dispatch(ACTIONS.saveAddress(address)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(withRouter(App));

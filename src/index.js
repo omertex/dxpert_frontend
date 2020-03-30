@@ -7,6 +7,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import authReducer from "./store/reducers/auth";
 import requestsReducer from "./store/reducers/requests";
+import applicantProfileReducer from "./store/reducers/applicantProfile";
+import companyProfileReducer from "./store/reducers/companyProfile";
 import { watchRequests, watchAuth } from "./store/sagas";
 
 import "./index.css";
@@ -15,7 +17,9 @@ import * as serviceWorker from "./serviceWorker";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  req: requestsReducer
+  req: requestsReducer,
+  applicant: applicantProfileReducer,
+  company: companyProfileReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

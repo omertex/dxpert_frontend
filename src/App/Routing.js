@@ -5,28 +5,27 @@ import Loading from "../shared-components/Loading";
 import PrivateRoute from "./PrivateRoute";
 import { connect } from "react-redux";
 
-
 const Routing = ({ isAuth }) => (
   <Switch>
     <Suspense fallback={<Loading />}>
       {ROUTES.map(({ path, component, needAuth }) => (
-        <PrivateRoute 
+        <PrivateRoute
           exact
-          path={path} 
-          component={component} 
-          needAuth={needAuth} 
+          path={path}
+          component={component}
+          needAuth={needAuth}
           isAuth={isAuth}
-          key={path} 
+          key={path}
         />
       ))}
     </Suspense>
   </Switch>
 );
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    isAuth: state.auth.isAuth
-  }
-}
+    isAuth: state.auth.isAuth,
+  };
+};
 
 export default connect(mapStateToProps)(Routing);

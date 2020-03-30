@@ -26,7 +26,7 @@ const Languages = ({ langs, setLangs }) => {
 
   const handleChange = (e, value) => {
     value.map(
-      val => !languages.includes(val.value) && languages.push(val.value)
+      (val) => !languages.includes(val.value) && languages.push(val.value)
     );
   };
 
@@ -37,7 +37,7 @@ const Languages = ({ langs, setLangs }) => {
   const Displayed = () => (
     <Styled.TagsContainer>
       {langs.length > 0 ? (
-        langs.map(item => <Styled.Tag key={item}>{item}</Styled.Tag>)
+        langs.map((item) => <Styled.Tag key={item}>{item}</Styled.Tag>)
       ) : (
         <Styled.Tag>Please, select languages</Styled.Tag>
       )}
@@ -53,19 +53,19 @@ const Languages = ({ langs, setLangs }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    langs: state.applicant.languages
+    langs: state.applicant.languages,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setLangs: languages =>
+    setLangs: (languages) =>
       dispatch({
         type: actionTypes.APPLICANT_PROFILE.SET_LANGUAGES,
-        payload: languages
-      })
+        payload: languages,
+      }),
   };
 };
 

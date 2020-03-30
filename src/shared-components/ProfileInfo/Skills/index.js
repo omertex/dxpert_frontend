@@ -26,7 +26,7 @@ const Skills = ({ skills, setSkills }) => {
 
   const handleChange = (e, value) => {
     value.map(
-      val => !skillsList.includes(val.value) && skillsList.push(val.value)
+      (val) => !skillsList.includes(val.value) && skillsList.push(val.value)
     );
   };
 
@@ -37,7 +37,7 @@ const Skills = ({ skills, setSkills }) => {
   const Displayed = () => (
     <Styled.TagsContainer>
       {skills.length > 0 ? (
-        skills.map(item => <Styled.Tag key={item}>{item}</Styled.Tag>)
+        skills.map((item) => <Styled.Tag key={item}>{item}</Styled.Tag>)
       ) : (
         <Styled.Tag>Please, select your skills</Styled.Tag>
       )}
@@ -59,19 +59,19 @@ const Skills = ({ skills, setSkills }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    skills: state.applicant.skills
+    skills: state.applicant.skills,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setSkills: skills =>
+    setSkills: (skills) =>
       dispatch({
         type: actionTypes.APPLICANT_PROFILE.SET_SKILLS,
-        payload: skills
-      })
+        payload: skills,
+      }),
   };
 };
 
