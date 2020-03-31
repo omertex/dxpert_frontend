@@ -14,6 +14,9 @@ const initialState = {
   privateKeySaved: false,
   privateKey: "",
   address: "",
+  account_number: 0,
+  sequence: 0,
+  coins: 0,
 };
 
 const agreeTerms = (state, action) => {
@@ -57,6 +60,9 @@ const createNewWallet = (state, action) => {
     privateKeySaved: false,
     privateKey: "",
     address: "",
+    account_number: 0,
+    sequence: 0,
+    coins: 0,
   });
 };
 
@@ -74,6 +80,18 @@ const savePrivateKey = (state, action) => {
 
 const saveAddress = (state, action) => {
   return updateObject(state, { address: action.address });
+};
+
+const setAccountNumber = (state, action) => {
+  return updateObject(state, { account_number: action.account_number });
+};
+
+const setSequence = (state, action) => {
+  return updateObject(state, { sequence: action.sequence });
+};
+
+const setCoins = (state, action) => {
+  return updateObject(state, { coins: action.coins });
 };
 
 const reducer = (state = initialState, action) => {
@@ -102,6 +120,12 @@ const reducer = (state = initialState, action) => {
       return savePrivateKey(state, action);
     case ACTION_TYPES.AUTH.SAVE_ADDRESS:
       return saveAddress(state, action);
+    case ACTION_TYPES.AUTH.SET_ACCOUNT_NUMBER:
+      return setAccountNumber(state, action);
+    case ACTION_TYPES.AUTH.SET_SEQUENCE:
+      return setSequence(state, action);
+    case ACTION_TYPES.AUTH.SET_COINS:
+      return setCoins(state, action);
     default:
       return state;
   }

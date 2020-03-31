@@ -12,6 +12,11 @@ export {
   savePrivateKey,
   saveAddress,
   createWalletData,
+  updateKeyPair,
+  updateAccountInfo,
+  saveAccountNumber,
+  saveSequence,
+  saveCoins,
 } from "./auth";
 
 export { getTxs, setTxs } from "./requests";

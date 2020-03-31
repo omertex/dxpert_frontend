@@ -86,3 +86,38 @@ export const createWalletData = (wallet) => {
     wallet,
   };
 };
+
+export const updateKeyPair = (wallet) => {
+  return {
+    type: ACTION_TYPES.AUTH.UPDATE_KEY_PAIR,
+    wallet,
+  };
+};
+
+export const updateAccountInfo = (info) => {
+  return {
+    type: ACTION_TYPES.AUTH.UPDATE_ACCOUNT_INFO,
+    info,
+  };
+};
+
+export const saveAccountNumber = (account_number) => {
+  return {
+    type: ACTION_TYPES.AUTH.SET_ACCOUNT_NUMBER,
+    account_number,
+  };
+};
+
+export const saveSequence = (sequence) => {
+  return {
+    type: ACTION_TYPES.AUTH.SET_SEQUENCE,
+    sequence,
+  };
+};
+
+export const saveCoins = (coins) => {
+  return {
+    type: ACTION_TYPES.AUTH.SET_COINS,
+    coins,
+  };
+};

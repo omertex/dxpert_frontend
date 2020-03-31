@@ -8,10 +8,11 @@ import Skills from "../../shared-components/ProfileInfo/Skills";
 import Languages from "../../shared-components/ProfileInfo/Languages";
 import WorkExperience from "../../shared-components/ProfileInfo/WorkExperience";
 import Education from "../../shared-components/ProfileInfo/Education";
+import { connect } from "react-redux";
 
-export default () => (
+const Profile = ({ address }) => (
   <Styled.Container>
-    <ShortInfo />
+    <ShortInfo address={address} />
     <PageName pageName={"My profile"} />
     <ApplicantContacts />
     <AboutMe />
@@ -21,3 +22,11 @@ export default () => (
     <Education />
   </Styled.Container>
 );
+
+const mapStateToProps = (state) => {
+  return {
+    address: state.auth.address,
+  };
+};
+
+export default connect(mapStateToProps)(Profile);
