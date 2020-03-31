@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { Colors } from '../../../configuration/Colors';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { Colors } from "../../../configuration/Colors";
+import { Link } from "react-router-dom";
 
 export const Paper = styled.div`
   position: absolute;

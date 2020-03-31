@@ -4,7 +4,7 @@ import { Colors } from "../../configuration/Colors";
 export const Container = styled.div`
   width: 930px;
   margin: 0 auto;
-  
+
   h3,
   h4 {
     margin-top: 54px;
@@ -18,7 +18,7 @@ export const Container = styled.div`
   h4 {
     font-weight: normal;
     margin-bottom: 12px;
-    color: ${props => props.isWayChosen ? "#4b4b4b" : Colors.continue_btn};
+    color: ${(props) => (props.isWayChosen ? "#4b4b4b" : Colors.continue_btn)};
   }
 `;
 

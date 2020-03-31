@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import { Colors } from '../../configuration/Colors';
-import { Link } from 'react-router-dom';
-import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
-import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined';
+import styled from "styled-components";
+import { Colors } from "../../configuration/Colors";
+import { Link } from "react-router-dom";
+import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
+import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 
 export const Container = styled.div`
-position: relative;
+  position: relative;
   width: 1024px;
   margin: 0 auto;
   padding-top: 40px;

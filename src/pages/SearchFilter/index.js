@@ -26,12 +26,12 @@ const initialState = {
   languages: [],
   exp_from: "",
   exp_to: "",
-  education: ""
+  education: "",
 };
 
 let delayedSending;
 
-export default props => {
+export default (props) => {
   const urlParams = useLocation();
   const [isShownPopUp, setShownPopUp] = useState(false);
   const [isShownFilterPopUp, setShownFilterPopUp] = useState(!urlParams.search);
@@ -68,22 +68,22 @@ export default props => {
   const urlParsing = () => {
     const decodeURL = decodeURIComponent(urlParams.search);
     const params = decodeURL.slice(1).split("&");
-    const couple = params.map(x => x.split("="));
+    const couple = params.map((x) => x.split("="));
     let newState = { ...initialState };
 
-    couple.map(item => {
+    couple.map((item) => {
       switch (item[0]) {
         case "skills":
         case "languages":
           const keys = item[0] === "skills" ? SKILLS : LANGUAGES;
           const newItem = item[1]
             .split(",")
-            .map(x => keys.find(f => f.value === x))
-            .filter(x => x !== undefined);
+            .map((x) => keys.find((f) => f.value === x))
+            .filter((x) => x !== undefined);
 
           newState = {
             ...newState,
-            [item[0]]: newItem
+            [item[0]]: newItem,
           };
           break;
         case "page":
@@ -98,15 +98,15 @@ export default props => {
         case "exp_to":
           newState = {
             ...newState,
-            [item[0]]: item[1]
+            [item[0]]: item[1],
           };
           break;
       }
     });
 
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      ...newState
+      ...newState,
     }));
   };
 
@@ -117,7 +117,7 @@ export default props => {
         case "skills":
         case "languages":
           if (formData[item].length) {
-            const keys = formData[item].map(x => x.value);
+            const keys = formData[item].map((x) => x.value);
             url += `${item}=${keys.join(",")}&`;
           }
           break;
@@ -138,13 +138,13 @@ export default props => {
       return;
     }
     const client = new ApolloClient({
-      uri: GQLUrl
+      uri: GQLUrl,
     });
     const variables = {
-      public_data: {}
+      public_data: {},
     };
 
-    const getYear = value => {
+    const getYear = (value) => {
       const birth_date = new Date();
       birth_date.setFullYear(birth_date.getFullYear() - value);
       return birth_date.toISOString();
@@ -155,7 +155,9 @@ export default props => {
         case "skills":
         case "languages":
           if (formData[item].length) {
-            variables.public_data[`${item}`] = formData[item].map(x => x.value);
+            variables.public_data[`${item}`] = formData[item].map(
+              (x) => x.value
+            );
           }
           break;
         case "sex":
@@ -183,17 +185,17 @@ export default props => {
     client
       .query({
         query: SearchQuery,
-        variables
+        variables,
       })
-      .then(result => setRequestData(result["data"]["resume"]))
-      .catch(error => console.log(error));
+      .then((result) => setRequestData(result["data"]["resume"]))
+      .catch((error) => console.log(error));
   };
 
   const renderResults = () => {
     if (requestData.length) {
       const data = requestData.slice(page * limit - limit, page * limit);
       const count = Math.ceil(requestData.length / limit);
-      const getAge = birth_date => {
+      const getAge = (birth_date) => {
         return (
           new Date().getFullYear() -
           new Date(new Date() - new Date(birth_date)).getFullYear()
@@ -230,26 +232,26 @@ export default props => {
   };
 
   const multiSelectChange = (name, value) => {
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { value, name } = e.currentTarget;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const radioChange = e => {
+  const radioChange = (e) => {
     const { value, name } = e.target;
     if (value !== undefined && name !== undefined) {
-      setFormData(prevState => ({
+      setFormData((prevState) => ({
         ...prevState,
-        [name]: formData[name] !== value ? value : ""
+        [name]: formData[name] !== value ? value : "",
       }));
     }
   };

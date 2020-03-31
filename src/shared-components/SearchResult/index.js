@@ -9,10 +9,10 @@ export default memo(
       <Styled.Gender>{gender}</Styled.Gender>
       <Styled.Age>{age}</Styled.Age>
       <Styled.Skills>{skills}</Styled.Skills>
-      <SubmitBtn 
+      <SubmitBtn
         disabled={requested === "true"}
-        clicked={clickedSend} 
-        text="Send" 
+        clicked={clickedSend}
+        text="Send"
       />
     </Styled.Container>
   )

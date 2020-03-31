@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Colors } from '../../../configuration/Colors';
+import styled from "styled-components";
+import { Colors } from "../../../configuration/Colors";
 
 export const Transaction = styled.div`
   width: 100%;
@@ -36,7 +36,7 @@ export const Transaction = styled.div`
   #status {
     width: 60px;
     margin-right: 5px;
-    color: ${props => props.status === "Completed" ? 'green' : 'red'};
+    color: ${(props) => (props.status === "Completed" ? "green" : "red")};
   }
 
   #txFee {

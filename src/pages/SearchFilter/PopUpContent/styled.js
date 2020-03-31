@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { Colors } from '../../../configuration/Colors';
-import Token from '../../../assets/images/token.png';
+import styled from "styled-components";
+import { Colors } from "../../../configuration/Colors";
+import Token from "../../../assets/images/token.png";
 
 export const Container = styled.div`
   width: 450px;
@@ -59,7 +59,7 @@ export const Cost = styled.p`
   letter-spacing: 0.03rem;
   margin: 0 0 24px 0;
   padding-bottom: 20px;
-  background: url(${ Token }) no-repeat center bottom;
+  background: url(${Token}) no-repeat center bottom;
 `;
 
 export const Buttons = styled.div`

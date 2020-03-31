@@ -66,7 +66,7 @@ export const Expand = styled(ExpandMoreIcon)`
   transform: rotate(0deg);
   transition: all 200ms linear;
 
-  ${props =>
+  ${(props) =>
     props.expanded &&
     `
     transform: rotate(180deg);

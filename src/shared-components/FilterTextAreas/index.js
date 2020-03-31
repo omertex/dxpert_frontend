@@ -12,15 +12,15 @@ const Area = withStyles({
       color: `${Colors.text_black}`,
       "&.Mui-focused fieldset": {
         borderColor: `${Colors.main_header}`,
-        borderWidth: 0.5
-      }
+        borderWidth: 0.5,
+      },
     },
     "& .MuiOutlinedInput-input": {
       padding: "0",
       textAlign: "left",
-      fontSize: 12
-    }
-  }
+      fontSize: 12,
+    },
+  },
 })(TextField);
 
 export const TextArea = memo(

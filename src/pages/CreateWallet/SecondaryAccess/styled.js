@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Colors } from '../../../configuration/Colors';
+import styled from "styled-components";
+import { Colors } from "../../../configuration/Colors";
 
 export const Paper = styled.div`
   position: absolute;
@@ -97,17 +97,20 @@ export const InputPhrase = styled.input`
   transition: all 200ms ease;
   text-align: center;
 
-  ${props => props.correct &&`
+  ${(props) =>
+    props.correct &&
+    `
     font-weight: 600;
     color: ${Colors.main_header};
     border-color: ${Colors.main_header};
-  `}
-
-  :hover {
-    border-color: ${props => props.correct ? Colors.main_header : Colors.continue_btn};
+  `}: hover{
+    border-color: ${(props) =>
+      props.correct ? Colors.main_header : Colors.continue_btn};
   }
 
-  ${props => props.error &&`
+  ${(props) =>
+    props.error &&
+    `
     border-color: ${Colors.error};
   `}
 `;

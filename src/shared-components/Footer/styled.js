@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Colors } from '../../configuration/Colors';
+import styled from "styled-components";
+import { Colors } from "../../configuration/Colors";
 
 export const Footer = styled.div`
   width: 100%;

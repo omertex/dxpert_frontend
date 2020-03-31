@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Colors } from '../../configuration/Colors';
+import styled from "styled-components";
+import { Colors } from "../../configuration/Colors";
 
 export const Container = styled.div`
   width: 1024px;
@@ -39,7 +39,9 @@ export const Segment = styled.div`
   flex-grow: 0;
   transition: all 300ms ease-in;
 
-  ${props => props.active &&`
+  ${(props) =>
+    props.active &&
+    `
     background: ${Colors.main_header};
   `}
 `;

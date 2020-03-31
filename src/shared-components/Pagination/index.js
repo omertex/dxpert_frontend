@@ -20,21 +20,21 @@ const StyledPagination = withStyles({
       margin: 0,
       padding: 0,
       "&:hover": {
-        background: "transparent"
-      }
+        background: "transparent",
+      },
     },
     "& .Mui-selected": {
       background: "transparent",
-      fontSize: 16
-    }
-  }
+      fontSize: 16,
+    },
+  },
 })(Pagination);
 
 export default ({ page, count, changePage }) => {
   const handleChange = (event, value) => {
     changePage(value);
   };
-  const setPaginationItem = item => {
+  const setPaginationItem = (item) => {
     if (item.type === "previous" || item.type === "next")
       return <Button {...item}>{item.type}</Button>;
     return <PaginationItem {...item} />;
@@ -45,7 +45,7 @@ export default ({ page, count, changePage }) => {
       page={page}
       count={count}
       onChange={handleChange}
-      renderItem={item => setPaginationItem(item)}
+      renderItem={(item) => setPaginationItem(item)}
     />
   );
 };

@@ -9,8 +9,8 @@ export const Button = styled.button`
   border: none;
   outline: none;
   background: transparent;
-  color: ${props =>
+  color: ${(props) =>
     props.disabled ? Colors.btn_disabled_text : Colors.main_header};
   text-transform: uppercase;
-  cursor: ${props => (props.disabled ? "auto" : "pointer")};
+  cursor: ${(props) => (props.disabled ? "auto" : "pointer")};
 `;

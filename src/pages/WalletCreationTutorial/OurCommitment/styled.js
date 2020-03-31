@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { Colors } from '../../../configuration/Colors';
-import Commitment from '../../../assets/images/commitment.png';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { Colors } from "../../../configuration/Colors";
+import Commitment from "../../../assets/images/commitment.png";
+import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   position: absolute;
@@ -44,7 +44,7 @@ export const Text = styled.h2`
   margin: 0 0 42px;
   padding-right: 130px;
   box-sizing: border-box;
-  background: url(${ Commitment }) no-repeat right center;
+  background: url(${Commitment}) no-repeat right center;
 `;
 
 export const Buttons = styled.div`

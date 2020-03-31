@@ -3,7 +3,9 @@ import { Colors } from "../../configuration/Colors";
 
 export const Container = styled.div`
   width: 100%;
-  margin: ${props =>
+  display: flex;
+  justify-content: space-between;
+  margin: ${(props) =>
     props.littleBottom ? "19px auto 18px auto" : "19px auto 37px auto"};
 
   h2 {
