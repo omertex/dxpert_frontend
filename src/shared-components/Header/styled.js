@@ -15,7 +15,7 @@ export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: ${props => props.isAuth ? "space-between" : "center"};
+  justify-content: ${(props) => (props.isAuth ? "space-between" : "center")};
 `;
 
 export const ContainerCenter = styled(Container)`
@@ -31,7 +31,7 @@ export const Input = styled.div`
 export const Nav = styled.div``;
 
 export const MenuLink = styled(NavLink).attrs({
-  activeClassName: "ActiveLink"
+  activeClassName: "ActiveLink",
 })`
   font: 16px "Open sans", sans-serif;
   color: ${Colors.link_gray};
