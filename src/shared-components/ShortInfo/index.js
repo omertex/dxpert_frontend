@@ -8,11 +8,11 @@ export default ({ address }) => (
       <Styled.Avatar src={DefaultAvatar} alt="Your avatar" />
       <Styled.NikName>Your Name</Styled.NikName>
     </Styled.Profile>
-    { address
-      &&  <Styled.Wallet>
-            <span>Wallet Address</span>
-            <span>{address}</span>
-          </Styled.Wallet>
-    }
+    {address && (
+      <Styled.Wallet>
+        <span>Wallet Address</span>
+        <span>{address}</span>
+      </Styled.Wallet>
+    )}
   </Styled.Container>
 );

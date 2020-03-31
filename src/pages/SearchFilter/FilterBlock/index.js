@@ -11,19 +11,19 @@ const initialState = {
   skills: [],
   gender: {
     male: false,
-    female: false
+    female: false,
   },
   country: "",
   age: {
     from: "",
-    to: ""
+    to: "",
   },
   languages: [],
   experience: {
     from: "",
-    to: ""
+    to: "",
   },
-  education: ""
+  education: "",
 };
 
 let delayedSending;
@@ -40,39 +40,39 @@ export default ({ callback }) => {
   }, [formData]);
 
   const multiSelectChange = (name, value) => {
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const checkBoxChange = e => {
+  const checkBoxChange = (e) => {
     const { name, checked } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       gender: {
         ...prevState.gender,
-        [name]: checked
-      }
+        [name]: checked,
+      },
     }));
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { value, name } = e.currentTarget;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const rangeChange = (e, objName) => {
     const { value, name } = e.currentTarget;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       [objName]: {
         ...prevState[objName],
-        [name]: value
-      }
+        [name]: value,
+      },
     }));
   };
 
@@ -131,7 +131,7 @@ export default ({ callback }) => {
                 width="55px"
                 name="from"
                 type="number"
-                onChange={e => rangeChange(e, "age")}
+                onChange={(e) => rangeChange(e, "age")}
                 value={formData.age.from}
               />
             </Styled.Option>
@@ -141,7 +141,7 @@ export default ({ callback }) => {
                 width="55px"
                 name="to"
                 type="number"
-                onChange={e => rangeChange(e, "age")}
+                onChange={(e) => rangeChange(e, "age")}
                 value={formData.age.to}
               />
             </Styled.Option>
@@ -179,7 +179,7 @@ export default ({ callback }) => {
                 width="55px"
                 name="from"
                 type="number"
-                onChange={e => rangeChange(e, "experience")}
+                onChange={(e) => rangeChange(e, "experience")}
                 value={formData.experience.from}
               />
             </Styled.Option>
@@ -189,7 +189,7 @@ export default ({ callback }) => {
                 width="55px"
                 name="to"
                 type="number"
-                onChange={e => rangeChange(e, "experience")}
+                onChange={(e) => rangeChange(e, "experience")}
                 value={formData.experience.to}
               />
             </Styled.Option>

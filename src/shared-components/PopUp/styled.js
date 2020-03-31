@@ -25,7 +25,7 @@ export const PopUpContent = styled.div`
   box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.24), 0px 0px 8px rgba(0, 0, 0, 0.12);
   transition: all 300ms ease;
 
-  ${props =>
+  ${(props) =>
     !props.visible &&
     `
     display: none;

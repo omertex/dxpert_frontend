@@ -3,6 +3,7 @@ import * as Styled from "./styled.js";
 import IconButton from "@material-ui/core/IconButton";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
 import { withStyles } from "@material-ui/core/styles";
+import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 
 export const ContinueBtn = ({ text, disabled, clicked, arrow, children }) => (
   <Styled.ContinueBtn onClick={clicked} disabled={disabled} arrow={arrow}>
@@ -98,3 +99,10 @@ export const RightCloseBtn = withStyles({
     <CloseRoundedIcon />
   </IconButton>
 ));
+
+export const LogOutBtn = ({ text, disabled, clicked, width }) => (
+  <Styled.LogOutBtn onClick={clicked} disabled={disabled} width={width}>
+    <ExitToAppRoundedIcon />
+    {text}
+  </Styled.LogOutBtn>
+);

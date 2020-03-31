@@ -7,13 +7,13 @@ import { DeclineBtn } from "../../../shared-components/Buttons";
 const defaultSkills = {
   height: 36,
   overflow: "hidden",
-  transition: "all 200ms ease-in"
+  transition: "all 200ms ease-in",
 };
 const transitionSkills = {
   entering: { height: 36 },
   entered: { height: "auto" },
   exiting: { height: "auto" },
-  exited: { height: 36 }
+  exited: { height: 36 },
 };
 
 export default memo(
@@ -26,11 +26,11 @@ export default memo(
       <Styled.Request>
         <Styled.Company>{company}</Styled.Company>
         <Transition in={isExpanded} timeout={200}>
-          {state => (
+          {(state) => (
             <Styled.Skills
               style={{
                 ...defaultSkills,
-                ...transitionSkills[state]
+                ...transitionSkills[state],
               }}
             >
               {skills}

@@ -13,8 +13,8 @@ const StyledTab = withStyles({
     color: `${Colors.text_black}`,
     font: "16px Open Sans, sans-serif",
     textTransform: "none",
-    borderBottom: "1px solid #E2E2E2"
-  }
+    borderBottom: "1px solid #E2E2E2",
+  },
 })(Tab);
 
 const StyledTabs = withStyles({
@@ -24,12 +24,12 @@ const StyledTabs = withStyles({
     marginBottom: 8,
     "& .MuiTabs-indicator": {
       height: 1,
-      backgroundColor: "black"
-    }
-  }
+      backgroundColor: "black",
+    },
+  },
 })(Tabs);
 
-export const TabPanel = props => {
+export const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
   return (
     <Box component="div" role="tabpanel" hidden={value !== index} {...other}>
@@ -41,7 +41,7 @@ export const TabPanel = props => {
 export const TabsNav = ({ value, data, callback }) => {
   return (
     <StyledTabs value={value} onChange={callback}>
-      {data.map(item => (
+      {data.map((item) => (
         <StyledTab label={item.label} index={item.index} key={item.index} />
       ))}
     </StyledTabs>

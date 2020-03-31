@@ -6,14 +6,9 @@ import * as ACTIONS from "../store/actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PageLoading from "../shared-components/PageLoading";
+import { getAccountInfo } from "../configuration/Requests";
 
-const App = ({
-  history,
-  authorize,
-  savePrivateKey,
-  savePublicKey,
-  saveAddress,
-}) => {
+const App = ({ history, authorize, updateKeyPair, updateAccountInfo }) => {
   const [isLoading, setIsLoading] = useState(false);
   const privateKey = localStorage.getItem("dxpert_private_key");
   const publicKey = localStorage.getItem("dxpert_public_key");
@@ -22,14 +17,17 @@ const App = ({
   useEffect(() => {
     if (privateKey && publicKey && address) {
       setIsLoading(true);
-      setTimeout(() => {
+      getAccountInfo(address).then((result) => {
+        updateKeyPair({
+          privateKey,
+          publicKey,
+          address,
+        });
+        updateAccountInfo(result);
         authorize();
-        savePrivateKey(privateKey);
-        savePublicKey(publicKey);
-        saveAddress(address);
         history.push("/applicant/profile");
         setIsLoading(false);
-      }, 500);
+      });
     }
   }, []);
 
@@ -50,11 +48,8 @@ const App = ({
 const mapDispatchToProps = (dispatch) => {
   return {
     authorize: () => dispatch(ACTIONS.authorize()),
-    savePrivateKey: (privateKey) =>
-      dispatch(ACTIONS.savePrivateKey(privateKey)),
-    savePublicKey: (publicKey) =>
-      dispatch(ACTIONS.generatePublicKey(publicKey)),
-    saveAddress: (address) => dispatch(ACTIONS.saveAddress(address)),
+    updateKeyPair: (wallet) => dispatch(ACTIONS.updateKeyPair(wallet)),
+    updateAccountInfo: (info) => dispatch(ACTIONS.updateAccountInfo(info)),
   };
 };
 

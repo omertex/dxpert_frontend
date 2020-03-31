@@ -13,8 +13,8 @@ const Input = withStyles({
       color: `${Colors.text_black}`,
       "&.Mui-focused fieldset": {
         borderColor: `${Colors.main_header}`,
-        borderWidth: 0.5
-      }
+        borderWidth: 0.5,
+      },
     },
     "& .MuiOutlinedInput-input": {
       padding: "7px 20px 8px 20px",
@@ -22,10 +22,10 @@ const Input = withStyles({
       overflow: "hidden",
       whiteSpace: "nowrap",
       "& span": {
-        color: "#b2b2b2"
-      }
-    }
-  }
+        color: "#b2b2b2",
+      },
+    },
+  },
 })(TextField);
 
 const Item = withStyles({
@@ -34,9 +34,9 @@ const Item = withStyles({
     font: "12px Open Sans, sans-serif",
     color: `${Colors.text_black}`,
     "& span": {
-      color: "#b2b2b2"
-    }
-  }
+      color: "#b2b2b2",
+    },
+  },
 })(MenuItem);
 
 const useStyles = makeStyles({
@@ -45,8 +45,8 @@ const useStyles = makeStyles({
     background: `${Colors.main_bg}`,
     boxShadow:
       "0px 2px 2px rgba(0, 0, 0, 0.24), 0px 0px 2px rgba(0, 0, 0, 0.12)",
-    borderRadius: 2
-  }
+    borderRadius: 2,
+  },
 });
 
 export const FilterSelect = memo(
@@ -59,7 +59,7 @@ export const FilterSelect = memo(
     value,
     error,
     changed,
-    blured
+    blured,
   }) => {
     const classes = useStyles();
 
@@ -76,9 +76,9 @@ export const FilterSelect = memo(
         SelectProps={{
           MenuProps: {
             classes: {
-              paper: classes.paper
-            }
-          }
+              paper: classes.paper,
+            },
+          },
         }}
         defaultValue={defaultValue || "none"}
         label={label}
@@ -87,7 +87,7 @@ export const FilterSelect = memo(
         <Item value="none">
           <span>{placeholder || "None"}</span>
         </Item>
-        {(data || []).map(item => (
+        {(data || []).map((item) => (
           <Item key={item} value={item}>
             {item}
           </Item>

@@ -24,13 +24,13 @@ export const Request = styled.div`
       0px 9px 12px rgba(0, 0, 0, 0.14);
   }
 
-  ${props =>
+  ${(props) =>
     props.status === "completed" &&
     `
     border-color: ${Colors.success};
   `}
 
-  ${props =>
+  ${(props) =>
     props.status === "failed" &&
     `
     border-color: red;
@@ -105,7 +105,7 @@ export const Expand = styled(ExpandMoreIcon)`
   transform: rotate(0deg);
   transition: all 200ms linear;
 
-  ${props =>
+  ${(props) =>
     props.expanded &&
     `
     transform: rotate(180deg);

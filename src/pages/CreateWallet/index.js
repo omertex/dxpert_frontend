@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import * as Styled from './styled';
-import CreatePassword from './CreatePassword';
-import SecurityNotification from './SecurityNotification';
-import BackupMnemonic from './BackupMnemonic';
-import SecondaryAccess from './SecondaryAccess';
-import Success from './Success';
-import { PopUp } from '../../shared-components';
-import ViewMyKey from './ViewMyKey';
+import React, { useState } from "react";
+import * as Styled from "./styled";
+import CreatePassword from "./CreatePassword";
+import SecurityNotification from "./SecurityNotification";
+import BackupMnemonic from "./BackupMnemonic";
+import SecondaryAccess from "./SecondaryAccess";
+import Success from "./Success";
+import { PopUp } from "../../shared-components";
+import ViewMyKey from "./ViewMyKey";
 
 export default () => {
   const [isShownCreatePswd, setShownCreatePswd] = useState(true);
@@ -76,39 +76,40 @@ export default () => {
 
   return (
     <>
-    <Styled.Container>
-      <CreatePassword 
-        clicked={ toSecurityNotification } 
-        isShown={ isShownCreatePswd } 
-      />
-      <SecurityNotification 
-        clickedContinue={ toBackupMnemonic } 
-        clickedPrevious={ backToCreatePswd }
-        isShown={ isShownSecNotification } 
-      />
-      <BackupMnemonic 
-        clickedContinue={ toSecondaryAccess } 
-        clickedPrevious={ backToSecurityNotification }
-        isShown={ isShownBackupMnemonic } 
-        viewPrivateKey={ viewPrivateKey }
-      />
-      <SecondaryAccess 
-        clickedContinue={ toSuccess } 
-        clickedPrevious={ backToBackupMnemonic }
-        isShown={ isShownSecondaryAccess }
-      />
-      <Success 
-        // clickedContinue={ toUnlockWallet } 
-        isShown={ isShownSuccess }
-      /> 
-    </Styled.Container>
-    <PopUp isShownPopUp={ isShownPopUp }>
-      <ViewMyKey 
-        closePopUp={ closePopUp }
-        clickedGoBack={ backToPrivateKey }
-        clickedConfirm={ closeViewPrivateKey }
-        confirmClose={ isShownConfirmation } />
-    </PopUp>
+      <Styled.Container>
+        <CreatePassword
+          clicked={toSecurityNotification}
+          isShown={isShownCreatePswd}
+        />
+        <SecurityNotification
+          clickedContinue={toBackupMnemonic}
+          clickedPrevious={backToCreatePswd}
+          isShown={isShownSecNotification}
+        />
+        <BackupMnemonic
+          clickedContinue={toSecondaryAccess}
+          clickedPrevious={backToSecurityNotification}
+          isShown={isShownBackupMnemonic}
+          viewPrivateKey={viewPrivateKey}
+        />
+        <SecondaryAccess
+          clickedContinue={toSuccess}
+          clickedPrevious={backToBackupMnemonic}
+          isShown={isShownSecondaryAccess}
+        />
+        <Success
+          // clickedContinue={ toUnlockWallet }
+          isShown={isShownSuccess}
+        />
+      </Styled.Container>
+      <PopUp isShownPopUp={isShownPopUp}>
+        <ViewMyKey
+          closePopUp={closePopUp}
+          clickedGoBack={backToPrivateKey}
+          clickedConfirm={closeViewPrivateKey}
+          confirmClose={isShownConfirmation}
+        />
+      </PopUp>
     </>
-  )
-}
+  );
+};

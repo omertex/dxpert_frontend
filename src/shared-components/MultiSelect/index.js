@@ -12,14 +12,14 @@ const Input = withStyles({
       backgroundColor: `${Colors.inputs}`,
       "&.Mui-focused fieldset": {
         borderColor: `${Colors.main_header}`,
-        borderWidth: 0.5
-      }
+        borderWidth: 0.5,
+      },
     },
     "& .MuiOutlinedInput-input": {
       padding: "0",
-      textAlign: "left"
-    }
-  }
+      textAlign: "left",
+    },
+  },
 })(TextField);
 
 const useStyles = makeStyles({
@@ -29,25 +29,25 @@ const useStyles = makeStyles({
     backgroundColor: `${Colors.tag}`,
     font: "10px Open Sans, sans-serif",
     lineHeight: "14px",
-    color: `${Colors.text_black}`
+    color: `${Colors.text_black}`,
   },
   input: {
     marginLeft: "10px",
     font: "12px Open Sans, sans-serif",
-    lineHeight: "14px"
+    lineHeight: "14px",
   },
   option: {
     height: 28,
     font: "12px Open Sans, sans-serif",
-    color: `${Colors.text_black}`
+    color: `${Colors.text_black}`,
   },
   paper: {
     padding: 0,
     background: `${Colors.main_bg}`,
     boxShadow:
       "0px 2px 2px rgba(0, 0, 0, 0.24), 0px 0px 2px rgba(0, 0, 0, 0.12)",
-    borderRadius: 2
-  }
+    borderRadius: 2,
+  },
 });
 
 export const MultiSelect = memo(
@@ -60,7 +60,7 @@ export const MultiSelect = memo(
     onChange,
     blured,
     name,
-    disabled
+    disabled,
   }) => {
     const classes = useStyles();
 
@@ -68,21 +68,21 @@ export const MultiSelect = memo(
       <Autocomplete
         multiple
         style={{
-          width: `${width}`
+          width: `${width}`,
         }}
         options={data || []}
         classes={{
           tag: classes.tag,
           input: classes.input,
           option: classes.option,
-          paper: classes.paper
+          paper: classes.paper,
         }}
         onChange={(e, value) => onChange(name, value)}
-        getOptionLabel={option => option.label}
+        getOptionLabel={(option) => option.label}
         value={value}
         disabled={disabled}
         filterSelectedOptions
-        renderInput={params => (
+        renderInput={(params) => (
           <Input
             {...params}
             error={error}

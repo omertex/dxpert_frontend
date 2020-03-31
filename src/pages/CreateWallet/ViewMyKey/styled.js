@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { Colors } from '../../../configuration/Colors';
-import Pen from '../../../assets/images/pen.png';
+import styled from "styled-components";
+import { Colors } from "../../../configuration/Colors";
+import Pen from "../../../assets/images/pen.png";
 
 export const Content = styled.div`
   width: 545px;
@@ -30,18 +30,18 @@ export const Note = styled.p`
   :before {
     position: absolute;
     display: block;
-    content: '';
+    content: "";
     top: 0;
     left: -26px;
     width: 16px;
     height: 16px;
-    background: url(${ Pen }) no-repeat center center;
+    background: url(${Pen}) no-repeat center center;
   }
 `;
 
 export const Alert = styled(Note)`
   margin: 0 0 25px;
-  
+
   :before {
     display: none;
   }
@@ -50,7 +50,7 @@ export const Alert = styled(Note)`
 export const KeyDisplay = styled.div`
   width: 100%;
   min-height: 100px;
-  border: 0.5px solid rgba(0, 0, 0, .3);
+  border: 0.5px solid rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   background: ${Colors.sub_bg};
   padding: 30px 15px;

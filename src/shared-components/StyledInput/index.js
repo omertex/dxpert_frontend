@@ -20,22 +20,22 @@ const Input = withStyles({
       overflow: "hidden",
       "& fieldset": {
         borderColor: `${Colors.main_disabled}`,
-        padding: "17px 14px"
+        padding: "17px 14px",
       },
       "&:hover fieldset": {
-        borderColor: `${Colors.main_header}`
+        borderColor: `${Colors.main_header}`,
       },
       "&.Mui-focused fieldset": {
         borderColor: `${Colors.main_header}`,
-        borderWidth: 1
-      }
+        borderWidth: 1,
+      },
     },
     "& .MuiOutlinedInput-input": {
       textAlign: "left",
       overflow: "hidden",
-      whiteSpace: "nowrap"
-    }
-  }
+      whiteSpace: "nowrap",
+    },
+  },
 })(TextField);
 
 const SearchInput = withStyles({
@@ -47,8 +47,8 @@ const SearchInput = withStyles({
       backgroundColor: `${Colors.bg_white}`,
       padding: "0 32px 0 20px",
       "& fieldset": {
-        border: "none"
-      }
+        border: "none",
+      },
     },
     "& .MuiOutlinedInput-input": {
       textAlign: "left",
@@ -56,66 +56,66 @@ const SearchInput = withStyles({
       whiteSpace: "nowrap",
       font: "12px Open Sans, sans-serif",
       lineHeight: 16,
-      color: `${Colors.text_black}`
-    }
-  }
+      color: `${Colors.text_black}`,
+    },
+  },
 })(TextField);
 
 const Multi = withStyles({
   root: {
     "& label.Mui-focused": {
-      color: `${Colors.main_header}`
+      color: `${Colors.main_header}`,
     },
     "& .MuiOutlinedInput-root": {
       overflow: "hidden",
       "& fieldset": {
         borderColor: `${Colors.main_disabled}`,
         background: `${Colors.bg_main}`,
-        padding: "17px 14px"
+        padding: "17px 14px",
       },
       "&:hover fieldset": {
-        borderColor: `${Colors.main_header}`
+        borderColor: `${Colors.main_header}`,
       },
       "&.Mui-focused fieldset": {
         borderColor: `${Colors.main_header}`,
-        borderWidth: 1
-      }
+        borderWidth: 1,
+      },
     },
     "& .MuiOutlinedInput-input": {
       textAlign: "left",
       overflow: "hidden",
-      whiteSpace: "nowrap"
-    }
-  }
+      whiteSpace: "nowrap",
+    },
+  },
 })(TextField);
 
 const useStyles = makeStyles({
   margin: {
-    margin: 5
+    margin: 5,
   },
   input: {
     "& label": {
       background: `${Colors.bg_white}`,
-      paddingRight: 5
+      paddingRight: 5,
     },
     "& label.Mui-focused": {
       color: `${Colors.main_header}`,
-      background: `${Colors.bg_white}`
+      background: `${Colors.bg_white}`,
     },
     "& .MuiOutlinedInput-root": {
       height: 50,
       "& fieldset": {
-        borderColor: `${Colors.main_disabled}`
+        borderColor: `${Colors.main_disabled}`,
       },
       "&:hover fieldset": {
-        borderColor: `${Colors.main_header}`
+        borderColor: `${Colors.main_header}`,
       },
       "&.Mui-focused fieldset": {
         borderColor: `${Colors.main_header}`,
-        borderWidth: 0.5
-      }
-    }
-  }
+        borderWidth: 0.5,
+      },
+    },
+  },
 });
 
 export default memo(
@@ -150,7 +150,7 @@ export const Multiline = memo(
     value,
     error,
     changed,
-    blured
+    blured,
   }) => {
     const classes = useStyles();
 
@@ -173,7 +173,7 @@ export const Multiline = memo(
 );
 
 export const Password = memo(
-  ({ label, value, error, changed, blured, ref}) => {
+  ({ label, value, error, changed, blured, ref }) => {
     const [showPassword, setShowPassword] = useState(false);
     const classes = useStyles();
 
@@ -213,36 +213,35 @@ export const Confirm = memo(({ label, value, error, changed, blured }) => {
   const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
 
-    return (
-      <FormControl className={classes.input} variant="outlined">
-        <InputLabel htmlFor="confirm" style={error && { color: "red" }}>
-          {label}
-        </InputLabel>
-        <OutlinedInput
-          value={value}
-          error={error}
-          onChange={changed}
-          onBlur={blured}
-          // helperText={label}
-          id="confirm"
-          type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={() => setShowPassword(!showPassword)}
-                edge="end"
-              >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-          labelWidth={70}
-        />
-      </FormControl>
-    );
-  }
-);
+  return (
+    <FormControl className={classes.input} variant="outlined">
+      <InputLabel htmlFor="confirm" style={error && { color: "red" }}>
+        {label}
+      </InputLabel>
+      <OutlinedInput
+        value={value}
+        error={error}
+        onChange={changed}
+        onBlur={blured}
+        // helperText={label}
+        id="confirm"
+        type={showPassword ? "text" : "password"}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={() => setShowPassword(!showPassword)}
+              edge="end"
+            >
+              {showPassword ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          </InputAdornment>
+        }
+        labelWidth={70}
+      />
+    </FormControl>
+  );
+});
 
 export const QuickSearch = memo(
   ({
@@ -254,7 +253,7 @@ export const QuickSearch = memo(
     onKeyPress,
     blured,
     message,
-    name
+    name,
   }) => {
     const classes = useStyles();
 
@@ -278,7 +277,7 @@ export const QuickSearch = memo(
               <InputAdornment position="end">
                 <SearchIcon color={"disabled"} edge="end" />
               </InputAdornment>
-            )
+            ),
           }}
         />
       </FormControl>

@@ -11,22 +11,22 @@ const GreenCheckbox = withStyles({
     borderWidth: 0.5,
     color: `${Colors.main_disabled}`,
     "&$checked": {
-      color: `${Colors.main_header}`
-    }
+      color: `${Colors.main_header}`,
+    },
   },
-  checked: {}
-})(props => <Checkbox color="default" {...props} />);
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
 
 const Form = withStyles({
   root: {
     padding: 0,
-    margin: "0 38px 0 0"
+    margin: "0 38px 0 0",
   },
   label: {
     color: `${Colors.text_black}`,
-    font: "12px Open Sans, sans-serif"
-  }
-})(props => <FormControlLabel {...props} />);
+    font: "12px Open Sans, sans-serif",
+  },
+})((props) => <FormControlLabel {...props} />);
 
 export default ({ value, label, onChange, checked, name }) => (
   <Form
@@ -36,8 +36,8 @@ export default ({ value, label, onChange, checked, name }) => (
       margin: 0,
       label: {
         color: `${Colors.text_black}`,
-        font: "12px Open Sans, sans-serif"
-      }
+        font: "12px Open Sans, sans-serif",
+      },
     }}
     label={label}
     control={
