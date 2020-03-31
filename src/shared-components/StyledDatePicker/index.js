@@ -12,12 +12,12 @@ const Input = withStyles({
       overflow: "hidden",
       backgroundColor: `${Colors.inputs}`,
       "& fieldset": {
-        border: `1px solid ${Colors.main_disabled}`
+        border: `1px solid ${Colors.main_disabled}`,
       },
       "&.Mui-focused fieldset": {
         borderColor: `${Colors.main_header}`,
-        borderWidth: 0.5
-      }
+        borderWidth: 0.5,
+      },
     },
     "& .MuiOutlinedInput-input": {
       padding: 0,
@@ -25,9 +25,9 @@ const Input = withStyles({
       textAlign: "left",
       fontSize: 12,
       overflow: "hidden",
-      whiteSpace: "nowrap"
-    }
-  }
+      whiteSpace: "nowrap",
+    },
+  },
 })(TextField);
 
 export const DatePicker = memo(

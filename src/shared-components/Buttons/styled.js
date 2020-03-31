@@ -5,11 +5,15 @@ export const ContinueBtn = styled.button`
   position: relative;
   height: 36px;
   min-width: 110px;
-  padding: ${props => (props.arrow ? "8px 32px 8px 16px" : "8px 32px")};
+  padding: ${(props) => (props.arrow ? "8px 32px 8px 16px" : "8px 32px")};
   border-radius: 2px;
   border: none;
   outline: none;
-  background: linear-gradient(90deg, ${Colors.main_disabled} 0%, ${Colors.continue_btn} 0%);
+  background: linear-gradient(
+    90deg,
+    ${Colors.main_disabled} 0%,
+    ${Colors.continue_btn} 0%
+  );
   font-size: 14px;
   font-weight: 600;
   line-height: 19px;
@@ -22,7 +26,7 @@ export const ContinueBtn = styled.button`
     cursor: pointer;
   }
 
-  ${props =>
+  ${(props) =>
     props.disabled &&
     `
     background: linear-gradient(90deg, ${Colors.main_disabled} 100%, ${Colors.continue_btn} 100%);
@@ -53,7 +57,7 @@ export const Arrow = styled.div`
   border-bottom-color: transparent;
   transition: all 0.2s ease;
 
-  ${props =>
+  ${(props) =>
     props.disabled &&
     `
     border-right-color: ${Colors.btn_disabled_text};
@@ -89,7 +93,7 @@ export const BorderBtn = styled(ContinueBtn)`
   border: 1px solid ${Colors.continue_btn};
   background: transparent;
 
-  ${props =>
+  ${(props) =>
     props.disabled &&
     `
     border: 1px solid ${Colors.main_disabled};
@@ -100,11 +104,13 @@ export const BorderBtn = styled(ContinueBtn)`
 export const UploadBtn = styled(BorderBtn)`
   padding: 0;
   position: relative;
-  background: url(${props => props.src}) no-repeat 16px center;
+  background: url(${(props) => props.src}) no-repeat 16px center;
   background-blend-mode: saturation;
   margin-bottom: 23px;
   align-self: center;
-  ${props => props.disabled &&`
+  ${(props) =>
+    props.disabled &&
+    `
     color: ${Colors.btn_disabled_text};
     border-color: ${Colors.btn_disabled_text};
     background: ${Colors.link_gray};
@@ -121,18 +127,17 @@ export const ChooseWayBtn = styled.button`
   letter-spacing: -0.4px;
   color: ${Colors.text_black};
   background: transparent;
-  border-radius: ${props =>
+  border-radius: ${(props) =>
     props.second ? "0px 10px 10px 0px" : "10px 0px 0px 10px"};
   border: 0.5px solid rgba(0, 0, 0, 0.1);
   outline: none;
 
-  ${props =>
-      props.chosen &&
-      `
+  ${(props) =>
+    props.chosen &&
+    `
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.24);
     border: 1px solid ${Colors.continue_btn};
-  `}
-    :hover {
+  `}: hover {
     cursor: pointer;
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.24);
     border: 1px solid ${Colors.continue_btn};
@@ -140,7 +145,7 @@ export const ChooseWayBtn = styled.button`
 `;
 
 export const SubmitBtn = styled(ContinueBtn)`
-  width: ${props => (props.width ? props.width : `130px`)};
+  width: ${(props) => (props.width ? props.width : `130px`)};
   height: 29px;
   flex-shrink: 0;
   padding: 0;
@@ -152,7 +157,7 @@ export const DeclineBtn = styled(SubmitBtn)`
   background: transparent;
   color: ${Colors.error};
 
-  ${props =>
+  ${(props) =>
     props.disabled &&
     `
     color: ${Colors.btn_disabled_text};
@@ -161,4 +166,18 @@ export const DeclineBtn = styled(SubmitBtn)`
       cursor: not-allowed;
     }
   `}
+`;
+
+export const LogOutBtn = styled(ContinueBtn)`
+  height: 29px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  color: ${Colors.main_header};
+  padding: 0 15px;
+  margin-right: 50px;
+  border-radius: 4px;
+  text-transform: none;
+  font: 12px Open Sans, sans-serif;
 `;

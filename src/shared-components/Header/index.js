@@ -29,13 +29,6 @@ const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
     }
   };
 
-  const logOut = () => {
-    localStorage.removeItem("dxpert_private_key");
-    localStorage.removeItem("dxpert_public_key");
-    localStorage.removeItem("dxpert_address");
-    createNewWallet();
-  };
-
   return (
     <Styled.Header>
       <Styled.Container isAuth={isAuth}>
@@ -67,17 +60,6 @@ const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
                   1343
                   <span>DXP</span>
                 </Styled.BalanceLink>
-                <span
-                  style={{
-                    color: "#cacaca",
-                    font: "16px Open sans, sans-serif",
-                    marginLeft: 10,
-                    cursor: "pointer",
-                  }}
-                  onClick={logOut}
-                >
-                  >>
-                </span>
               </Styled.Nav>
             </>
           ) : (
@@ -93,17 +75,6 @@ const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
                   {coins}
                   <span>DXP</span>
                 </Styled.BalanceLink>
-                <span
-                  style={{
-                    color: "#cacaca",
-                    font: "16px Open sans, sans-serif",
-                    marginLeft: 30,
-                    cursor: "pointer",
-                  }}
-                  onClick={logOut}
-                >
-                  >>
-                </span>
               </Styled.Nav>
             </>
           )

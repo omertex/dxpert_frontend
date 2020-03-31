@@ -48,12 +48,12 @@ export default () => {
   const tabsData = [
     {
       label: "Inbox",
-      index: 0
+      index: 0,
     },
     {
       label: "Outbox",
-      index: 1
-    }
+      index: 1,
+    },
   ];
 
   const inboxRequests = APPLICANT_REQUESTS.map(

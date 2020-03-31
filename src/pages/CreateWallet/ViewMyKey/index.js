@@ -9,7 +9,7 @@ const ViewMyKey = ({
   confirmClose,
   clickedGoBack,
   clickedConfirm,
-  publicKey
+  publicKey,
 }) => (
   <Styled.Content>
     {confirmClose ? (
@@ -30,7 +30,7 @@ const ViewMyKey = ({
           Back up the text below on paper and keep it somewhere secret and safe
         </Styled.Note>
         <Styled.KeyDisplay>
-          <p>{ publicKey }</p>
+          <p>{publicKey}</p>
         </Styled.KeyDisplay>
         <Styled.ButtonCover>
           <ContinueBtn clicked={closePopUp} text="Close" />
@@ -40,10 +40,10 @@ const ViewMyKey = ({
   </Styled.Content>
 );
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    publicKey: state.auth.publicKey
-  }
-}
+    publicKey: state.auth.publicKey,
+  };
+};
 
 export default connect(mapStateToProps)(ViewMyKey);

@@ -12,33 +12,33 @@ const StyledRadio = withStyles({
     borderWidth: 1,
     color: `${Colors.main_disabled}`,
     "&$checked": {
-      color: `${Colors.main_header}`
-    }
+      color: `${Colors.main_header}`,
+    },
   },
-  checked: {}
-})(props => <Radio color="default" {...props} />);
+  checked: {},
+})((props) => <Radio color="default" {...props} />);
 
 const Form = withStyles({
   root: {
     padding: 0,
-    margin: "0 38px 0 0"
+    margin: "0 38px 0 0",
   },
   label: {
     color: `${Colors.text_black}`,
-    font: "12px Open Sans, sans-serif"
-  }
-})(props => <FormControlLabel {...props} />);
+    font: "12px Open Sans, sans-serif",
+  },
+})((props) => <FormControlLabel {...props} />);
 
 const Group = withStyles({
   root: {
     display: "flex",
-    flexDirection: "row"
-  }
-})(props => <RadioGroup {...props} />);
+    flexDirection: "row",
+  },
+})((props) => <RadioGroup {...props} />);
 
 export const RadioBtn = ({ data, value, onChange, name, onClick, checked }) => (
   <Group defaultValue={value} name={name}>
-    {data.map(item => (
+    {data.map((item) => (
       <Form
         labelPlacement="end"
         value={item.value}

@@ -14,9 +14,9 @@ const initialState = {
   privateKeySaved: false,
   privateKey: "",
   address: "",
-  account_number: 0,
-  sequence: 0,
-  coins: 0,
+  account_number: "0",
+  sequence: "0",
+  coins: "0",
 };
 
 const agreeTerms = (state, action) => {
@@ -60,9 +60,9 @@ const createNewWallet = (state, action) => {
     privateKeySaved: false,
     privateKey: "",
     address: "",
-    account_number: 0,
-    sequence: 0,
-    coins: 0,
+    account_number: "0",
+    sequence: "0",
+    coins: "0",
   });
 };
 

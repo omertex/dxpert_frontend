@@ -7,7 +7,7 @@ import { MultiSelect } from "../../../shared-components/MultiSelect";
 import {
   SKILLS,
   LANGUAGES,
-  GENDER
+  GENDER,
 } from "../../../configuration/TemporaryConsts";
 import { RadioBtn } from "../../../shared-components/StyledRadioBtn";
 import IconButton from "@material-ui/core/IconButton";
@@ -22,45 +22,45 @@ const initialState = {
   languages: [],
   exp_from: "",
   exp_to: "",
-  education: ""
+  education: "",
 };
 
 const defaultStyle = {
   height: 1400,
   overflow: "hidden",
-  transition: "all 300ms ease-in"
+  transition: "all 300ms ease-in",
 };
 const transitionStyles = {
   enetering: { height: 0 },
   entered: { height: 1400 },
   exiting: { height: 1400 },
-  exited: { height: 0 }
+  exited: { height: 0 },
 };
 
 export default ({ closeFilter, isShown, setData }) => {
   const [formData, setFormData] = useState({ ...initialState });
 
   const multiSelectChange = (name, value) => {
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { value, name } = e.currentTarget;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const radioChange = e => {
+  const radioChange = (e) => {
     const { value, name } = e.target;
     if (value !== undefined && name !== undefined) {
-      setFormData(prevState => ({
+      setFormData((prevState) => ({
         ...prevState,
-        [name]: formData[name] !== value ? value : ""
+        [name]: formData[name] !== value ? value : "",
       }));
     }
   };
@@ -76,11 +76,11 @@ export default ({ closeFilter, isShown, setData }) => {
 
   return (
     <Transition in={isShown} timeout={0} mountOnEnter unmountOnExit>
-      {state => (
+      {(state) => (
         <Styled.Underlayer
           style={{
             ...defaultStyle,
-            ...transitionStyles[state]
+            ...transitionStyles[state],
           }}
         >
           <Styled.Paper>

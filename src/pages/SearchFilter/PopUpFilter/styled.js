@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { Colors } from '../../../configuration/Colors';
-import CloseIcon from '@material-ui/icons/Close';
+import styled from "styled-components";
+import { Colors } from "../../../configuration/Colors";
+import CloseIcon from "@material-ui/icons/Close";
 
 export const Close = styled(CloseIcon)`
   color: ${Colors.main_disabled};
@@ -17,7 +17,7 @@ export const Underlayer = styled.div`
   // height: 100%;
   top: 80px;
   left: 0;
-  background: rgba(0, 0, 0, .3);
+  background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(4px);
 `;
 
