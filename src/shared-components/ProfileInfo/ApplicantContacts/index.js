@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Styled from "./styled";
 import InfoContainer from "../InfoContainer";
 import { SubmitBtn } from "../../Buttons";
@@ -10,10 +10,9 @@ import { GENDER } from "../../../configuration/TemporaryConsts";
 import Info from "../Info";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../store/actions/actionTypes";
+import { getCountriesListAction, getCitiesListAction } from "../../../store/actions/serviceDataActions";
 
-const dataSelect = ["Ten", "Twenty", "Thirty"];
-
-const Editable = ({ changed, contactInfo, submitted }) => (
+const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
   <Styled.Form>
     <Styled.DisplayedInfo>
       <Info title="Country">
@@ -21,7 +20,7 @@ const Editable = ({ changed, contactInfo, submitted }) => (
           name="country"
           changed={changed}
           value={contactInfo["country"]}
-          data={dataSelect}
+          data={countries}
           width="290px"
           placeholder="Select Country"
         />
@@ -31,7 +30,7 @@ const Editable = ({ changed, contactInfo, submitted }) => (
           name="city"
           changed={changed}
           value={contactInfo["city"]}
-          data={dataSelect}
+          data={cities}
           width="290px"
           placeholder="Select City"
         />
@@ -68,14 +67,21 @@ const Editable = ({ changed, contactInfo, submitted }) => (
   </Styled.Form>
 );
 
-const Contacts = ({ contacts, setContacts }) => {
-  const [contactInfo, setContactInfo] = useState({});
+const Contacts = ({ contacts, countries, cities, setContacts, getCountriesList, getCitiesList }) => {
+  const [contactInfo, setContactInfo] = useState(contacts);
+
+  useEffect(() => {
+    getCountriesList();
+  }, [getCountriesList]);
 
   const handleInputChange = (e) => {
     setContactInfo({
       ...contactInfo,
       [e.target.name]: e.target.value,
     });
+    if (e.target.name === "country") {
+      getCitiesList(e.target.value);
+    }
   };
 
   const handleSubmit = () => {
@@ -108,6 +114,8 @@ const Contacts = ({ contacts, setContacts }) => {
         <Editable
           changed={handleInputChange}
           contactInfo={contactInfo}
+          countries={countries}
+          cities={cities}
           submitted={handleSubmit}
         />
       }
@@ -119,6 +127,8 @@ const Contacts = ({ contacts, setContacts }) => {
 const mapStateToProps = (state) => {
   return {
     contacts: state.applicant.contacts,
+    countries: state.serviceData.countries,
+    cities: state.serviceData.cities,
   };
 };
 
@@ -129,6 +139,8 @@ const mapDispatchToProps = (dispatch) => {
         type: actionTypes.APPLICANT_PROFILE.SET_CONTACTS,
         payload: contactInfo,
       }),
+    getCountriesList: () => dispatch(getCountriesListAction()),
+    getCitiesList: (country) => dispatch(getCitiesListAction(country)),
   };
 };
 

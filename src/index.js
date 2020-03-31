@@ -9,7 +9,8 @@ import authReducer from "./store/reducers/auth";
 import requestsReducer from "./store/reducers/requests";
 import applicantProfileReducer from "./store/reducers/applicantProfile";
 import companyProfileReducer from "./store/reducers/companyProfile";
-import { watchRequests, watchAuth } from "./store/sagas";
+import serviceDataReducer from "./store/reducers/serviceDataReducer";
+import { rootSaga } from "./store/sagas";
 
 import "./index.css";
 import App from "./App";
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   req: requestsReducer,
   applicant: applicantProfileReducer,
   company: companyProfileReducer,
+  serviceData: serviceDataReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -29,8 +31,7 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
-sagaMiddleware.run(watchRequests);
-sagaMiddleware.run(watchAuth);
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
