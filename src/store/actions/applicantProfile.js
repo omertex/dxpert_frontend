@@ -41,3 +41,5 @@ export const setLanguages = (languages) => {
     payload: languages,
   };
 };
+
+export const getApplicantProfile = (address) => ({type: ACTION_TYPES.APPLICANT_PROFILE.GET_APPLICANT_PROFILE, payload: address });

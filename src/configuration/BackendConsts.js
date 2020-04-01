@@ -35,3 +35,6 @@ export const SearchQuery = gql`
     }
   }
 `;
+
+const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+export const BlockchainUrl = `${CORS_PROXY}http://dev.omertex.com:17864`;

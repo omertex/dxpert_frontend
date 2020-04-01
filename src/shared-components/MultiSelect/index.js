@@ -63,7 +63,6 @@ export const MultiSelect = memo(
     disabled,
   }) => {
     const classes = useStyles();
-
     return (
       <Autocomplete
         multiple
@@ -77,8 +76,8 @@ export const MultiSelect = memo(
           option: classes.option,
           paper: classes.paper,
         }}
-        onChange={(e, value) => onChange(name, value)}
-        getOptionLabel={(option) => option.label}
+        onChange={(e, value) => onChange(value)}
+        getOptionLabel={(option) => option}
         value={value}
         disabled={disabled}
         filterSelectedOptions

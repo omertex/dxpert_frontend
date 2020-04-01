@@ -13,6 +13,7 @@
     "apollo-boost": "^0.4.7",
     "axios": "^0.19.2",
     "cors": "^2.8.5",
+    "date-fns": "^2.11.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
     "graphql": "^14.6.0",

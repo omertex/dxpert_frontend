@@ -1,16 +1,17 @@
-import React from "react";
-import * as Styled from "./styled";
-import InfoContainer from "../InfoContainer";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { LANGUAGES } from "../../../configuration/TemporaryConsts";
+import * as actionTypes from "../../../store/actions/actionTypes";
 import { SubmitBtn } from "../../Buttons";
 import { MultiSelect } from "../../MultiSelect";
-import { LANGUAGES } from "../../../configuration/TemporaryConsts";
-import { connect } from "react-redux";
-import * as actionTypes from "../../../store/actions/actionTypes";
+import InfoContainer from "../InfoContainer";
+import * as Styled from "./styled";
 
-const Editable = ({ changed, submitted }) => (
+const Editable = ({ value, changed, submitted }) => (
   <Styled.Form>
     <MultiSelect
       data={LANGUAGES}
+      value={value}
       placeholder="Enter language"
       onChange={changed}
       width="431px"
@@ -22,12 +23,10 @@ const Editable = ({ changed, submitted }) => (
 );
 
 const Languages = ({ langs, setLangs }) => {
-  const languages = [];
+  const [languages, setLanguages] = useState(langs);
 
-  const handleChange = (e, value) => {
-    value.map(
-      (val) => !languages.includes(val.value) && languages.push(val.value)
-    );
+  const handleChange = (value) => {
+    setLanguages(value);
   };
 
   const handleSubmit = () => {
@@ -47,7 +46,13 @@ const Languages = ({ langs, setLangs }) => {
   return (
     <InfoContainer
       displayed={<Displayed />}
-      editable={<Editable changed={handleChange} submitted={handleSubmit} />}
+      editable={
+        <Editable
+          value={languages}
+          changed={handleChange}
+          submitted={handleSubmit}
+        />
+      }
       name="Languages"
     />
   );

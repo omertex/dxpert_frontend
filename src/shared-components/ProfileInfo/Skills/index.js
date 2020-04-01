@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import * as Styled from "./styled";
 import InfoContainer from "../InfoContainer";
 import { SubmitBtn } from "../../Buttons";
@@ -7,10 +7,11 @@ import { SKILLS } from "../../../configuration/TemporaryConsts";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../store/actions/actionTypes";
 
-const Editable = ({ changed, submitted }) => (
+const Editable = ({ value, changed, submitted }) => (
   <Styled.Form>
     <MultiSelect
       data={SKILLS}
+      value={value}
       placeholder="Enter skill"
       width="431px"
       onChange={changed}
@@ -22,12 +23,10 @@ const Editable = ({ changed, submitted }) => (
 );
 
 const Skills = ({ skills, setSkills }) => {
-  const skillsList = [];
+  const [skillsList, setSkillsList] = useState(skills)
 
-  const handleChange = (e, value) => {
-    value.map(
-      (val) => !skillsList.includes(val.value) && skillsList.push(val.value)
-    );
+  const handleChange = (value) => {
+    setSkillsList(value);
   };
 
   const handleSubmit = () => {
@@ -51,7 +50,7 @@ const Skills = ({ skills, setSkills }) => {
         <Editable
           changed={handleChange}
           submitted={handleSubmit}
-          skillsList={skillsList}
+          value={skillsList}
         />
       }
       name="Skills"
