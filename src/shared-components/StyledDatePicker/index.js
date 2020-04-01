@@ -31,7 +31,7 @@ const Input = withStyles({
 })(TextField);
 
 export const DatePicker = memo(
-  ({ placeholder, width, value, error, changed, blured }) => {
+  ({ placeholder, width, value, error, changed, blured, ...otherProps }) => {
     return (
       <Input
         value={value}
@@ -44,6 +44,7 @@ export const DatePicker = memo(
         }
         placeholder={placeholder}
         variant="outlined"
+        {...otherProps}
       />
     );
   }

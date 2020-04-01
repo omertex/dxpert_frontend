@@ -1,4 +1,4 @@
-import { takeEvery } from "redux-saga/effects";
+import { all, takeEvery } from "redux-saga/effects";
 import * as ACTION_TYPES from "../actions/actionTypes";
 import { getTxsByIdSaga } from "./requests";
 import {
@@ -6,13 +6,24 @@ import {
   updateKeyPairSaga,
   updateAccountInfoSaga,
 } from "./auth";
+import { getAuthTokenWatcher, getCountriesWatcher, getCitiesWatcher } from "./serviceDataSagas";
 
-export function* watchRequests() {
+function* watchRequests() {
   yield takeEvery(ACTION_TYPES.REQUESTS.GET_TXS, getTxsByIdSaga);
 }
 
-export function* watchAuth() {
+function* watchAuth() {
   yield takeEvery(ACTION_TYPES.AUTH.CREATE_WALLET_DATA, saveWalletSaga);
   yield takeEvery(ACTION_TYPES.AUTH.UPDATE_KEY_PAIR, updateKeyPairSaga);
   yield takeEvery(ACTION_TYPES.AUTH.UPDATE_ACCOUNT_INFO, updateAccountInfoSaga);
+}
+
+export function* rootSaga() {
+  yield all([
+    watchRequests(),
+    watchAuth(),
+    getAuthTokenWatcher(),
+    getCountriesWatcher(),
+    getCitiesWatcher(),
+  ])
 }

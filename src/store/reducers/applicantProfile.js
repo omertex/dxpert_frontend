@@ -3,7 +3,13 @@ import { updateObject } from "../utility";
 
 const initialState = {
   aboutMe: "",
-  contacts: {},
+  contacts: {
+    country: "",
+    city: "",
+    gender: "",
+    DOB: "",
+    phoneNumber: ""
+  },
   workExperience: {},
   education: {},
   skills: [],
