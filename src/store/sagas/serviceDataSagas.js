@@ -1,5 +1,5 @@
 import { getAuthToken, getCountriesList, getStatesList, getCitiesList } from "./requests";
-import { takeLatest, put, select, take } from "redux-saga/effects";
+import { takeLatest, put, select } from "redux-saga/effects";
 import { SERVICE_DATA } from "../actions/actionTypes";
 
 function* getAuthTokenSaga() {

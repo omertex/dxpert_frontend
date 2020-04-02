@@ -1,7 +1,7 @@
 import { put } from "redux-saga/effects";
 import axios from "axios";
-
 import * as ACTIONS from "../actions";
+import { BlockchainUrl } from "../../configuration/BackendConsts";
 
 export function* getTxsByIdSaga(action) {
   console.log(action.txType, action.senderAddress);
@@ -49,3 +49,16 @@ export const getCitiesList = async (authToken, state) => {
     }
   })
 }
+
+export const getApplicantProfile = async (address) => {
+  return axios
+    .get(`${BlockchainUrl}/dxpert/resume/${address}`)
+    .then((response) => {
+      if (response && response.data && response.data.result) {
+        return response.data.result.resume;
+      } else {
+        return {};
+      }
+    })
+    .catch((response) => console.log(response));
+};

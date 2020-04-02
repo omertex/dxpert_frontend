@@ -7,6 +7,7 @@ import {
   updateAccountInfoSaga,
 } from "./auth";
 import { getAuthTokenWatcher, getCountriesWatcher, getCitiesWatcher } from "./serviceDataSagas";
+import { getApplicantProfileWatcher } from "./applicantProfileSagas";
 
 function* watchRequests() {
   yield takeEvery(ACTION_TYPES.REQUESTS.GET_TXS, getTxsByIdSaga);
@@ -25,5 +26,6 @@ export function* rootSaga() {
     getAuthTokenWatcher(),
     getCountriesWatcher(),
     getCitiesWatcher(),
+    getApplicantProfileWatcher(),
   ])
 }

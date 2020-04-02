@@ -1,9 +1,7 @@
 import axios from "axios";
 import { base64ToArrayBuffer } from "../configuration/helpers";
 import { signTx, verifyTx } from "@tendermint/sig";
-
-const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
-const BlockchainUrl = `${CORS_PROXY}http://dev.omertex.com:17864`;
+import {BlockchainUrl} from "./BackendConsts";
 
 export const signTransaction = (data, wallet, accountMeta) => {
   const convertWallet = {
@@ -59,17 +57,4 @@ export const sendTransaction = async (data, wallet, accountMeta) => {
     status: transaction,
     accountInfo,
   };
-};
-
-export const getResume = async (address) => {
-  return axios
-    .get(`${BlockchainUrl}/dxpert/resume/${address}`)
-    .then((response) => {
-      if (response && response.data && response.data.result) {
-        return response.data.result.resume;
-      } else {
-        return {};
-      }
-    })
-    .catch((response) => console.log(response));
 };

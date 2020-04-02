@@ -76,8 +76,8 @@ const Editable = ({ submitted, changed, edu }) => (
   </Styled.Form>
 );
 
-const Education = ({ education, setEducation, applicant }) => {
-  const [edu, setEdu] = useState({});
+const Education = ({ education, setEducation }) => {
+  const [edu, setEdu] = useState(education);
 
   const handleChange = (e) => {
     setEdu({
@@ -88,14 +88,23 @@ const Education = ({ education, setEducation, applicant }) => {
 
   const handleSubmit = () => {
     setEducation(edu);
-    console.log(applicant);
+  };
+
+  const convertDatesToRangeString = (from, to) => {
+    if (!from && !to) {
+      return "not specified";
+    }
+    const fromYear = new Date(from).getFullYear();
+    const toYear = new Date(to).getFullYear();
+    return `${fromYear}-${toYear}`;
   };
 
   const Displayed = () => (
     <React.Fragment>
-      <Styled.DisplayedInfo>
-        <Info title={education["graduation"] || "2016"}>
-          <Styled.Education>
+      {education.map((item, index) => (
+        <Styled.DisplayedInfo key={index}>
+          <Info title={convertDatesToRangeString(item["from"], item["to"])}>
+            <Styled.Education>
             <h6>{education["institution"] || "Belarusian State University"}</h6>
             <p>
               {education["department"] ||
@@ -105,15 +114,9 @@ const Education = ({ education, setEducation, applicant }) => {
             <p>{education["specialization"] || "Design"}</p>
           </Styled.Education>
         </Info>
-        <Info title="2017">
-          <Styled.Education>
-            <h6>Belarusian State University</h6>
-            <p>Faculty of social and cultural communication</p>
-            <p>Bachelor’s Degree</p>
-            <p>Design</p>
-          </Styled.Education>
-        </Info>
       </Styled.DisplayedInfo>
+      ))}
+
       <Styled.BottomBtnBox>
         <Styled.AddInfo>add Education</Styled.AddInfo>
       </Styled.BottomBtnBox>
@@ -134,7 +137,6 @@ const Education = ({ education, setEducation, applicant }) => {
 const mapStateToProps = (state) => {
   return {
     education: state.applicant.education,
-    applicant: state.applicant,
   };
 };
 

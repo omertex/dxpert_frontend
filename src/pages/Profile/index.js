@@ -1,16 +1,17 @@
+import CircularProgress from "@material-ui/core/CircularProgress";
 import React, { useEffect } from "react";
-import * as Styled from "./styled";
-import ShortInfo from "../../shared-components/ShortInfo";
-import PageName from "../../shared-components/PageName";
-import ApplicantContacts from "../../shared-components/ProfileInfo/ApplicantContacts";
-import AboutMe from "../../shared-components/ProfileInfo/AboutMe";
-import Skills from "../../shared-components/ProfileInfo/Skills";
-import Languages from "../../shared-components/ProfileInfo/Languages";
-import WorkExperience from "../../shared-components/ProfileInfo/WorkExperience";
-import Education from "../../shared-components/ProfileInfo/Education";
 import { connect } from "react-redux";
-import { getResume, sendTransaction } from "../../configuration/Requests";
+import PageName from "../../shared-components/PageName";
+import AboutMe from "../../shared-components/ProfileInfo/AboutMe";
+import ApplicantContacts from "../../shared-components/ProfileInfo/ApplicantContacts";
+import Education from "../../shared-components/ProfileInfo/Education";
+import Languages from "../../shared-components/ProfileInfo/Languages";
+import Skills from "../../shared-components/ProfileInfo/Skills";
+import WorkExperience from "../../shared-components/ProfileInfo/WorkExperience";
+import ShortInfo from "../../shared-components/ShortInfo";
 import * as ACTIONS from "../../store/actions";
+import { getApplicantProfile } from "../../store/actions/applicantProfile";
+import * as Styled from "./styled";
 
 const Profile = ({
   address,
@@ -20,10 +21,12 @@ const Profile = ({
   publicKey,
   account_number,
   sequence,
+  getApplicantProfile,
+  applicant,
 }) => {
   useEffect(() => {
-    getResume(address).then((result) => console.log(result));
-  }, []);
+    getApplicantProfile(address);
+  }, [getApplicantProfile, address]);
 
   const logOut = () => {
     localStorage.removeItem("dxpert_private_key");
@@ -47,12 +50,18 @@ const Profile = ({
     <Styled.Container>
       <ShortInfo address={address} />
       <PageName pageName={"My profile"} onLogOut={logOut} />
-      <ApplicantContacts />
-      <AboutMe />
-      <Skills />
-      <Languages />
-      <WorkExperience />
-      <Education />
+      {applicant.isApplicantProfileLoaded ? (
+        <>
+          <ApplicantContacts />
+          <AboutMe />
+          <Skills />
+          <Languages />
+          <WorkExperience />
+          <Education />
+        </>
+      ) : (
+        <CircularProgress />
+      )}
     </Styled.Container>
   );
 };
@@ -64,6 +73,7 @@ const mapStateToProps = (state) => {
     publicKey: state.auth.publicKey,
     account_number: state.auth.account_number,
     sequence: state.auth.sequence,
+    applicant: state.applicant,
   };
 };
 
@@ -71,6 +81,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateAccountInfo: (info) => dispatch(ACTIONS.updateAccountInfo(info)),
     createNewWallet: () => dispatch(ACTIONS.createNewWallet()),
+    getApplicantProfile: (address) => dispatch(getApplicantProfile(address)),
   };
 };
 

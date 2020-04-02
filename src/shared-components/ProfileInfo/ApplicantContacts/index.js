@@ -10,7 +10,11 @@ import { GENDER } from "../../../configuration/TemporaryConsts";
 import Info from "../Info";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../store/actions/actionTypes";
-import { getCountriesListAction, getCitiesListAction } from "../../../store/actions/serviceDataActions";
+import {
+  getCountriesListAction,
+  getCitiesListAction,
+} from "../../../store/actions/serviceDataActions";
+import { format, parseISO } from "date-fns";
 
 const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
   <Styled.Form>
@@ -67,12 +71,23 @@ const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
   </Styled.Form>
 );
 
-const Contacts = ({ contacts, countries, cities, setContacts, getCountriesList, getCitiesList }) => {
+const Contacts = ({
+  contacts,
+  countries,
+  cities,
+  setContacts,
+  getCountriesList,
+  getCitiesList,
+}) => {
   const [contactInfo, setContactInfo] = useState(contacts);
 
   useEffect(() => {
     getCountriesList();
-  }, [getCountriesList]);
+    if (contacts.country) {
+      getCitiesList(contacts.country);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getCountriesList, getCitiesList]);
 
   const handleInputChange = (e) => {
     setContactInfo({
@@ -88,28 +103,33 @@ const Contacts = ({ contacts, countries, cities, setContacts, getCountriesList, 
     setContacts(contactInfo);
   };
 
-  const Displayed = () => (
+  const Displayed = ({ contacts }) => (
     <Styled.DisplayedInfo>
-      <Info title="Country" description={contacts["country"] || "Belarus"} />
-      <Info title="City" description={contacts["city"] || "Minsk"} />
+      <Info
+        title="Country"
+        description={contacts["country"] || "not specified"}
+      />
+      <Info title="City" description={contacts["city"] || "not specified"} />
       <Info
         title="Gender"
-        description={contacts["gender"] === "m" ? "male" : "female"}
+        description={contacts["gender"] || "not specified"}
       />
       <Info
         title="Date of birth"
-        description={contacts["DOB"] || "24 august 1995"}
+        description={
+          format(parseISO(contacts["DOB"]), "d MMMM y") || "not specified"
+        }
       />
       <Info
         title="Phone Number"
-        description={contacts["phoneNumber"] || "+375 29 1234567"}
+        description={contacts["phoneNumber"] || "not specified"}
       />
     </Styled.DisplayedInfo>
   );
 
   return (
     <InfoContainer
-      displayed={<Displayed />}
+      displayed={<Displayed contacts={contacts} />}
       editable={
         <Editable
           changed={handleInputChange}

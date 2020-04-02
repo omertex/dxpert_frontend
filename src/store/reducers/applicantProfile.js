@@ -10,10 +10,11 @@ const initialState = {
     DOB: "",
     phoneNumber: ""
   },
-  workExperience: {},
-  education: {},
+  workExperience: [],
+  education: [],
   skills: [],
   languages: [],
+  isApplicantProfileLoaded: false
 };
 
 const setAboutMe = (state, action) => {
@@ -54,6 +55,16 @@ const reducer = (state = initialState, action) => {
       return setSkills(state, action);
     case ACTION_TYPES.APPLICANT_PROFILE.SET_LANGUAGES:
       return setLanguages(state, action);
+    case ACTION_TYPES.APPLICANT_PROFILE.SET_PROFILE:
+      return {
+        ...state,
+        ...action.payload
+      }
+    case ACTION_TYPES.APPLICANT_PROFILE.SET_IS_PROFILE_LOADED:
+      return {
+        ...state,
+        isApplicantProfileLoaded: action.payload
+      }
     default:
       return state;
   }
