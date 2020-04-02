@@ -12,6 +12,7 @@ import ShortInfo from "../../shared-components/ShortInfo";
 import * as ACTIONS from "../../store/actions";
 import { getApplicantProfile } from "../../store/actions/applicantProfile";
 import * as Styled from "./styled";
+import { encryptByPublicKey, decryptByPrivateKey } from "../../configuration/helpers";
 
 const Profile = ({
   address,
@@ -26,6 +27,11 @@ const Profile = ({
 }) => {
   useEffect(() => {
     getApplicantProfile(address);
+
+    const encrypted = encryptByPublicKey(publicKey, "Hello world");
+    const decrypted = decryptByPrivateKey(privateKey, encrypted);
+    console.log(encrypted);
+    console.log(decrypted);
   }, [getApplicantProfile, address]);
 
   const logOut = () => {
