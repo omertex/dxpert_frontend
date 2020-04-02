@@ -5,8 +5,8 @@ import {BlockchainUrl} from "./BackendConsts";
 
 export const signTransaction = (data, wallet, accountMeta) => {
   const convertWallet = {
-    privateKey: new Uint8Array(base64ToArrayBuffer(wallet.privateKey)),
-    publicKey: new Uint8Array(base64ToArrayBuffer(wallet.publicKey)),
+    privateKey: base64ToArrayBuffer(wallet.privateKey),
+    publicKey: base64ToArrayBuffer(wallet.publicKey),
     address: wallet.address,
   };
 
