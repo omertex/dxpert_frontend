@@ -32,29 +32,19 @@ const Input = withStyles({
 
 export const TextInput = memo(
   ({
-    placeholder,
     width,
-    value,
     error,
-    onChange,
     blured,
-    name,
-    type,
-    disabled,
+    ...otherProps
   }) => {
     return (
       <Input
-        value={value}
+        {...otherProps}
         error={error}
-        onChange={onChange}
         onBlur={blured}
-        name={name}
-        type={type}
-        disabled={disabled}
         style={
           error ? { width: `${width}`, color: "red" } : { width: `${width}` }
         }
-        placeholder={placeholder}
         variant="outlined"
       />
     );

@@ -10,9 +10,17 @@ import Skills from "../../shared-components/ProfileInfo/Skills";
 import WorkExperience from "../../shared-components/ProfileInfo/WorkExperience";
 import ShortInfo from "../../shared-components/ShortInfo";
 import * as ACTIONS from "../../store/actions";
-import { getApplicantProfile } from "../../store/actions/applicantProfile";
+import {
+  getApplicantProfile,
+  setDetails,
+  sendApplicantProfile,
+} from "../../store/actions/applicantProfile";
 import * as Styled from "./styled";
-import { encryptByPublicKey, decryptByPrivateKey } from "../../configuration/helpers";
+import {
+  encryptByPublicKey,
+  decryptByPrivateKey,
+} from "../../configuration/helpers";
+import ProfileDetails from "../../components/profile/ProfileDetails/ProfileDetails";
 
 const Profile = ({
   address,
@@ -24,6 +32,8 @@ const Profile = ({
   sequence,
   getApplicantProfile,
   applicant,
+  setDetails,
+  sendApplicantProfile
 }) => {
   useEffect(() => {
     getApplicantProfile(address);
@@ -41,29 +51,20 @@ const Profile = ({
     createNewWallet();
   };
 
-  // рабочая функция обновления резюме и информации аккаунта
-  // const updateResume = () => {
-  //   sendTransaction(
-  //     data,
-  //     { address, privateKey, publicKey },
-  //     { account_number, sequence }
-  //   ).then((result) => {
-  //     updateAccountInfo(result.accountInfo);
-  //   });
-  // };
-
   return (
     <Styled.Container>
       <ShortInfo address={address} />
       <PageName pageName={"My profile"} onLogOut={logOut} />
       {applicant.isApplicantProfileLoaded ? (
         <>
+          <ProfileDetails details={applicant.details} setDetails={setDetails} />
           <ApplicantContacts />
           <AboutMe />
           <Skills />
           <Languages />
           <WorkExperience />
           <Education />
+          <button onClick={sendApplicantProfile}>Save in blockchain</button>
         </>
       ) : (
         <CircularProgress />
@@ -88,6 +89,8 @@ const mapDispatchToProps = (dispatch) => {
     updateAccountInfo: (info) => dispatch(ACTIONS.updateAccountInfo(info)),
     createNewWallet: () => dispatch(ACTIONS.createNewWallet()),
     getApplicantProfile: (address) => dispatch(getApplicantProfile(address)),
+    setDetails: (details) => dispatch(setDetails(details)),
+    sendApplicantProfile: () => dispatch(sendApplicantProfile()),
   };
 };
 

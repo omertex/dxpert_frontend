@@ -2,19 +2,23 @@ import * as ACTION_TYPES from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
 const initialState = {
+  details: {
+    avatar: "",
+    name: "",
+  },
   aboutMe: "",
   contacts: {
     country: "",
     city: "",
-    gender: "",
+    sex: "",
     DOB: "",
-    phoneNumber: ""
+    email: "",
   },
   workExperience: [],
   education: [],
   skills: [],
   languages: [],
-  isApplicantProfileLoaded: false
+  isApplicantProfileLoaded: false,
 };
 
 const setAboutMe = (state, action) => {
@@ -58,12 +62,17 @@ const reducer = (state = initialState, action) => {
     case ACTION_TYPES.APPLICANT_PROFILE.SET_PROFILE:
       return {
         ...state,
-        ...action.payload
-      }
+        ...action.payload,
+      };
     case ACTION_TYPES.APPLICANT_PROFILE.SET_IS_PROFILE_LOADED:
       return {
         ...state,
-        isApplicantProfileLoaded: action.payload
+        isApplicantProfileLoaded: action.payload,
+      };
+    case ACTION_TYPES.APPLICANT_PROFILE.SET_DETAILS:
+      return {
+        ...state,
+        details: action.payload
       }
     default:
       return state;

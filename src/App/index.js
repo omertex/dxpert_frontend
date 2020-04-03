@@ -6,7 +6,7 @@ import * as ACTIONS from "../store/actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PageLoading from "../shared-components/PageLoading";
-import { getAccountInfo } from "../configuration/Requests";
+import { getAccountInfo } from "../store/sagas/requests";
 
 const App = ({ history, authorize, updateKeyPair, updateAccountInfo }) => {
   const [isLoading, setIsLoading] = useState(false);

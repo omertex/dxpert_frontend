@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
 import { withStyles } from "@material-ui/core/styles";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import randomIdString from "../../services/randomIdString";
 
 export const ContinueBtn = ({ text, disabled, clicked, arrow, children }) => (
   <Styled.ContinueBtn onClick={clicked} disabled={disabled} arrow={arrow}>
@@ -106,3 +107,15 @@ export const LogOutBtn = ({ text, disabled, clicked, width }) => (
     {text}
   </Styled.LogOutBtn>
 );
+
+export const FileUploadBtn = ({ children, ...otherProps }) => {
+  const id = "file-upload_" + randomIdString();
+  return (
+    <>
+      <input style={{ display: "none" }} id={id} type="file" {...otherProps} />
+      <label htmlFor={id}>
+        <Styled.FileUploadBtn>{children}</Styled.FileUploadBtn>
+      </label>
+    </>
+  );
+};

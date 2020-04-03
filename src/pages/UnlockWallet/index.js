@@ -16,7 +16,7 @@ import {
   base64Decryption,
 } from "../../configuration/helpers";
 import PageLoading from "../../shared-components/PageLoading";
-import { getAccountInfo } from "../../configuration/Requests";
+import { getAccountInfo } from "../../store/sagas/requests";
 
 const shouldInclude = /(?=.*\d)(?=.*[A-Z])(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])/;
 

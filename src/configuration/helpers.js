@@ -133,7 +133,25 @@ export const encryptByPublicKey = (publicKey, string) => {
   return enc.toString("base64");
 };
 
+// Decrypts string or complex data (arrays, objects of strings)
 export const decryptByPrivateKey = (privateKey, base64) => {
+  // array
+  if (typeof base64 === "object" && Array.isArray(base64)) {
+    const decodedBase64 = [];
+    for (const item of base64) {
+      decodedBase64.push(decryptByPrivateKey(privateKey, item));
+    }
+    return decodedBase64;
+  }
+  // object
+  if (typeof base64 === "object" && !Array.isArray(base64)) {
+    const decodedBase64 = [];
+    for (const key in base64) {
+      decodedBase64[key] = decryptByPrivateKey(privateKey, base64[key]);
+    }
+    return decodedBase64;
+  }
+  // string
   const data = Buffer.from(base64, "base64");
   const enc = decrypt(base64ToHex(privateKey), data);
   return enc.toString();
