@@ -181,3 +181,11 @@ export const LogOutBtn = styled(ContinueBtn)`
   text-transform: none;
   font: 12px Open Sans, sans-serif;
 `;
+
+export const FileUploadBtn = styled.div`
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 12px;
+  color: ${Colors.main_header};
+`;

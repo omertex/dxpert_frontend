@@ -6,8 +6,15 @@ import {
   updateKeyPairSaga,
   updateAccountInfoSaga,
 } from "./auth";
-import { getAuthTokenWatcher, getCountriesWatcher, getCitiesWatcher } from "./serviceDataSagas";
-import { getApplicantProfileWatcher } from "./applicantProfileSagas";
+import {
+  getAuthTokenWatcher,
+  getCountriesWatcher,
+  getCitiesWatcher,
+} from "./serviceDataSagas";
+import {
+  getApplicantProfileWatcher,
+  sendApplicantProfileWatcher,
+} from "./applicantProfileSagas";
 
 function* watchRequests() {
   yield takeEvery(ACTION_TYPES.REQUESTS.GET_TXS, getTxsByIdSaga);
@@ -27,5 +34,6 @@ export function* rootSaga() {
     getCountriesWatcher(),
     getCitiesWatcher(),
     getApplicantProfileWatcher(),
-  ])
+    sendApplicantProfileWatcher(),
+  ]);
 }

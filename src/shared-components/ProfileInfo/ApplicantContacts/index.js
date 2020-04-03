@@ -41,9 +41,9 @@ const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
       </Info>
       <Info title="Gender">
         <RadioBtn
-          name="gender"
+          name="sex"
           data={GENDER}
-          value={contactInfo["gender"]}
+          value={contactInfo["sex"]}
           onChange={changed}
         />
       </Info>
@@ -55,13 +55,13 @@ const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
           changed={changed}
         />
       </Info>
-      <Info title="Phone Number">
+      <Info title="Email">
         <TextInput
-          name="phoneNumber"
+          name="email"
           onChange={changed}
-          value={contactInfo["phoneNumber"]}
+          value={contactInfo["email"]}
           width="290px"
-          placeholder="Phone Number"
+          placeholder="Email"
         />
       </Info>
     </Styled.DisplayedInfo>
@@ -112,7 +112,7 @@ const Contacts = ({
       <Info title="City" description={contacts["city"] || "not specified"} />
       <Info
         title="Gender"
-        description={contacts["gender"] || "not specified"}
+        description={contacts["sex"] || "not specified"}
       />
       <Info
         title="Date of birth"
@@ -121,8 +121,8 @@ const Contacts = ({
         }
       />
       <Info
-        title="Phone Number"
-        description={contacts["phoneNumber"] || "not specified"}
+        title="Email"
+        description={contacts["email"] || "not specified"}
       />
     </Styled.DisplayedInfo>
   );

@@ -105,16 +105,13 @@ const Education = ({ education, setEducation }) => {
         <Styled.DisplayedInfo key={index}>
           <Info title={convertDatesToRangeString(item["from"], item["to"])}>
             <Styled.Education>
-            <h6>{education["institution"] || "Belarusian State University"}</h6>
-            <p>
-              {education["department"] ||
-                "Faculty of social and cultural communication"}
-            </p>
-            <p>{education["level"] || "Bachelor’s Degree"}</p>
-            <p>{education["specialization"] || "Design"}</p>
-          </Styled.Education>
-        </Info>
-      </Styled.DisplayedInfo>
+              <h6>{item["facility"] || "not specified"}</h6>
+              <p>{item["specialization"] || "not specified"}</p>
+              <p>{item["level"] || "not specified"}</p>
+              <p>{item["profession"] || "not specified"}</p>
+            </Styled.Education>
+          </Info>
+        </Styled.DisplayedInfo>
       ))}
 
       <Styled.BottomBtnBox>
