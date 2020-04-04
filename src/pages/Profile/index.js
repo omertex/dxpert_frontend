@@ -16,10 +16,6 @@ import {
   sendApplicantProfile,
 } from "../../store/actions/applicantProfile";
 import * as Styled from "./styled";
-import {
-  encryptByPublicKey,
-  decryptByPrivateKey,
-} from "../../configuration/helpers";
 import ProfileDetails from "../../components/profile/ProfileDetails/ProfileDetails";
 
 const Profile = ({
@@ -33,15 +29,10 @@ const Profile = ({
   getApplicantProfile,
   applicant,
   setDetails,
-  sendApplicantProfile
+  sendApplicantProfile,
 }) => {
   useEffect(() => {
     getApplicantProfile(address);
-
-    const encrypted = encryptByPublicKey(publicKey, "Hello world");
-    const decrypted = decryptByPrivateKey(privateKey, encrypted);
-    console.log(encrypted);
-    console.log(decrypted);
   }, [getApplicantProfile, address]);
 
   const logOut = () => {
@@ -57,14 +48,18 @@ const Profile = ({
       <PageName pageName={"My profile"} onLogOut={logOut} />
       {applicant.isApplicantProfileLoaded ? (
         <>
-          <ProfileDetails details={applicant.details} setDetails={setDetails} />
-          <ApplicantContacts />
-          <AboutMe />
-          <Skills />
-          <Languages />
-          <WorkExperience />
-          <Education />
-          <button onClick={sendApplicantProfile}>Save in blockchain</button>
+          <ProfileDetails
+            details={applicant.details}
+            setDetails={setDetails}
+            sendApplicantProfile={sendApplicantProfile}
+          />
+          <ApplicantContacts sendApplicantProfile={sendApplicantProfile} />
+          <AboutMe sendApplicantProfile={sendApplicantProfile} />
+          <Skills sendApplicantProfile={sendApplicantProfile}/>
+          <Languages sendApplicantProfile={sendApplicantProfile}/>
+          <WorkExperience sendApplicantProfile={sendApplicantProfile}/>
+          <Education sendApplicantProfile={sendApplicantProfile}/>
+          {/* <button onClick={sendApplicantProfile}>Save in blockchain</button> */}
         </>
       ) : (
         <CircularProgress />

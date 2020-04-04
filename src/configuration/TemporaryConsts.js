@@ -33,11 +33,11 @@ export const LANGUAGES = ["English", "Spanish", "German", "French", "Russian"];
 export const GENDER = [
   {
     label: "Male",
-    value: "m",
+    value: "Male",
   },
   {
     label: "Female",
-    value: "f",
+    value: "Female",
   },
 ];
 

@@ -10,6 +10,7 @@ import {
   decryptByPrivateKey,
   mapCrypto,
 } from "../../configuration/helpers";
+import LZString from "lz-string";
 
 function* getApplicantProfileSaga({ payload }) {
   const privateKey = yield select((state) => state.auth.privateKey);
@@ -18,15 +19,26 @@ function* getApplicantProfileSaga({ payload }) {
     public_data: publicData,
     private_data: privateData,
   } = yield getApplicantProfile(payload);
+
+  if (!publicData || !privateData) {
+    yield put({
+      type: APPLICANT_PROFILE.SET_IS_PROFILE_LOADED,
+      payload: true,
+    });
+    return;
+  }
+
   const profile = {
     details: {
-      avatar: privateData.photo || "",
-      name:
-        mapCrypto({
-          data: privateData.name,
-          key: privateKey,
-          cryptoFunction: decryptByPrivateKey,
-        }) || "",
+      // avatar: LZString.decompress(publicData.photo) || "",
+      avatar: publicData.photo || "",
+      name: decryptByPrivateKey(privateKey, privateData.name) || "",
+
+      // mapCrypto({
+      //   data: privateData.name,
+      //   key: privateKey,
+      //   cryptoFunction: decryptByPrivateKey,
+      // }) || "",
     },
     aboutMe: privateData.about || "",
     contacts: {
@@ -70,17 +82,19 @@ function* sendApplicantProfileSaga() {
     languages: applicant.languages,
     experince: 999,
     education: applicant.education,
-    birth_date: applicant.contacts.DOB,
+    birth_date: new Date(applicant.contacts.DOB).toISOString(),
     sex: applicant.contacts.sex,
+    // photo: LZString.compress(applicant.details.avatar),
+    photo: applicant.details.avatar,
   };
   const privateData = {
-    name: mapCrypto({
-      data: applicant.details.name,
-      key: auth.publicKey,
-      cryptoFunction: encryptByPublicKey,
-    }),
+    name: encryptByPublicKey(auth.publicKey, applicant.details.name),
+    // mapCrypto({
+    //   data: applicant.details.name,
+    //   key: auth.publicKey,
+    //   cryptoFunction: encryptByPublicKey,
+    // }),
     experience: applicant.workExperience,
-    photo: applicant.details.avatar,
     email: applicant.contacts.email,
     about: applicant.aboutMe,
   };
@@ -101,6 +115,8 @@ function* sendApplicantProfileSaga() {
       address: auth.address,
     },
   };
+
+console.log("data", JSON.stringify(data));
 
   const transactionResult = yield sendTransaction(
     data,

@@ -10,7 +10,7 @@ const initialState = {
   contacts: {
     country: "",
     city: "",
-    sex: "",
+    sex: "Male",
     DOB: "",
     email: "",
   },

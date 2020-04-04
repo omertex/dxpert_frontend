@@ -74,7 +74,7 @@ const Editable = ({
   </Styled.Form>
 );
 
-const Experience = ({ workExperience, setWorkExperience }) => {
+const Experience = ({ workExperience, setWorkExperience, sendApplicantProfile }) => {
   const [experience, setExperience] = useState(workExperience);
 
   const handleChange = (e, index) => {
@@ -88,6 +88,7 @@ const Experience = ({ workExperience, setWorkExperience }) => {
 
   const handleSubmit = () => {
     setWorkExperience(experience);
+    sendApplicantProfile();
   };
 
   const addWorkHandler = () => {

@@ -4,7 +4,7 @@ import ViewProfileDetails from "./ViewProfileDetails/ViewProfileDetails";
 import EditProfileDetails from "./EditProfileDetails/EditProfileDetails";
 import imgBase64 from "../../../services/imgBase64";
 
-const ProfileDetails = ({ details, setDetails }) => {
+const ProfileDetails = ({ details, setDetails, sendApplicantProfile }) => {
   const [detailsState, setDetailsState] = useState(details);
 
   const avatarChangeHandler = async (e) => {
@@ -21,6 +21,7 @@ const ProfileDetails = ({ details, setDetails }) => {
 
   const submitHandler = () => {
     setDetails(detailsState);
+    sendApplicantProfile();
   };
 
   return (

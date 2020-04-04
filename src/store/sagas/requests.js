@@ -55,13 +55,14 @@ export const getApplicantProfile = async (address) => {
   return axios
     .get(`${BlockchainUrl}/dxpert/resume/${address}`)
     .then((response) => {
+      console.log("getApplicantProfile response", response)
       if (response && response.data && response.data.result) {
         return response.data.result.resume;
       } else {
         return {};
       }
     })
-    .catch((response) => console.log(response));
+    .catch((response) => console.error(response));
 };
 
 export const sendTransaction = async (data, wallet, accountMeta) => {

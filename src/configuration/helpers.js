@@ -137,10 +137,10 @@ export const decryptByPrivateKey = (privateKey, base64) => {
   const data = Buffer.from(base64, "base64");
   const enc = decrypt(base64ToHex(privateKey), data);
   return enc.toString();
-}
+};
 
 // map crypto function on complex data (arrays, objects of strings)
-export const mapCrypto = ({key, data, cryptoFunction}) => {
+export const mapCrypto = ({ key, data, cryptoFunction }) => {
   // array
   if (typeof data === "object" && Array.isArray(data)) {
     const newData = [];
@@ -159,9 +159,6 @@ export const mapCrypto = ({key, data, cryptoFunction}) => {
   }
   // string
   return cryptoFunction(key, data);
-  // const data = Buffer.from(base64, "base64");
-  // const enc = decrypt(base64ToHex(privateKey), data);
-  // return enc.toString();
 };
 
 export const createKeystoreFile = async (value, password) => {

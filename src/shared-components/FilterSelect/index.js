@@ -62,7 +62,6 @@ export const FilterSelect = memo(
     ...otherProps
   }) => {
     const classes = useStyles();
-
     return (
       <Input
         select
