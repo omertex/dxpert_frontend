@@ -1,19 +1,33 @@
-import { getApplicantProfile, sendTransaction } from "./requests";
+import {
+  getApplicantProfile,
+  sendTransaction,
+  getAccountInfo,
+} from "./requests";
 import { takeLatest, put, select } from "redux-saga/effects";
-import { APPLICANT_PROFILE } from "../actions/actionTypes";
+import { AUTH, APPLICANT_PROFILE } from "../actions/actionTypes";
 import {
   encryptByPublicKey,
   decryptByPrivateKey,
+  mapCrypto,
 } from "../../configuration/helpers";
 
 function* getApplicantProfileSaga({ payload }) {
   const privateKey = yield select((state) => state.auth.privateKey);
-  console.log("privateKey", privateKey);
+
   const {
     public_data: publicData,
     private_data: privateData,
   } = yield getApplicantProfile(payload);
   const profile = {
+    details: {
+      avatar: privateData.photo || "",
+      name:
+        mapCrypto({
+          data: privateData.name,
+          key: privateKey,
+          cryptoFunction: decryptByPrivateKey,
+        }) || "",
+    },
     aboutMe: privateData.about || "",
     contacts: {
       country: publicData.country || "",
@@ -45,27 +59,7 @@ export function* getApplicantProfileWatcher() {
   );
 }
 
-// рабочая функция обновления резюме и информации аккаунта
-const sendApplicantProfile = ({
-  data,
-  address,
-  privateKey,
-  publicKey,
-  account_number,
-  sequence,
-}) => {
-  // sendTransaction(
-  //   data,
-  //   { address, privateKey, publicKey },
-  //   { account_number, sequence }
-  // ).then((result) => {
-  //   // updateAccountInfo(result.accountInfo);
-  // });
-};
-
 function* sendApplicantProfileSaga() {
-console.log("sendApplicantProfileSaga");
-
   const auth = yield select((state) => state.auth);
   const applicant = yield select((state) => state.applicant);
 
@@ -80,7 +74,11 @@ console.log("sendApplicantProfileSaga");
     sex: applicant.contacts.sex,
   };
   const privateData = {
-    name: applicant.details.name,
+    name: mapCrypto({
+      data: applicant.details.name,
+      key: auth.publicKey,
+      cryptoFunction: encryptByPublicKey,
+    }),
     experience: applicant.workExperience,
     photo: applicant.details.avatar,
     email: applicant.contacts.email,
@@ -88,17 +86,23 @@ console.log("sendApplicantProfileSaga");
   };
 
   const data = {
-    public_data: publicData,
-    private_data: privateData,
-    suggested_price: [
-      {
-        denom: "coin",
-        amount: "10",
+    type: "dxpert/UploadResume",
+    value: {
+      resume: {
+        public_data: publicData,
+        private_data: privateData,
+        suggested_price: [
+          {
+            denom: "coin",
+            amount: "1",
+          },
+        ],
       },
-    ],
+      address: auth.address,
+    },
   };
 
-  sendTransaction(
+  const transactionResult = yield sendTransaction(
     data,
     {
       address: auth.address,
@@ -106,14 +110,19 @@ console.log("sendApplicantProfileSaga");
       publicKey: auth.publicKey,
     },
     { account_number: auth.account_number, sequence: auth.sequence }
-  ).then((result) => {
-    console.log("update result", result);
-    // updateAccountInfo(result.accountInfo);
+  );
+
+  console.log("transactionResult", transactionResult);
+
+  const accountInfoResult = yield getAccountInfo(auth.address);
+
+  yield put({
+    type: AUTH.SET_TRANSACTION_INFO,
+    payload: accountInfoResult,
   });
 }
 
 export function* sendApplicantProfileWatcher() {
-  console.log("sendApplicantProfileWatcher");
   yield takeLatest(
     APPLICANT_PROFILE.SEND_APPLICANT_PROFILE,
     sendApplicantProfileSaga

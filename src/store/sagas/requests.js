@@ -66,15 +66,10 @@ export const getApplicantProfile = async (address) => {
 
 export const sendTransaction = async (data, wallet, accountMeta) => {
   const signData = signTransaction(data, wallet, accountMeta);
-  const transaction = await axios
+  return await axios
     .post(`${BlockchainUrl}/txs`, signData)
     .then((response) => response.status === 200)
-    .catch((response) => console.log(response));
-  const accountInfo = await getAccountInfo(wallet.address);
-  return {
-    status: transaction,
-    accountInfo,
-  };
+    .catch((response) => console.error(response));
 };
 
 export const getAccountInfo = async (address) => {
