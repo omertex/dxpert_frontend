@@ -1,5 +1,4 @@
 export default (img) => {
-  console.log(img);
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(img);

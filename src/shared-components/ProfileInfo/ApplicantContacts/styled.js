@@ -1,7 +1,7 @@
 import styled from "styled-components";
 // import { Colors } from "../../../configuration/Colors";
 
-export const Form = styled.div`
+export const Form = styled.form`
   display: flex;
   flex-flow: column;
 `;

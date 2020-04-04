@@ -15,19 +15,34 @@ import {
   getCitiesListAction,
 } from "../../../store/actions/serviceDataActions";
 import { format, parseISO } from "date-fns";
+import NativeSelect from "@material-ui/core/NativeSelect";
 
 const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
-  <Styled.Form>
+  <Styled.Form onSubmit={submitted}>
     <Styled.DisplayedInfo>
       <Info title="Country">
-        <FilterSelect
+        {/* <FilterSelect
           name="country"
           changed={changed}
           value={contactInfo["country"]}
           data={countries}
           width="290px"
           placeholder="Select Country"
-        />
+          required
+        /> */}
+        <NativeSelect
+          value={contactInfo["country"]}
+          onChange={changed}
+          inputProps={{
+            name: "country",
+          }}
+          required
+        >
+          <option value="" disabled></option>
+          {countries.map((item, index) => (
+            <option key={index}>{item}</option>
+          ))}
+        </NativeSelect>
       </Info>
       <Info title="City">
         <FilterSelect
@@ -53,6 +68,7 @@ const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
           width="190px"
           value={contactInfo["DOB"]}
           changed={changed}
+          required
         />
       </Info>
       <Info title="Email">
@@ -66,7 +82,7 @@ const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
       </Info>
     </Styled.DisplayedInfo>
     <Styled.SubmitBox>
-      <SubmitBtn clicked={submitted} text="submit" />
+      <SubmitBtn text="submit" />
     </Styled.SubmitBox>
   </Styled.Form>
 );
@@ -78,6 +94,7 @@ const Contacts = ({
   setContacts,
   getCountriesList,
   getCitiesList,
+  sendApplicantProfile,
 }) => {
   const [contactInfo, setContactInfo] = useState(contacts);
 
@@ -99,8 +116,10 @@ const Contacts = ({
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setContacts(contactInfo);
+    sendApplicantProfile();
   };
 
   const Displayed = ({ contacts }) => (
@@ -110,20 +129,16 @@ const Contacts = ({
         description={contacts["country"] || "not specified"}
       />
       <Info title="City" description={contacts["city"] || "not specified"} />
-      <Info
-        title="Gender"
-        description={contacts["sex"] || "not specified"}
-      />
+      <Info title="Gender" description={contacts["sex"] || "not specified"} />
       <Info
         title="Date of birth"
         description={
-          format(parseISO(contacts["DOB"]), "d MMMM y") || "not specified"
+          contacts["DOB"]
+            ? format(parseISO(contacts["DOB"]), "d MMMM y")
+            : "not specified"
         }
       />
-      <Info
-        title="Email"
-        description={contacts["email"] || "not specified"}
-      />
+      <Info title="Email" description={contacts["email"] || "not specified"} />
     </Styled.DisplayedInfo>
   );
 

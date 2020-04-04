@@ -23,12 +23,13 @@ const Editable = ({ value, clicked, changed }) => (
 
 const Displayed = ({ aboutMe }) => <Styled.Text>{aboutMe}</Styled.Text>;
 
-const AboutMe = ({ aboutMe, setAboutMe }) => {
+const AboutMe = ({ aboutMe, setAboutMe, sendApplicantProfile }) => {
   const [about, setAbout] = useState("");
 
   const onClickSubmit = (e) => {
     e.preventDefault();
     setAboutMe(about);
+    sendApplicantProfile();
   };
 
   const handleTextAreaChange = (e) => {

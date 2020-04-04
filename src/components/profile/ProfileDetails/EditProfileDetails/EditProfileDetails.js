@@ -23,10 +23,6 @@ const EditProfileDetails = ({
         select profile photo
       </FileUploadBtn>
     </Styled.AvatarContainer>
-    {/* <Info
-      title="Your Name"
-      description={detailsState.name || "not specified"}
-    /> */}
     <Styled.NameContainter>
       <Styled.NameLabel>Your name</Styled.NameLabel>
       <TextInput value={name} placeholder="Your Name" onChange={onNameChange} />
@@ -37,9 +33,5 @@ const EditProfileDetails = ({
     </Styled.SubmitBox>
   </div>
 );
-
-// name="phoneNumber"
-// onChange={changed}
-// width="290px"
 
 export default EditProfileDetails;

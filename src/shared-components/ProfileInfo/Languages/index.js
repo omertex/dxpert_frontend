@@ -22,7 +22,7 @@ const Editable = ({ value, changed, submitted }) => (
   </Styled.Form>
 );
 
-const Languages = ({ langs, setLangs }) => {
+const Languages = ({ langs, setLangs, sendApplicantProfile }) => {
   const [languages, setLanguages] = useState(langs);
 
   const handleChange = (value) => {
@@ -31,6 +31,7 @@ const Languages = ({ langs, setLangs }) => {
 
   const handleSubmit = () => {
     setLangs(languages);
+    sendApplicantProfile();
   };
 
   const Displayed = () => (

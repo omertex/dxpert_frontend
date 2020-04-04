@@ -22,7 +22,7 @@ const Editable = ({ value, changed, submitted }) => (
   </Styled.Form>
 );
 
-const Skills = ({ skills, setSkills }) => {
+const Skills = ({ skills, setSkills, sendApplicantProfile }) => {
   const [skillsList, setSkillsList] = useState(skills)
 
   const handleChange = (value) => {
@@ -31,6 +31,7 @@ const Skills = ({ skills, setSkills }) => {
 
   const handleSubmit = () => {
     setSkills(skillsList);
+    sendApplicantProfile();
   };
 
   const Displayed = () => (

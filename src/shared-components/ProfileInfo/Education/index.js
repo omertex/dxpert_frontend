@@ -76,7 +76,7 @@ const Editable = ({ submitted, changed, edu }) => (
   </Styled.Form>
 );
 
-const Education = ({ education, setEducation }) => {
+const Education = ({ education, setEducation, sendApplicantProfile }) => {
   const [edu, setEdu] = useState(education);
 
   const handleChange = (e) => {
@@ -88,6 +88,7 @@ const Education = ({ education, setEducation }) => {
 
   const handleSubmit = () => {
     setEducation(edu);
+    sendApplicantProfile();
   };
 
   const convertDatesToRangeString = (from, to) => {
