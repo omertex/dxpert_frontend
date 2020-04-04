@@ -126,6 +126,11 @@ const reducer = (state = initialState, action) => {
       return setSequence(state, action);
     case ACTION_TYPES.AUTH.SET_COINS:
       return setCoins(state, action);
+    case ACTION_TYPES.AUTH.SET_TRANSACTION_INFO:
+      return {
+        ...state,
+        ...action.payload
+      }
     default:
       return state;
   }
