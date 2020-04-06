@@ -45,6 +45,28 @@ const setLanguages = (state, action) => {
   return updateObject(state, { languages: action.payload });
 };
 
+const cleanProfile = (state, action) => {
+  return updateObject(state, {
+    details: {
+      avatar: "",
+      name: "",
+    },
+    aboutMe: "",
+    contacts: {
+      country: "",
+      city: "",
+      sex: "Male",
+      DOB: "",
+      email: "",
+    },
+    workExperience: [],
+    education: [],
+    skills: [],
+    languages: [],
+    isApplicantProfileLoaded: false,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.APPLICANT_PROFILE.SET_ABOUT_ME:
@@ -72,8 +94,10 @@ const reducer = (state = initialState, action) => {
     case ACTION_TYPES.APPLICANT_PROFILE.SET_DETAILS:
       return {
         ...state,
-        details: action.payload
-      }
+        details: action.payload,
+      };
+    case ACTION_TYPES.APPLICANT_PROFILE.CLEAN_APPLICANT_PROFILE:
+      return cleanProfile(state, action);
     default:
       return state;
   }

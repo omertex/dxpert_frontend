@@ -1,7 +1,6 @@
-import React, { useEffect, useState, Profiler } from "react";
+import React, { useEffect, useState } from "react";
 import * as Styled from "./styled";
 import { ActionBtn, BlueTextBtn } from "../../shared-components/Buttons";
-// import StyledCheckbox from "../../shared-components/StyledCheckbox";
 import ShortInfo from "../../shared-components/ShortInfo";
 import SearchResult from "../../shared-components/SearchResult";
 import Pagination from "../../shared-components/Pagination";
@@ -11,7 +10,7 @@ import { RadioBtn } from "../../shared-components/StyledRadioBtn";
 import { GENDER, LANGUAGES, SKILLS } from "../../configuration/TemporaryConsts";
 import { GQLUrl, SearchQuery } from "../../configuration/BackendConsts";
 import ApolloClient from "apollo-boost";
-import { useLocation } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 import { PopUp } from "../../shared-components";
 import PopUpContent from "./PopUpContent";
 import PopUpFilter from "./PopUpFilter";
@@ -31,9 +30,9 @@ const initialState = {
 
 let delayedSending;
 
-export default (props) => {
+const SearchFilter = ({ history }) => {
   const urlParams = useLocation();
-  const [isShownPopUp, setShownPopUp] = useState(false);
+  const [popUpData, setPopUpData] = useState([]);
   const [isShownFilterPopUp, setShownFilterPopUp] = useState(!urlParams.search);
   const [initial, setInitial] = useState(true);
   const [formData, setFormData] = useState({ ...initialState });
@@ -130,7 +129,7 @@ export default (props) => {
     if (page > 1) url += `page=${page}&`;
 
     const encodeURL = encodeURIComponent(url.slice(0, -1));
-    props.history.push(`/employer/search?${encodeURL}`);
+    history.push(`/employer/search?${encodeURL}`);
   };
 
   const sendRequest = () => {
@@ -187,7 +186,11 @@ export default (props) => {
         query: SearchQuery,
         variables,
       })
-      .then((result) => setRequestData(result["data"]["resume"]))
+      .then((response) => {
+        if (response && response.data) {
+          setRequestData(response["data"]["resumes"]);
+        }
+      })
       .catch((error) => console.log(error));
   };
 
@@ -204,17 +207,19 @@ export default (props) => {
 
       return (
         <>
-          {data.map(({ public_data, birth_date, sex }) => (
+          {data.map(({ public_data, birth_date, sex, address }) => (
             <SearchResult
               key={Math.random()}
               gender={sex}
               age={getAge(birth_date)}
               skills={public_data["skills"].join(", ")}
               requested={false}
-              clickedSend={openPopUp}
+              clickedSend={() => {
+                openPopUp(sex, getAge(birth_date), address);
+              }}
             />
           ))}
-          <BlueTextBtn text="Send to all" />
+          {/*<BlueTextBtn text="Send to all" />*/}
           <Pagination page={page} count={count} changePage={setPage} />
         </>
       );
@@ -260,16 +265,20 @@ export default (props) => {
     if (urlParams.search) {
       setFormData({ ...initialState });
       setRequestData([]);
-      props.history.push("/employer/search");
+      history.push("/employer/search");
     }
   };
 
-  const openPopUp = () => setShownPopUp(true);
-  const closePopUp = () => setShownPopUp(false);
-  const confirmSend = () => {
-    setShownPopUp(false);
-    alert("Request is successfuly sent");
+  const openPopUp = (sex, age, requested_address) => {
+    setPopUpData([
+      {
+        sex,
+        age,
+        requested_address,
+      },
+    ]);
   };
+  const closePopUp = () => setPopUpData([]);
   const closeFilterPopUp = () => setShownFilterPopUp(false);
 
   return (
@@ -412,8 +421,11 @@ export default (props) => {
         </Styled.SearchBlock>
       </Styled.Container>
 
-      <PopUp isShownPopUp={isShownPopUp}>
-        <PopUpContent clickedOK={confirmSend} clickedCancel={closePopUp} />
+      <PopUp isShownPopUp={Boolean(popUpData.length)}>
+        <PopUpContent
+          cancel={closePopUp}
+          data={popUpData}
+        />
       </PopUp>
 
       <PopUpFilter
@@ -424,3 +436,5 @@ export default (props) => {
     </>
   );
 };
+
+export default withRouter(SearchFilter);

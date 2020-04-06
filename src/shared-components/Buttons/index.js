@@ -91,12 +91,7 @@ export const RightCloseBtn = withStyles({
     right: 0,
   },
 })((props) => (
-  <IconButton
-    onClick={props.clicked}
-    color="standard"
-    aria-label={props.label}
-    {...props}
-  >
+  <IconButton color="default" aria-label={props.label} {...props}>
     <CloseRoundedIcon />
   </IconButton>
 ));

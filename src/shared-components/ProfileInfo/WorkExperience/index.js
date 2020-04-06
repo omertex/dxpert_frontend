@@ -74,7 +74,11 @@ const Editable = ({
   </Styled.Form>
 );
 
-const Experience = ({ workExperience, setWorkExperience, sendApplicantProfile }) => {
+const Experience = ({
+  workExperience,
+  setWorkExperience,
+  sendApplicantProfile,
+}) => {
   const [experience, setExperience] = useState(workExperience);
 
   const handleChange = (e, index) => {

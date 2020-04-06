@@ -11,8 +11,8 @@ const serviceDataReducer = (state = initialReducerState, action) => {
     case SERVICE_DATA.SET_AUTH_TOKEN:
       return {
         ...state,
-        authToken: action.payload
-      }
+        authToken: action.payload,
+      };
     case SERVICE_DATA.SET_COUNTRIES_LIST:
       return {
         ...state,

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import * as Styled from "./styled";
 import InfoContainer from "../InfoContainer";
 import { SubmitBtn } from "../../Buttons";
@@ -23,7 +23,7 @@ const Editable = ({ value, changed, submitted }) => (
 );
 
 const Skills = ({ skills, setSkills, sendApplicantProfile }) => {
-  const [skillsList, setSkillsList] = useState(skills)
+  const [skillsList, setSkillsList] = useState(skills);
 
   const handleChange = (value) => {
     setSkillsList(value);

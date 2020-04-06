@@ -55,3 +55,7 @@ export const setDetails = (details) => ({
 export const sendApplicantProfile = () => ({
   type: ACTION_TYPES.APPLICANT_PROFILE.SEND_APPLICANT_PROFILE,
 });
+
+export const cleanApplicantProfile = () => ({
+  type: ACTION_TYPES.APPLICANT_PROFILE.CLEAN_APPLICANT_PROFILE,
+});

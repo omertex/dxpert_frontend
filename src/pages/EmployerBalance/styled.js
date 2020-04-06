@@ -108,7 +108,8 @@ export const LastTransaction = styled.div`
 
 export const TransactionsBlock = styled.div`
   width: 100%;
-  padding: 20px 50px;
+  padding: 20px 10px;
+  margin-bottom: 60px;
   box-sizing: border-box;
   border-radius: 10px;
   background: ${Colors.bg_white};

@@ -87,10 +87,17 @@ export const createWalletData = (wallet) => {
   };
 };
 
-export const updateKeyPair = (wallet) => {
+export const loginByLocalStorage = (wallet) => {
   return {
-    type: ACTION_TYPES.AUTH.UPDATE_KEY_PAIR,
+    type: ACTION_TYPES.AUTH.LOGIN_BY_LOCALSTORAGE,
     wallet,
+  };
+};
+
+export const loginByKeyStore = (keystore) => {
+  return {
+    type: ACTION_TYPES.AUTH.LOGIN_BY_KEYSTORE,
+    keystore,
   };
 };
 
@@ -119,5 +126,11 @@ export const saveCoins = (coins) => {
   return {
     type: ACTION_TYPES.AUTH.SET_COINS,
     coins,
+  };
+};
+
+export const logout = () => {
+  return {
+    type: ACTION_TYPES.AUTH.LOG_OUT,
   };
 };

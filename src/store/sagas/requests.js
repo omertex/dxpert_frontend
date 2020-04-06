@@ -1,8 +1,15 @@
 import { put } from "redux-saga/effects";
 import axios from "axios";
 import * as ACTIONS from "../actions";
-import { BlockchainUrl } from "../../configuration/BackendConsts";
+import {
+  BlockchainUrl,
+  GQLGetRole,
+  GQLUrl,
+  GQLSetRole,
+  TemporaryBankWallet,
+} from "../../configuration/BackendConsts";
 import { signTransaction } from "../../services/transactions";
+import ApolloClient from "apollo-boost";
 
 export function* getTxsByIdSaga(action) {
   console.log(action.txType, action.senderAddress);
@@ -55,7 +62,7 @@ export const getApplicantProfile = async (address) => {
   return axios
     .get(`${BlockchainUrl}/dxpert/resume/${address}`)
     .then((response) => {
-      console.log("getApplicantProfile response", response)
+      console.log("getApplicantProfile response", response);
       if (response && response.data && response.data.result) {
         return response.data.result.resume;
       } else {
@@ -66,6 +73,9 @@ export const getApplicantProfile = async (address) => {
 };
 
 export const sendTransaction = async (data, wallet, accountMeta) => {
+  if (accountMeta.account_number === "0") {
+    return false;
+  }
   const signData = signTransaction(data, wallet, accountMeta);
   return await axios
     .post(`${BlockchainUrl}/txs`, signData)
@@ -77,12 +87,111 @@ export const getAccountInfo = async (address) => {
   return axios
     .get(`${BlockchainUrl}/auth/accounts/${address}`)
     .then((response) => {
-      const result = response.data.result.value;
-      return {
-        account_number: result.account_number.toString() || "0",
-        sequence: result.sequence.toString() || "0",
-        coins: result.coins.length ? result.coins[0].amount.toString() : "0",
-      };
+      if (
+        response &&
+        response.data &&
+        response.data.result &&
+        response.data.result.value
+      ) {
+        const result = response.data.result.value;
+        return {
+          account_number: result.account_number.toString(),
+          sequence: result.sequence.toString(),
+          coins: result.coins.length ? result.coins[0].amount.toString() : "0",
+        };
+      } else {
+        return {};
+      }
     })
-    .catch((response) => console.log(response));
+    .catch((response) => console.error(response));
+};
+
+export const getAccountRole = async (address) => {
+  const client = new ApolloClient({
+    uri: GQLUrl,
+  });
+  return client
+    .query({
+      query: GQLGetRole,
+      variables: {
+        address,
+      },
+    })
+    .then((response) => {
+      if (response && response.data && response.data.roles_by_pk) {
+        return response.data.roles_by_pk.role;
+      }
+    })
+    .catch((error) => console.log(error));
+};
+
+export const setAccountRole = async (address, role) => {
+  const client = new ApolloClient({
+    uri: GQLUrl,
+  });
+  return client
+    .mutate({
+      mutation: GQLSetRole,
+      variables: {
+        address,
+        role,
+      },
+    })
+    .then((response) => {
+      if (response && response.data && response.data.insert_roles) {
+        return true;
+      }
+    })
+    .catch((error) => console.log(error));
+};
+
+export const getAllTransactions = async (address) => {
+  const request = async (link) => {
+    return axios
+      .get(link)
+      .then((response) => {
+        if (response && response.data && response.data.txs) {
+          return response.data.txs;
+        } else {
+          return {};
+        }
+      })
+      .catch((response) => console.log(response));
+  };
+  const [send, UploadResume, RequestResume, Response] = await Promise.all([
+    request(
+      `${BlockchainUrl}/txs?message.action=send&page=1&limit=1000&message.sender=${address}`
+    ),
+    request(
+      `${BlockchainUrl}/txs?message.action=UploadResume&page=1&limit=1000&message.sender=${address}`
+    ),
+    request(
+      `${BlockchainUrl}/txs?message.action=RequestResume&page=1&limit=1000&message.sender=${address}`
+    ),
+    request(
+      `${BlockchainUrl}/txs?message.action=Response&page=1&limit=1000&message.sender=${address}`
+    ),
+  ]);
+
+  return [...send, ...UploadResume, ...RequestResume, ...Response];
+};
+
+export const fillUpBalance = async (address) => {
+  const moneyAccountMeta = await getAccountInfo(TemporaryBankWallet.address);
+  const requestBody = {
+    type: "cosmos-sdk/MsgSend",
+    value: {
+      from_address: TemporaryBankWallet.address,
+      to_address: address,
+      amount: [
+        {
+          denom: "coin",
+          amount: "10",
+        },
+      ],
+    },
+  };
+  await sendTransaction(requestBody, TemporaryBankWallet, moneyAccountMeta);
+  const accountInfo = await getAccountInfo(address);
+  return accountInfo.coins;
 };

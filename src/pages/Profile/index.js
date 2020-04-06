@@ -1,4 +1,3 @@
-import CircularProgress from "@material-ui/core/CircularProgress";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PageName from "../../shared-components/PageName";
@@ -17,6 +16,7 @@ import {
 } from "../../store/actions/applicantProfile";
 import * as Styled from "./styled";
 import ProfileDetails from "../../components/profile/ProfileDetails/ProfileDetails";
+import PageLoading from "../../shared-components/PageLoading";
 
 const Profile = ({
   address,
@@ -30,22 +30,16 @@ const Profile = ({
   applicant,
   setDetails,
   sendApplicantProfile,
+  logout,
 }) => {
   useEffect(() => {
     getApplicantProfile(address);
   }, [getApplicantProfile, address]);
 
-  const logOut = () => {
-    localStorage.removeItem("dxpert_private_key");
-    localStorage.removeItem("dxpert_public_key");
-    localStorage.removeItem("dxpert_address");
-    createNewWallet();
-  };
-
   return (
     <Styled.Container>
       <ShortInfo address={address} />
-      <PageName pageName={"My profile"} onLogOut={logOut} />
+      <PageName pageName={"My profile"} onLogOut={logout} />
       {applicant.isApplicantProfileLoaded ? (
         <>
           <ProfileDetails
@@ -55,14 +49,14 @@ const Profile = ({
           />
           <ApplicantContacts sendApplicantProfile={sendApplicantProfile} />
           <AboutMe sendApplicantProfile={sendApplicantProfile} />
-          <Skills sendApplicantProfile={sendApplicantProfile}/>
-          <Languages sendApplicantProfile={sendApplicantProfile}/>
-          <WorkExperience sendApplicantProfile={sendApplicantProfile}/>
-          <Education sendApplicantProfile={sendApplicantProfile}/>
+          <Skills sendApplicantProfile={sendApplicantProfile} />
+          <Languages sendApplicantProfile={sendApplicantProfile} />
+          <WorkExperience sendApplicantProfile={sendApplicantProfile} />
+          <Education sendApplicantProfile={sendApplicantProfile} />
           {/* <button onClick={sendApplicantProfile}>Save in blockchain</button> */}
         </>
       ) : (
-        <CircularProgress />
+        <PageLoading />
       )}
     </Styled.Container>
   );
@@ -83,6 +77,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateAccountInfo: (info) => dispatch(ACTIONS.updateAccountInfo(info)),
     createNewWallet: () => dispatch(ACTIONS.createNewWallet()),
+    logout: () => dispatch(ACTIONS.logout()),
     getApplicantProfile: (address) => dispatch(getApplicantProfile(address)),
     setDetails: (details) => dispatch(setDetails(details)),
     sendApplicantProfile: () => dispatch(sendApplicantProfile()),

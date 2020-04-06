@@ -6,3 +6,7 @@ export const setProfileInfo = (info) => {
     payload: info,
   };
 };
+
+export const cleanEmployerProfile = () => ({
+  type: ACTION_TYPES.COMPANY_PROFILE.CLEAN_EMPLOYER_PROFILE,
+});

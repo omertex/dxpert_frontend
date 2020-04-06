@@ -31,7 +31,7 @@ const SecurityNotification = withRouter(
             <Styled.Container>
               <h2>Create New Wallet</h2>
               <h3>Create Keystore File + Password</h3>
-              <RightCloseBtn clicked={close} label={"Close"} />
+              <RightCloseBtn onClick={close} label={"Close"} />
               <Styled.Image src={PasswordImg} alt="" />
               <Styled.Notification>
                 We are about to show your mnemonic phrase, please ensure that no
