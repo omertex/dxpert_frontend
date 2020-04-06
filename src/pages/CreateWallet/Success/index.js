@@ -27,7 +27,7 @@ const Success = withRouter(
             <Styled.Container>
               <Styled.Image src={SuccessImg} alt="" />
               <h3 style={{ textAlign: "center" }}>Successfully!</h3>
-              <RightCloseBtn clicked={close} label={"Close"} />
+              <RightCloseBtn onClick={close} label={"Close"} />
               <Styled.Notification>
                 You are ready to use the DXpert Wallet and Decentralized
                 Exchange!

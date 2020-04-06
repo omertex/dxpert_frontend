@@ -116,7 +116,7 @@ function* sendApplicantProfileSaga() {
     },
   };
 
-console.log("data", JSON.stringify(data));
+  console.log("data", JSON.stringify(data));
 
   const transactionResult = yield sendTransaction(
     data,

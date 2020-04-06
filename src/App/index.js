@@ -6,38 +6,35 @@ import * as ACTIONS from "../store/actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PageLoading from "../shared-components/PageLoading";
-import { getAccountInfo } from "../store/sagas/requests";
 
-const App = ({ history, authorize, updateKeyPair, updateAccountInfo }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const App = ({ isAuth, loginByLocalStorage }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const privateKey = localStorage.getItem("dxpert_private_key");
   const publicKey = localStorage.getItem("dxpert_public_key");
   const address = localStorage.getItem("dxpert_address");
 
   useEffect(() => {
     if (privateKey && publicKey && address) {
-      setIsLoading(true);
-      getAccountInfo(address).then((result) => {
-        updateKeyPair({
-          privateKey,
-          publicKey,
-          address,
-        });
-        updateAccountInfo(result);
-        authorize();
-        history.push("/applicant/profile");
-        setIsLoading(false);
+      loginByLocalStorage({
+        privateKey,
+        publicKey,
+        address,
       });
+    } else {
+      setIsLoading(false);
     }
   }, []);
 
+  useEffect(() => {
+    if (isAuth) setIsLoading(false);
+  }, [isAuth]);
+
   return (
     <>
-      {isLoading && <PageLoading />}
       <Styled.App>
         <Header />
         <Styled.Content>
-          <Routes />
+          {isLoading ? <PageLoading /> : <Routes />}
         </Styled.Content>
         <Footer />
       </Styled.App>
@@ -45,12 +42,18 @@ const App = ({ history, authorize, updateKeyPair, updateAccountInfo }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    authorize: () => dispatch(ACTIONS.authorize()),
-    updateKeyPair: (wallet) => dispatch(ACTIONS.updateKeyPair(wallet)),
-    updateAccountInfo: (info) => dispatch(ACTIONS.updateAccountInfo(info)),
+    isAuth: state.auth.isAuth,
+    chosenWay: state.auth.chosenWay,
   };
 };
 
-export default connect(null, mapDispatchToProps)(withRouter(App));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginByLocalStorage: (wallet) =>
+      dispatch(ACTIONS.loginByLocalStorage(wallet)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

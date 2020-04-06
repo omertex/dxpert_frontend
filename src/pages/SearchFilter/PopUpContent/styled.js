@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { Colors } from "../../../configuration/Colors";
 import Token from "../../../assets/images/token.png";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export const Container = styled.div`
   width: 450px;
-  height: 300px;
   padding: 30px;
   box-sizing: border-box;
   display: flex;
@@ -23,7 +23,6 @@ export const Title = styled.p`
 `;
 
 export const UserInfo = styled.div`
-  width: 160px;
   height: 40px;
   padding: 12px;
   box-sizing: border-box;
@@ -35,20 +34,13 @@ export const UserInfo = styled.div`
   margin-bottom: 40px;
 `;
 
-export const ID = styled.p`
-  font-size: 16px;
-  line-height: 24px;
-  text-decoration: underline;
-  color: rgba(0, 0, 0, 0.87);
-  margin: 0;
-`;
-
 export const Gender = styled.p`
   font-size: 14px;
   line-height: 20px;
   font-weight: 600;
-  padding: 0 0 0 16px;
+  padding: 0 8px 0 8px;
   margin: 0;
+  text-transform: uppercase;
 `;
 
 export const Age = styled(Gender)``;
@@ -62,8 +54,27 @@ export const Cost = styled.p`
   background: url(${Token}) no-repeat center bottom;
 `;
 
+export const SuccessMessage = styled.p`
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.03rem;
+  margin: 0 0 24px 0;
+  padding-bottom: 20px;
+  color: ${Colors.success};
+`;
+
+export const ErrorMessage = styled(SuccessMessage)`
+  color: ${Colors.error};
+`;
+
 export const Buttons = styled.div`
   width: 250px;
   display: flex;
-  justify-content: space-between;
+  margin-bottom: 10px;
+  justify-content: ${(props) => (props.centered ? "center" : "space-between")};
+`;
+
+export const Loading = styled(CircularProgress)`
+  margin: 10px 0 40px 0;
+  color: ${Colors.main_header} !important;
 `;

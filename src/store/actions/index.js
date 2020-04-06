@@ -12,11 +12,13 @@ export {
   savePrivateKey,
   saveAddress,
   createWalletData,
-  updateKeyPair,
+  loginByLocalStorage,
+  loginByKeyStore,
   updateAccountInfo,
   saveAccountNumber,
   saveSequence,
   saveCoins,
+  logout,
 } from "./auth";
 
 export { getTxs, setTxs } from "./requests";
@@ -28,6 +30,7 @@ export {
   setEducation,
   setSkills,
   setLanguages,
+  cleanApplicantProfile,
 } from "./applicantProfile";
 
-export { setProfileInfo } from "./companyProfile";
+export { setProfileInfo, cleanEmployerProfile } from "./companyProfile";

@@ -36,7 +36,7 @@ function ChooseWay({ onChooseWay, chosenWay }) {
           <BorderBtn text="Create account" disabled={!chosenWay} />
         </Link>
         <Link to="/unlock-wallet">
-          <ContinueBtn text="Connect account" disabled={!chosenWay} />
+          <ContinueBtn text="Connect account" />
         </Link>
       </Styled.AccountWrapper>
     </Styled.Container>

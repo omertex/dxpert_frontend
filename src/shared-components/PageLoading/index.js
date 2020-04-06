@@ -8,23 +8,21 @@ const Loading = styled(CircularProgress)`
 `;
 
 const Underlayer = styled.div`
-  position: fixed;
+  position: ${(props) => (props.full ? "fixed" : "relative")};
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 200;
   width: 100%;
-  height: 100vh;
+  height: ${(props) => (props.full ? "100vh" : "80vh")};
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
+  background: ${(props) => (props.full ? "rgba(0, 0, 0, 0.3)" : "none")};
+  backdrop-filter: ${(props) => (props.full ? "blur(4px)" : "none")};
 `;
 
-const PageLoading = () => (
-  <Underlayer>
+export default ({ fullScreen }) => (
+  <Underlayer full={fullScreen}>
     <Loading />
   </Underlayer>
 );
-
-export default () => <PageLoading />;

@@ -1,4 +1,9 @@
-import { getAuthToken, getCountriesList, getStatesList, getCitiesList } from "./requests";
+import {
+  getAuthToken,
+  getCountriesList,
+  getStatesList,
+  getCitiesList,
+} from "./requests";
 import { takeLatest, put, select } from "redux-saga/effects";
 import { SERVICE_DATA } from "../actions/actionTypes";
 
@@ -39,7 +44,7 @@ export function* getCountriesWatcher() {
   yield takeLatest(SERVICE_DATA.GET_COUNTRIES_LIST, getCountriesSaga);
 }
 
-function* getCitiesSaga({payload}) {
+function* getCitiesSaga({ payload }) {
   try {
     const token = localStorage.getItem("geoAuthToken");
     const { data: statesData } = yield getStatesList(token, payload);

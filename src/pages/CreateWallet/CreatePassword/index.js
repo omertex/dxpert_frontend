@@ -19,6 +19,7 @@ import {
   generateWalletByMnemonic,
   createKeystoreFile,
 } from "../../../configuration/helpers";
+import { setAccountRole } from "../../../store/sagas/requests";
 
 const defaultTip = {
   transform: "scale(0)",
@@ -55,6 +56,7 @@ const CreatePassword = withRouter(
     agreedTerms,
     keyStoreFileDownloaded,
     history,
+    chosenWay,
     genMnemonics,
     constMnemPhrase,
     newWalletData,
@@ -103,10 +105,14 @@ const CreatePassword = withRouter(
       const mnemPhrase = constructMnemonicPhrase(mnems);
       const wallet = generateWalletByMnemonic(mnemPhrase);
       const download = await createKeystoreFile(wallet.privateKey, pswd);
+      const accountRole = await setAccountRole(
+        wallet.address,
+        chosenWay === "applicant" ? 0 : 1
+      );
       genMnemonics(mnems);
       constMnemPhrase(mnemPhrase);
       newWalletData(wallet);
-      if (download) {
+      if (download && accountRole) {
         downloadFile();
       }
       setDownloadingKeystore(false);
@@ -134,7 +140,7 @@ const CreatePassword = withRouter(
               <Styled.Container>
                 <h2>Create New Wallet</h2>
                 <h3>Create Keystore File + Password</h3>
-                <RightCloseBtn clicked={close} label={"Close"} />
+                <RightCloseBtn onClick={close} label={"Close"} />
                 <Styled.Form>
                   <Styled.Inputs>
                     <Password
@@ -258,6 +264,7 @@ const mapStateToProps = (state) => {
     mnemonics: state.auth.mnemonics,
     mnemonicPhrase: state.auth.mnemonicPhrase,
     privateKey: state.auth.privateKey,
+    chosenWay: state.auth.chosenWay,
   };
 };
 

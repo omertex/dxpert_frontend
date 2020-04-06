@@ -4,9 +4,8 @@ import { QuickSearch } from "../../shared-components/StyledInput";
 import Logo from "../../assets/images/logo.png";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions";
 
-const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
+const Header = ({ history, chosenWay, isAuth, coins }) => {
   const [formData, setFormData] = useState({ quick: "" });
 
   const handleChange = (e) => {
@@ -47,9 +46,6 @@ const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
                 />
               </Styled.Input>
               <Styled.Nav>
-                <Styled.MenuLink to={"/" + chosenWay + "/profile"}>
-                  My profile
-                </Styled.MenuLink>
                 <Styled.MenuLink to={"/" + chosenWay + "/requests"}>
                   My requests
                 </Styled.MenuLink>
@@ -57,7 +53,7 @@ const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
                   Search
                 </Styled.MenuLink>
                 <Styled.BalanceLink to={"/balance"}>
-                  1343
+                  {coins}
                   <span>DXP</span>
                 </Styled.BalanceLink>
               </Styled.Nav>
@@ -92,10 +88,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    createNewWallet: () => dispatch(actions.createNewWallet()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
+export default connect(mapStateToProps)(withRouter(Header));

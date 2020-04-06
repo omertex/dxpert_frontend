@@ -10,7 +10,7 @@ const initialState = {
   mnemonicPhrase: "",
   selectedMnemonics: [],
   publicKey: "",
-  chosenWay: "applicant",
+  chosenWay: "",
   privateKeySaved: false,
   privateKey: "",
   address: "",
@@ -57,6 +57,7 @@ const createNewWallet = (state, action) => {
     mnemonicPhrase: "",
     selectedMnemonics: [],
     publicKey: "",
+    chosenWay: "",
     privateKeySaved: false,
     privateKey: "",
     address: "",
@@ -129,8 +130,8 @@ const reducer = (state = initialState, action) => {
     case ACTION_TYPES.AUTH.SET_TRANSACTION_INFO:
       return {
         ...state,
-        ...action.payload
-      }
+        ...action.payload,
+      };
     default:
       return state;
   }

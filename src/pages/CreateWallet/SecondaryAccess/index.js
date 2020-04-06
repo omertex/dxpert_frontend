@@ -69,7 +69,7 @@ const SecondaryAccess = withRouter(
             <Styled.Container>
               <h2>Create New Wallet</h2>
               <h3>Choose secondary access</h3>
-              <RightCloseBtn clicked={close} label={"Close"} />
+              <RightCloseBtn onClick={close} label={"Close"} />
               <Styled.Notification>
                 Please select the Mnemonic Phrase in the correct order to ensure
                 that your copy is correct
