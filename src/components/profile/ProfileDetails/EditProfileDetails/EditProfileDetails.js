@@ -14,6 +14,7 @@ const EditProfileDetails = ({
   onAvatarChange,
   onNameChange,
   onSubmit,
+  isValid,
 }) => (
   <div>
     <Styled.AvatarTitle>Your Profile Photo</Styled.AvatarTitle>
@@ -25,7 +26,12 @@ const EditProfileDetails = ({
     </Styled.AvatarContainer>
     <Styled.NameContainter>
       <Styled.NameLabel>Your name</Styled.NameLabel>
-      <TextInput value={name} placeholder="Your Name" onChange={onNameChange} />
+      <TextInput
+        value={name}
+        placeholder="Your Name"
+        onChange={onNameChange}
+        error={!isValid.name}
+      />
     </Styled.NameContainter>
 
     <Styled.SubmitBox>

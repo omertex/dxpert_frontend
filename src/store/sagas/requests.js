@@ -79,9 +79,9 @@ export const sendTransaction = async (data, wallet, accountMeta) => {
   if (accountMeta.account_number === "0") {
     return false;
   }
-  const signData = signTransaction(data, wallet, accountMeta);
+  const signedData = signTransaction(data, wallet, accountMeta);
   return await axios
-    .post(`${BlockchainUrl}/txs`, signData)
+    .post(`${BlockchainUrl}/txs`, signedData)
     .then((response) => response.status === 200)
     .catch((response) => console.error(response));
 };

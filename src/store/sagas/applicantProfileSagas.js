@@ -32,7 +32,8 @@ function* getApplicantProfileSaga({ payload }) {
     details: {
       // avatar: LZString.decompress(publicData.photo) || "",
       avatar: publicData.photo || "",
-      name: decryptByPrivateKey(privateKey, privateData.name) || "",
+      // name: decryptByPrivateKey(privateKey, privateData.name) || "",
+      name: privateData.name || "",
 
       // mapCrypto({
       //   data: privateData.name,
@@ -76,35 +77,60 @@ function* sendApplicantProfileSaga() {
   const applicant = yield select((state) => state.applicant);
 
   const publicData = {
-    skills: applicant.skills,
+    skills: applicant.skills.length ? applicant.skills : null,
     country: applicant.contacts.country,
     city: applicant.contacts.city,
-    languages: applicant.languages,
-    experince: 999,
-    education: applicant.education,
-    birth_date: new Date(applicant.contacts.DOB).toISOString(),
+    languages: applicant.languages.length ? applicant.languages : null,
+    total_experience: 0,
+    education: applicant.education.length ? applicant.education : null,
+    birth_date: applicant.contacts.DOB
+      ? new Date(applicant.contacts.DOB).toISOString()
+      : "",
     sex: applicant.contacts.sex,
     // photo: LZString.compress(applicant.details.avatar),
-    photo: applicant.details.avatar,
+    // photo: applicant.details.avatar,
+    photo: "null",
   };
   const privateData = {
-    name: encryptByPublicKey(auth.publicKey, applicant.details.name),
+    // name: encryptByPublicKey(auth.publicKey, applicant.details.name),
+    name: applicant.details.name,
     // mapCrypto({
     //   data: applicant.details.name,
     //   key: auth.publicKey,
     //   cryptoFunction: encryptByPublicKey,
     // }),
-    experience: applicant.workExperience,
+    experience: applicant.workExperience.length
+      ? applicant.workExperience
+      : null,
     email: applicant.contacts.email,
     about: applicant.aboutMe,
   };
+
+  const totalExperience = 7;
 
   const data = {
     type: "dxpert/UploadResume",
     value: {
       resume: {
-        public_data: publicData,
-        private_data: privateData,
+        public_data: {
+          skills: applicant.skills.length ? applicant.skills : null,
+          country: applicant.contacts.country,
+          city: applicant.contacts.city,
+          languages: applicant.languages.length ? applicant.languages : null,
+          total_experience: totalExperience,
+          education: applicant.education.length ? applicant.education : null,
+          birth_date: applicant.contacts.DOB ? applicant.contacts.DOB : "",
+          sex: applicant.contacts.sex || "",
+          photo: "null",
+        },
+        private_data: {
+          name: applicant.details.name,
+          experience: applicant.workExperience.length
+            ? applicant.workExperience
+            : null,
+          email: "email",
+          about: "",
+        },
         suggested_price: [
           {
             denom: "coin",
@@ -112,22 +138,44 @@ function* sendApplicantProfileSaga() {
           },
         ],
       },
+      // resume: fakeResume,
       address: auth.address,
     },
   };
 
+  // const data = {
+  //   type: "dxpert/UploadResume",
+  //   value: {
+  //     resume: {
+  //       public_data: publicData,
+  //       private_data: privateData,
+  //       suggested_price: [
+  //         {
+  //           denom: "coin",
+  //           amount: "1",
+  //         },
+  //       ],
+  //     },
+  //     address: auth.address,
+  //   },
+  // };
+
   console.log("data", JSON.stringify(data));
 
-  const transactionResult = yield sendTransaction(
-    data,
-    {
-      address: auth.address,
-      privateKey: auth.privateKey,
-      publicKey: auth.publicKey,
-    },
-    { account_number: auth.account_number, sequence: auth.sequence }
-  );
+  const wallet = {
+    address: auth.address,
+    privateKey: auth.privateKey,
+    publicKey: auth.publicKey,
+  };
 
+  const accountMeta = {
+    account_number: auth.account_number,
+    sequence: auth.sequence,
+  };
+
+  console.log(wallet, accountMeta);
+
+  const transactionResult = yield sendTransaction(data, wallet, accountMeta);
   console.log("transactionResult", transactionResult);
 
   const accountInfoResult = yield getAccountInfo(auth.address);
