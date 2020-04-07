@@ -64,3 +64,85 @@ export const GQLSetRole = gql`
     }
   }
 `;
+
+export const GQLGetRecruiter = gql`
+  query GetRecrutier($address: String!) {
+    recruiters_by_pk(address: $address) {
+      about
+      address
+      city
+      country
+      email
+      organisation
+      website
+    }
+  }
+`;
+
+export const GQLSetRecruiter = gql`
+  mutation InsertRecruiter(
+    $address: String!
+    $about: String
+    $city: String!
+    $country: String!
+    $email: String!
+    $organisation: String!
+    $website: String!
+  ) {
+    insert_recruiters(
+      objects: {
+        about: $about
+        address: $address
+        city: $city
+        country: $country
+        email: $email
+        organisation: $organisation
+        website: $website
+      }
+    ) {
+      returning {
+        about
+        address
+        city
+        country
+        email
+        organisation
+        website
+      }
+    }
+  }
+`;
+
+export const GQLUpdateRecruiter = gql`
+  mutation UpdateRecrutier(
+    $address: String!
+    $about: String
+    $city: String!
+    $country: String!
+    $email: String!
+    $organisation: String!
+    $website: String!
+  ) {
+    update_recruiters(
+      where: { address: { _eq: $address } }
+      _set: {
+        about: $about
+        city: $city
+        country: $country
+        email: $email
+        organisation: $organisation
+        website: $website
+      }
+    ) {
+      returning {
+        about
+        address
+        city
+        country
+        email
+        organisation
+        website
+      }
+    }
+  }
+`;

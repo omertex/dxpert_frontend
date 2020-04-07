@@ -21,7 +21,7 @@ const backupMnemonics = withRouter(
     mnemonics,
     selectMnems,
     history,
-    createNewWallet,
+    logout,
   }) => {
     const showMnemonics = mnemonics.map(({ index, value }, i) => (
       <Styled.SingleMnemonic key={i}>
@@ -40,7 +40,7 @@ const backupMnemonics = withRouter(
     };
 
     const close = () => {
-      createNewWallet();
+      logout();
       history.push("/");
     };
 
@@ -87,7 +87,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     selectMnems: (mnemonics) =>
       dispatch(ACTIONS.selectMnemonicsToCheck(mnemonics)),
-    createNewWallet: () => dispatch(ACTIONS.createNewWallet()),
+    logout: () => dispatch(ACTIONS.logout()),
   };
 };
 

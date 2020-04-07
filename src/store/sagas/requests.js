@@ -6,6 +6,9 @@ import {
   GQLGetRole,
   GQLUrl,
   GQLSetRole,
+  GQLGetRecruiter,
+  GQLSetRecruiter,
+  GQLUpdateRecruiter,
   TemporaryBankWallet,
 } from "../../configuration/BackendConsts";
 import { signTransaction } from "../../services/transactions";
@@ -174,6 +177,59 @@ export const getAllTransactions = async (address) => {
   ]);
 
   return [...send, ...UploadResume, ...RequestResume, ...Response];
+};
+
+export const setEmployerProfile = async (data) => {
+  const client = new ApolloClient({
+    uri: GQLUrl,
+  });
+  return client
+    .mutate({
+      mutation: GQLSetRecruiter,
+      variables: data,
+    })
+    .then((response) => {
+      if (response && response.data && response.data.insert_recruiters) {
+        return true;
+      }
+    })
+    .catch((error) => console.log(error));
+};
+
+export const updateEmployerProfile = async (data) => {
+  const client = new ApolloClient({
+    uri: GQLUrl,
+  });
+  return client
+    .mutate({
+      mutation: GQLUpdateRecruiter,
+      variables: data,
+    })
+    .then((response) => {
+      if (response && response.data && response.data.update_recruiters) {
+        return true;
+      }
+    })
+    .catch((error) => console.log(error));
+};
+
+export const getEmployerProfile = async (address) => {
+  const client = new ApolloClient({
+    uri: GQLUrl,
+  });
+  return client
+    .query({
+      query: GQLGetRecruiter,
+      variables: {
+        address,
+      },
+    })
+    .then((response) => {
+      if (response && response.data && response.data.recruiters_by_pk) {
+        return response.data.recruiters_by_pk;
+      }
+    })
+    .catch((error) => console.log(error));
 };
 
 export const fillUpBalance = async (address) => {

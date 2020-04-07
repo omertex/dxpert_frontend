@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Password, Confirm } from "../../../shared-components/StyledInput";
 import {
   ContinueBtn,
@@ -61,14 +61,18 @@ const CreatePassword = withRouter(
     constMnemPhrase,
     newWalletData,
     downloadFile,
-    createNewWallet,
+    logout,
+    isAuth,
   }) => {
     const [password, setPassword] = useState("");
-    // const [confirmPassword, setConfirmPassword] = useState("");
     const [lengthError, setLengthError] = useState(false);
     const [includesError, setIncludesError] = useState(false);
     const [notConfirmed, setNotConfirmed] = useState(false);
     const [isDownloadingKeystore, setDownloadingKeystore] = useState(false);
+
+    useEffect(() => {
+      if (isAuth) history.push(`/${chosenWay}/profile`);
+    }, [isAuth, chosenWay]);
 
     const checkConfirm = (e) => {
       if (e.target.value === pswd) {
@@ -79,7 +83,6 @@ const CreatePassword = withRouter(
     };
 
     const passwordChanged = (e) => {
-      // if (!confirmPassword) setNotConfirmed(true);
       if (e.target.value.length < 8) {
         setLengthError(true);
         setPassword(e.target.value);
@@ -119,7 +122,7 @@ const CreatePassword = withRouter(
     };
 
     const close = () => {
-      createNewWallet();
+      logout();
       history.push("/");
     };
 
@@ -265,6 +268,7 @@ const mapStateToProps = (state) => {
     mnemonicPhrase: state.auth.mnemonicPhrase,
     privateKey: state.auth.privateKey,
     chosenWay: state.auth.chosenWay,
+    isAuth: state.auth.isAuth,
   };
 };
 
@@ -280,7 +284,7 @@ const mapDispatchToProps = (dispatch) => {
     constMnemPhrase: (phrase) =>
       dispatch(actions.constructMnemonicPhrase(phrase)),
     newWalletData: (wallet) => dispatch(actions.createWalletData(wallet)),
-    createNewWallet: () => dispatch(actions.createNewWallet()),
+    logout: () => dispatch(actions.logout()),
   };
 };
 

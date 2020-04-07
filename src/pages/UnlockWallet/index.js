@@ -21,6 +21,7 @@ const Unlock = ({
   history,
   createNewWallet,
   loginByKeyStore,
+  logout,
 }) => {
   useEffect(() => {
     if (isAuth) {
@@ -37,7 +38,7 @@ const Unlock = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const close = () => {
-    createNewWallet();
+    logout();
     history.push("/");
   };
 
@@ -139,6 +140,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loginByKeyStore: (keystore) => dispatch(ACTIONS.loginByKeyStore(keystore)),
     createNewWallet: () => dispatch(ACTIONS.createNewWallet()),
+    logout: () => dispatch(ACTIONS.logout()),
   };
 };
 

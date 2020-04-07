@@ -18,7 +18,7 @@ const SecondaryAccess = withRouter(
     clickedPrevious,
     selectedMnemonics,
     history,
-    createNewWallet,
+    logout,
   }) => {
     const [correctInput, setCorrectInput] = useState({});
 
@@ -31,7 +31,7 @@ const SecondaryAccess = withRouter(
     };
 
     const close = () => {
-      createNewWallet();
+      logout();
       history.push("/");
     };
 
@@ -106,7 +106,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createNewWallet: () => dispatch(ACTIONS.createNewWallet()),
+    logout: () => dispatch(ACTIONS.logout()),
   };
 };
 
