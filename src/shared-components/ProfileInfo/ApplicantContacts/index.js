@@ -15,34 +15,40 @@ import {
   getCitiesListAction,
 } from "../../../store/actions/serviceDataActions";
 import { format, parseISO } from "date-fns";
-import NativeSelect from "@material-ui/core/NativeSelect";
+import validate from "validate.js";
 
-const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
+const сonstraints = {
+  country: {
+    presence: { allowEmpty: false },
+  },
+  sex: {
+    presence: { allowEmpty: false },
+  },
+  DOB: {
+    presence: { allowEmpty: false },
+  }
+};
+
+const Editable = ({
+  changed,
+  contactInfo,
+  submitted,
+  countries,
+  cities,
+  isValid,
+}) => (
   <Styled.Form onSubmit={submitted}>
     <Styled.DisplayedInfo>
       <Info title="Country">
-        {/* <FilterSelect
+        <FilterSelect
           name="country"
           changed={changed}
           value={contactInfo["country"]}
           data={countries}
           width="290px"
           placeholder="Select Country"
-          required
-        /> */}
-        <NativeSelect
-          value={contactInfo["country"]}
-          onChange={changed}
-          inputProps={{
-            name: "country",
-          }}
-          required
-        >
-          <option value="" disabled></option>
-          {countries.map((item, index) => (
-            <option key={index}>{item}</option>
-          ))}
-        </NativeSelect>
+          error={!isValid.country}
+        />
       </Info>
       <Info title="City">
         <FilterSelect
@@ -60,6 +66,7 @@ const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
           data={GENDER}
           value={contactInfo["sex"]}
           onChange={changed}
+          error={!isValid.sex}
         />
       </Info>
       <Info title="Date of birth">
@@ -68,7 +75,7 @@ const Editable = ({ changed, contactInfo, submitted, countries, cities }) => (
           width="190px"
           value={contactInfo["DOB"]}
           changed={changed}
-          required
+          error={!isValid.DOB}
         />
       </Info>
       <Info title="Email">
@@ -97,6 +104,7 @@ const Contacts = ({
   sendApplicantProfile,
 }) => {
   const [contactInfo, setContactInfo] = useState(contacts);
+  const [isValid, setIsValid] = useState({ country: true, sex: true, DOB: true });
 
   useEffect(() => {
     getCountriesList();
@@ -107,6 +115,8 @@ const Contacts = ({
   }, [getCountriesList, getCitiesList]);
 
   const handleInputChange = (e) => {
+    console.log(e.target);
+    setIsValid({ ...isValid, [e.target.name]: true });
     setContactInfo({
       ...contactInfo,
       [e.target.name]: e.target.value,
@@ -118,6 +128,20 @@ const Contacts = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const validationResult = validate(
+      { country: contactInfo.country, sex: contactInfo.sex, DOB: contactInfo.DOB },
+      сonstraints
+    );
+    if (validationResult) {
+      console.log("validationResult", validationResult);
+      setIsValid({
+        ...isValid,
+        country: !validationResult.country,
+        sex: !validationResult.sex,
+        DOB: !validationResult.DOB
+      });
+      return;
+    }
     setContacts(contactInfo);
     sendApplicantProfile();
   };
@@ -152,6 +176,7 @@ const Contacts = ({
           countries={countries}
           cities={cities}
           submitted={handleSubmit}
+          isValid={isValid}
         />
       }
       name="Contact details"

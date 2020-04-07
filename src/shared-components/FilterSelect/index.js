@@ -65,6 +65,7 @@ export const FilterSelect = memo(
     return (
       <Input
         select
+        error={error}
         onChange={changed}
         onBlur={blured}
         style={

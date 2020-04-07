@@ -17,7 +17,7 @@ const EmployerBalance = lazy(() => import("../pages/EmployerBalance"));
 const EmployerProfile = lazy(() => import("../pages/EmployerProfile"));
 const EmployerRequests = lazy(() => import("../pages/EmployerRequests"));
 const EmployerSearch = lazy(() => import("../pages/SearchFilter"));
-const ApplicantProfile = lazy(() => import("../pages/Profile"));
+const ApplicantProfile = lazy(() => import("../pages/ApplicantProfile"));
 const ApplicantRequests = lazy(() => import("../pages/ApplicantRequests"));
 const UnlockWallet = lazy(() => import("../pages/UnlockWallet"));
 const WalletCreationTutorial = lazy(() => import("../pages/WalletCreationTutorial"));

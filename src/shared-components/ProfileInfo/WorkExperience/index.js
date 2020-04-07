@@ -130,7 +130,7 @@ const Experience = ({
           />
           <Info
             title="Position"
-            description={item["Position"] || "not specified"}
+            description={item["position"] || "not specified"}
           />
         </Styled.DisplayedInfo>
       ))}
