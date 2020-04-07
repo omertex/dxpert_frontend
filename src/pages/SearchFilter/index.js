@@ -422,10 +422,7 @@ const SearchFilter = ({ history }) => {
       </Styled.Container>
 
       <PopUp isShownPopUp={Boolean(popUpData.length)}>
-        <PopUpContent
-          cancel={closePopUp}
-          data={popUpData}
-        />
+        <PopUpContent cancel={closePopUp} data={popUpData} />
       </PopUp>
 
       <PopUpFilter

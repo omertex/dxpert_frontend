@@ -23,7 +23,6 @@ export function* saveWalletSaga(action) {
 export function* loginByLocalStorageSaga(action) {
   const { privateKey, publicKey, address } = action.wallet;
   const chosenWay = yield getAccountRole(address);
-  console.log(chosenWay);
   const accountInfo = yield getAccountInfo(address);
 
   yield put(ACTIONS.generatePublicKey(publicKey));
