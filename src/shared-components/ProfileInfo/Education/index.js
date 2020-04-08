@@ -19,54 +19,56 @@ const educationLevels = [
 
 const Editable = ({ submitted, changed, edu }) => (
   <Styled.Form>
-    <Styled.DisplayedInfo>
-      <Info title="Level">
-        <FilterSelect
-          width="290px"
-          data={educationLevels}
-          placeholder="Level or Type"
-          name="level"
-          value={edu["level"]}
-          onChange={changed}
-        />
-      </Info>
-      <Info title="Educational institution">
-        <TextInput
-          width="290px"
-          placeholder="Name or abbreviation"
-          name="institution"
-          value={edu["institution"]}
-          onChange={changed}
-        />
-      </Info>
-      <Info title="Department">
-        <TextInput
-          width="290px"
-          placeholder="Department"
-          name="department"
-          value={edu["department"]}
-          onChange={changed}
-        />
-      </Info>
-      <Info title="Specialization">
-        <TextInput
-          width="290px"
-          placeholder="Specialization"
-          name="specialization"
-          value={edu["specialization"]}
-          onChange={changed}
-        />
-      </Info>
-      <Info title="Year of graduation">
-        <TextInput
-          width="85px"
-          placeholder="Year"
-          name="graduation"
-          value={edu["graduation"]}
-          onChange={changed}
-        />
-      </Info>
-    </Styled.DisplayedInfo>
+    {edu.map((item, index) => (
+      <Styled.DisplayedInfo key={index}>
+        <Info title="Level">
+          <FilterSelect
+            width="290px"
+            data={educationLevels}
+            placeholder="Level or Type"
+            name="level"
+            value={item["level"]}
+            onChange={(e) => changed(e, index)}
+          />
+        </Info>
+        <Info title="Educational institution">
+          <TextInput
+            width="290px"
+            placeholder="Name or abbreviation"
+            name="facility"
+            value={item["facility"]}
+            onChange={(e) => changed(e, index)}
+          />
+        </Info>
+        <Info title="Department">
+          <TextInput
+            width="290px"
+            placeholder="Specialization"
+            name="specialization"
+            value={item["specialization"]}
+            onChange={(e) => changed(e, index)}
+          />
+        </Info>
+        <Info title="Profession">
+          <TextInput
+            width="290px"
+            placeholder="Profession"
+            name="profession"
+            value={item["profession"]}
+            onChange={(e) => changed(e, index)}
+          />
+        </Info>
+        <Info title="Year of graduation">
+          <TextInput
+            width="85px"
+            placeholder="Year"
+            name="to"
+            value={item["to"]}
+            onChange={(e) => changed(e, index)}
+          />
+        </Info>
+      </Styled.DisplayedInfo>
+    ))}
     <Styled.BottomBtnBox>
       <Styled.AddInfo>add one more place of study</Styled.AddInfo>
     </Styled.BottomBtnBox>
@@ -79,11 +81,13 @@ const Editable = ({ submitted, changed, edu }) => (
 const Education = ({ education, setEducation, sendApplicantProfile }) => {
   const [edu, setEdu] = useState(education);
 
-  const handleChange = (e) => {
-    setEdu({
-      ...edu,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e, index) => {
+    const {
+      target: { name, value },
+    } = e;
+    const newEdu = [...edu];
+    newEdu[index][name] = value;
+    setEdu(newEdu);
   };
 
   const handleSubmit = () => {
@@ -91,20 +95,20 @@ const Education = ({ education, setEducation, sendApplicantProfile }) => {
     sendApplicantProfile();
   };
 
-  const convertDatesToRangeString = (from, to) => {
-    if (!from && !to) {
-      return "not specified";
-    }
-    const fromYear = new Date(from).getFullYear();
-    const toYear = new Date(to).getFullYear();
-    return `${fromYear}-${toYear}`;
-  };
+  // const convertDatesToRangeString = (from, to) => {
+  //   if (!from && !to) {
+  //     return "not specified";
+  //   }
+  //   const fromYear = new Date(from).getFullYear();
+  //   const toYear = new Date(to).getFullYear();
+  //   return `${fromYear}-${toYear}`;
+  // };
 
   const Displayed = () => (
     <React.Fragment>
       {education.map((item, index) => (
         <Styled.DisplayedInfo key={index}>
-          <Info title={convertDatesToRangeString(item["from"], item["to"])}>
+          <Info title={item["to"]}>
             <Styled.Education>
               <h6>{item["facility"] || "not specified"}</h6>
               <p>{item["specialization"] || "not specified"}</p>
@@ -120,6 +124,8 @@ const Education = ({ education, setEducation, sendApplicantProfile }) => {
       </Styled.BottomBtnBox>
     </React.Fragment>
   );
+
+  console.log("edu", edu);
 
   return (
     <InfoContainer

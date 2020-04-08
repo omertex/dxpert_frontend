@@ -144,7 +144,6 @@ const ApplicantProfile = ({
           <Languages sendApplicantProfile={sendApplicantProfile} />
           <WorkExperience sendApplicantProfile={sendApplicantProfile} />
           <Education sendApplicantProfile={sendApplicantProfile} />
-          <button onClick={ggwp}>Save in blockchain</button>
         </>
       ) : (
         <PageLoading />
