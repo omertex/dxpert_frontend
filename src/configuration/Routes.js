@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy } from "react";
 
 export const chooseWay = "/",
   createWallet = "/create-wallet",
@@ -20,47 +20,23 @@ const EmployerSearch = lazy(() => import("../pages/SearchFilter"));
 const ApplicantProfile = lazy(() => import("../pages/ApplicantProfile"));
 const ApplicantRequests = lazy(() => import("../pages/ApplicantRequests"));
 const UnlockWallet = lazy(() => import("../pages/UnlockWallet"));
-const WalletCreationTutorial = lazy(() => import("../pages/WalletCreationTutorial"));
+const WalletCreationTutorial = lazy(() =>
+  import("../pages/WalletCreationTutorial")
+);
 
 export const ROUTES = [
-  { path: chooseWay,
-    component: ChooseWay,
-    needAuth: false
-  },
-  { path: createWallet,
-    component: CreateWallet,
-    needAuth: false
-  },
-  { path: employerBalance,
-    component: EmployerBalance,
-    needAuth: true
-  },
-  { path: employerProfile,
-    component: EmployerProfile,
-    needAuth: true
-  },
-  { path: employerRequests,
-    component: EmployerRequests,
-    needAuth: true
-  },
-  { path: employerSearch,
-    component: EmployerSearch,
-    needAuth: true
-  },
-  { path: applicantProfile,
-    component: ApplicantProfile,
-    needAuth: true
-  },
-  { path: applicantRequests,
-    component: ApplicantRequests,
-    needAuth: true
-  },
-  { path: unlockWallet,
-    component: UnlockWallet,
-    needAuth: false
-  },
-  { path: walletCreationTutorial,
+  { path: chooseWay, component: ChooseWay, needAuth: false },
+  { path: createWallet, component: CreateWallet, needAuth: false },
+  { path: employerBalance, component: EmployerBalance, needAuth: true },
+  { path: employerProfile, component: EmployerProfile, needAuth: true },
+  { path: employerRequests, component: EmployerRequests, needAuth: true },
+  { path: employerSearch, component: EmployerSearch, needAuth: true },
+  { path: applicantProfile, component: ApplicantProfile, needAuth: true },
+  { path: applicantRequests, component: ApplicantRequests, needAuth: true },
+  { path: unlockWallet, component: UnlockWallet, needAuth: false },
+  {
+    path: walletCreationTutorial,
     component: WalletCreationTutorial,
-    needAuth: false
+    needAuth: false,
   },
-]
+];

@@ -11,6 +11,8 @@ import {
   mapCrypto,
 } from "../../configuration/helpers";
 import LZString from "lz-string";
+import differenceInMonths from "date-fns/differenceInMonths";
+import { parseISO } from "date-fns";
 
 function* getApplicantProfileSaga({ payload }) {
   const privateKey = yield select((state) => state.auth.privateKey);
@@ -30,11 +32,8 @@ function* getApplicantProfileSaga({ payload }) {
 
   const profile = {
     details: {
-      // avatar: LZString.decompress(publicData.photo) || "",
       avatar: publicData.photo || "",
-      // name: decryptByPrivateKey(privateKey, privateData.name) || "",
-      name: privateData.name || "",
-
+      name: decryptByPrivateKey(privateKey, privateData.name) || "",
       // mapCrypto({
       //   data: privateData.name,
       //   key: privateKey,
@@ -76,37 +75,14 @@ function* sendApplicantProfileSaga() {
   const auth = yield select((state) => state.auth);
   const applicant = yield select((state) => state.applicant);
 
-  const publicData = {
-    skills: applicant.skills.length ? applicant.skills : null,
-    country: applicant.contacts.country,
-    city: applicant.contacts.city,
-    languages: applicant.languages.length ? applicant.languages : null,
-    total_experience: 0,
-    education: applicant.education.length ? applicant.education : null,
-    birth_date: applicant.contacts.DOB
-      ? new Date(applicant.contacts.DOB).toISOString()
-      : "",
-    sex: applicant.contacts.sex,
-    // photo: LZString.compress(applicant.details.avatar),
-    // photo: applicant.details.avatar,
-    photo: "null",
-  };
-  const privateData = {
-    // name: encryptByPublicKey(auth.publicKey, applicant.details.name),
-    name: applicant.details.name,
-    // mapCrypto({
-    //   data: applicant.details.name,
-    //   key: auth.publicKey,
-    //   cryptoFunction: encryptByPublicKey,
-    // }),
-    experience: applicant.workExperience.length
-      ? applicant.workExperience
-      : null,
-    email: applicant.contacts.email,
-    about: applicant.aboutMe,
-  };
-
-  const totalExperience = 7;
+  const totalExperience = applicant.workExperience.reduce(
+    (accumulator, item) => {
+      return (
+        accumulator + differenceInMonths(parseISO(item.to), parseISO(item.from))
+      );
+    },
+    0
+  );
 
   const data = {
     type: "dxpert/UploadResume",
@@ -121,10 +97,10 @@ function* sendApplicantProfileSaga() {
           education: applicant.education.length ? applicant.education : null,
           birth_date: applicant.contacts.DOB ? applicant.contacts.DOB : "",
           sex: applicant.contacts.sex || "",
-          photo: "null",
+          photo: applicant.details.avatar || "",
         },
         private_data: {
-          name: applicant.details.name,
+          name: encryptByPublicKey(auth.publicKey, applicant.details.name),
           experience: applicant.workExperience.length
             ? applicant.workExperience
             : null,
@@ -138,27 +114,9 @@ function* sendApplicantProfileSaga() {
           },
         ],
       },
-      // resume: fakeResume,
       address: auth.address,
     },
   };
-
-  // const data = {
-  //   type: "dxpert/UploadResume",
-  //   value: {
-  //     resume: {
-  //       public_data: publicData,
-  //       private_data: privateData,
-  //       suggested_price: [
-  //         {
-  //           denom: "coin",
-  //           amount: "1",
-  //         },
-  //       ],
-  //     },
-  //     address: auth.address,
-  //   },
-  // };
 
   console.log("data", JSON.stringify(data));
 

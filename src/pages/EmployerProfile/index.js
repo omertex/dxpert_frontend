@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
-import * as Styled from "./styled";
 import ShortInfo from "../../shared-components/ShortInfo";
+import PageLayout from "../../shared-components/PageLayout/PageLayout";
 import EmployerContacts from "../../shared-components/ProfileInfo/EmployerContacts";
 import PageName from "../../shared-components/PageName";
 import { connect } from "react-redux";
 import * as ACTIONS from "../../store/actions";
 import {
-  getEmployerProfile,
   setEmployerProfile,
   updateEmployerProfile,
 } from "../../store/sagas/requests";
+import { getEmployerProfile } from "../../store/actions/employerProfile";
 
-const EmployerProfile = ({ address, logout }) => {
+const EmployerProfile = (props) => {
   const getProfile = () => {
-    getEmployerProfile(
-      "dxpert10g5v4pqrvtqxtappx553u7gg2qafajtn4zdgyy"
-    ).then((response) => console.log(response));
+    props
+      .getEmployerProfile("dxpert10g5v4pqrvtqxtappx553u7gg2qafajtn4zdgyy")
+      .then((response) => console.log(response));
   };
 
   const updateProfile = () => {
@@ -31,7 +31,7 @@ const EmployerProfile = ({ address, logout }) => {
   };
 
   // установить профиль (только для новых профилей)
-  const setProfile = () => {
+  const setProfile = (props) => {
     console.log("setProfile");
     setEmployerProfile({
       address: "dxpert10g5v4pqrvtqxtappx553u7gg2qafajtn4zdgyy",
@@ -45,14 +45,14 @@ const EmployerProfile = ({ address, logout }) => {
   };
 
   return (
-    <Styled.Container>
-      <ShortInfo address={address} />
-      <PageName pageName={"My profile"} onLogOut={logout} />
+    <PageLayout>
+      <ShortInfo address={props.address} />
+      <PageName pageName={"My profile"} onLogOut={props.logout} />
       <button onClick={getProfile}>getProfile</button>
       <button onClick={updateProfile}>updateProfile</button>
       <button onClick={setProfile}>setProfile</button>
       <EmployerContacts />
-    </Styled.Container>
+    </PageLayout>
   );
 };
 
@@ -64,6 +64,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getEmployerProfile: () => dispatch(getEmployerProfile()),
     logout: () => dispatch(ACTIONS.logout()),
   };
 };

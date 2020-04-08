@@ -134,9 +134,13 @@ export const encryptByPublicKey = (publicKey, string) => {
 };
 
 export const decryptByPrivateKey = (privateKey, base64) => {
-  const data = Buffer.from(base64, "base64");
-  const enc = decrypt(base64ToHex(privateKey), data);
-  return enc.toString();
+  try {
+    const data = Buffer.from(base64, "base64");
+    const enc = decrypt(base64ToHex(privateKey), data);
+    return enc.toString();
+  } catch (e) {
+    return "";
+  }
 };
 
 // map crypto function on complex data (arrays, objects of strings)

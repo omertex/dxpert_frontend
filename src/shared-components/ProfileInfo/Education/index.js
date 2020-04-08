@@ -17,7 +17,13 @@ const educationLevels = [
   "doctor",
 ];
 
-const Editable = ({ submitted, changed, edu }) => (
+const Editable = ({
+  submitted,
+  changed,
+  edu,
+  addEducation,
+  onRemoveEducation,
+}) => (
   <Styled.Form>
     {edu.map((item, index) => (
       <Styled.DisplayedInfo key={index}>
@@ -35,26 +41,26 @@ const Editable = ({ submitted, changed, edu }) => (
           <TextInput
             width="290px"
             placeholder="Name or abbreviation"
-            name="facility"
-            value={item["facility"]}
+            name="institution"
+            value={item["institution"]}
             onChange={(e) => changed(e, index)}
           />
         </Info>
         <Info title="Department">
           <TextInput
             width="290px"
-            placeholder="Specialization"
-            name="specialization"
-            value={item["specialization"]}
+            placeholder="department"
+            name="department"
+            value={item["department"]}
             onChange={(e) => changed(e, index)}
           />
         </Info>
         <Info title="Profession">
           <TextInput
             width="290px"
-            placeholder="Profession"
-            name="profession"
-            value={item["profession"]}
+            placeholder="specialization"
+            name="specialization"
+            value={item["specialization"]}
             onChange={(e) => changed(e, index)}
           />
         </Info>
@@ -62,15 +68,23 @@ const Editable = ({ submitted, changed, edu }) => (
           <TextInput
             width="85px"
             placeholder="Year"
-            name="to"
-            value={item["to"]}
+            name="graduation_year"
+            value={item["graduation_year"]}
             onChange={(e) => changed(e, index)}
           />
         </Info>
+        <Styled.AddInfo
+          style={{ alignSelf: "start" }}
+          onClick={() => onRemoveEducation(index)}
+        >
+          remove Education
+        </Styled.AddInfo>
       </Styled.DisplayedInfo>
     ))}
     <Styled.BottomBtnBox>
-      <Styled.AddInfo>add one more place of study</Styled.AddInfo>
+      <Styled.AddInfo onClick={addEducation}>
+        add one more place of study
+      </Styled.AddInfo>
     </Styled.BottomBtnBox>
     <Styled.SubmitBox>
       <SubmitBtn text="submit" clicked={submitted} />
@@ -95,43 +109,53 @@ const Education = ({ education, setEducation, sendApplicantProfile }) => {
     sendApplicantProfile();
   };
 
-  // const convertDatesToRangeString = (from, to) => {
-  //   if (!from && !to) {
-  //     return "not specified";
-  //   }
-  //   const fromYear = new Date(from).getFullYear();
-  //   const toYear = new Date(to).getFullYear();
-  //   return `${fromYear}-${toYear}`;
-  // };
+  const addEducation = () => {
+    const newEdu = [
+      ...edu,
+      {
+        institution: "",
+        department: "",
+        level: "",
+        specialization: "",
+        graduation_year: "",
+      },
+    ];
+    setEdu(newEdu);
+  };
+
+  const removeEducationHandler = (index) => {
+    const newEdu = edu.filter((item, currentIndex) => currentIndex !== index);
+    setEdu(newEdu);
+  };
 
   const Displayed = () => (
     <React.Fragment>
       {education.map((item, index) => (
         <Styled.DisplayedInfo key={index}>
-          <Info title={item["to"]}>
+          <Info title={item["graduation_year"]}>
             <Styled.Education>
-              <h6>{item["facility"] || "not specified"}</h6>
-              <p>{item["specialization"] || "not specified"}</p>
+              <h6>{item["institution"] || "not specified"}</h6>
+              <p>{item["department"] || "not specified"}</p>
               <p>{item["level"] || "not specified"}</p>
-              <p>{item["profession"] || "not specified"}</p>
+              <p>{item["specialization"] || "not specified"}</p>
             </Styled.Education>
           </Info>
         </Styled.DisplayedInfo>
       ))}
-
-      <Styled.BottomBtnBox>
-        <Styled.AddInfo>add Education</Styled.AddInfo>
-      </Styled.BottomBtnBox>
     </React.Fragment>
   );
-
-  console.log("edu", edu);
 
   return (
     <InfoContainer
       displayed={<Displayed />}
       editable={
-        <Editable changed={handleChange} submitted={handleSubmit} edu={edu} />
+        <Editable
+          changed={handleChange}
+          submitted={handleSubmit}
+          edu={edu}
+          addEducation={addEducation}
+          onRemoveEducation={removeEducationHandler}
+        />
       }
       name="Education"
     />

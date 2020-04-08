@@ -1,5 +1,6 @@
 import { put } from "redux-saga/effects";
 import * as ACTIONS from "../actions";
+import { cleanEmployerProfile } from "../actions/employerProfile";
 import {
   arrayBufferToBase64,
   base64Decryption,
@@ -61,5 +62,5 @@ export function* logoutSaga() {
   localStorage.removeItem("dxpert_address");
   yield put(ACTIONS.createNewWallet());
   yield put(ACTIONS.cleanApplicantProfile());
-  yield put(ACTIONS.cleanEmployerProfile());
+  yield put(cleanEmployerProfile());
 }

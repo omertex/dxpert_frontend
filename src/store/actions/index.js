@@ -32,5 +32,3 @@ export {
   setLanguages,
   cleanApplicantProfile,
 } from "./applicantProfile";
-
-export { setProfileInfo, cleanEmployerProfile } from "./companyProfile";

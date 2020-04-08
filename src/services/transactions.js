@@ -12,7 +12,7 @@ export const signTransaction = (data, wallet, accountMeta) => {
     msg: [data],
     fee: {
       amount: [],
-      gas: "200000",
+      gas: "2000000",
     },
     memo: "",
   };
