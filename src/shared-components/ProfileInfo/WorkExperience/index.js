@@ -8,6 +8,7 @@ import StyledCheckbox from "../../StyledCheckbox";
 import Info from "../Info";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../store/actions/actionTypes";
+import {convertISODateToShort} from "../../../services/dateTime";
 
 const Editable = ({
   changed,
@@ -51,9 +52,9 @@ const Editable = ({
           <TextInput
             width="290px"
             placeholder="Position"
-            name="Position"
+            name="position"
             onChange={(e) => changed(e, index)}
-            value={item["Position"]}
+            value={item["position"]}
           />
         </Info>
         <Styled.AddInfo
@@ -98,7 +99,7 @@ const Experience = ({
   const addWorkHandler = () => {
     const newExperience = [
       ...experience,
-      { from: "", to: "", company: "", Position: "" },
+      { from: "", to: "", company: "", position: "" },
     ];
     setExperience(newExperience);
   };
@@ -116,12 +117,12 @@ const Experience = ({
         <Styled.DisplayedInfo key={i}>
           <Info title="Start of work">
             <Styled.DateInfo>
-              <span>{item["from"] || "not specified"}</span>
+              <span>{convertISODateToShort(item["from"]) || "not specified"}</span>
             </Styled.DateInfo>
           </Info>
           <Info title="End">
             <Styled.DateInfo>
-              <span>{item["to"] || "not specified"}</span>
+              <span>{convertISODateToShort(item["to"]) || "not specified"}</span>
             </Styled.DateInfo>
           </Info>
           <Info
@@ -134,9 +135,6 @@ const Experience = ({
           />
         </Styled.DisplayedInfo>
       ))}
-      {/* <Styled.BottomBtnBox>
-        <Styled.AddInfo>add Work Experience</Styled.AddInfo>
-      </Styled.BottomBtnBox> */}
     </>
   );
 

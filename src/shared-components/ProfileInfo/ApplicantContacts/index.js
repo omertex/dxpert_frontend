@@ -14,8 +14,8 @@ import {
   getCountriesListAction,
   getCitiesListAction,
 } from "../../../store/actions/serviceDataActions";
-import { format, parseISO } from "date-fns";
 import validate from "validate.js";
+import { convertISODateToLong } from "../../../services/dateTime";
 
 const сonstraints = {
   country: {
@@ -26,7 +26,7 @@ const сonstraints = {
   },
   DOB: {
     presence: { allowEmpty: false },
-  }
+  },
 };
 
 const Editable = ({
@@ -104,7 +104,11 @@ const Contacts = ({
   sendApplicantProfile,
 }) => {
   const [contactInfo, setContactInfo] = useState(contacts);
-  const [isValid, setIsValid] = useState({ country: true, sex: true, DOB: true });
+  const [isValid, setIsValid] = useState({
+    country: true,
+    sex: true,
+    DOB: true,
+  });
 
   useEffect(() => {
     getCountriesList();
@@ -129,7 +133,11 @@ const Contacts = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationResult = validate(
-      { country: contactInfo.country, sex: contactInfo.sex, DOB: contactInfo.DOB },
+      {
+        country: contactInfo.country,
+        sex: contactInfo.sex,
+        DOB: contactInfo.DOB,
+      },
       сonstraints
     );
     if (validationResult) {
@@ -138,7 +146,7 @@ const Contacts = ({
         ...isValid,
         country: !validationResult.country,
         sex: !validationResult.sex,
-        DOB: !validationResult.DOB
+        DOB: !validationResult.DOB,
       });
       return;
     }
@@ -158,7 +166,7 @@ const Contacts = ({
         title="Date of birth"
         description={
           contacts["DOB"]
-            ? format(parseISO(contacts["DOB"]), "d MMMM y")
+            ? convertISODateToLong(contacts["DOB"])
             : "not specified"
         }
       />
