@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import * as Styled from "./styled";
-
 import { TextInput } from "../../../shared-components/FilterInputs";
 import { ActionBtn, SubmitBtn } from "../../../shared-components/Buttons";
 import { MultiSelect } from "../../../shared-components/MultiSelect";
 import {
   SKILLS,
   LANGUAGES,
-  GENDER,
 } from "../../../configuration/TemporaryConsts";
 import { RadioBtn } from "../../../shared-components/StyledRadioBtn";
 import IconButton from "@material-ui/core/IconButton";
 import { Transition } from "react-transition-group";
+import { connect } from "react-redux";
+import { FilterSelect } from "../../../shared-components/FilterSelect";
 
 const initialState = {
   skills: [],
@@ -37,7 +37,7 @@ const transitionStyles = {
   exited: { height: 0 },
 };
 
-export default ({ closeFilter, isShown, setData }) => {
+const PopUpFilter = ({ closeFilter, isShown, setData, countries }) => {
   const [formData, setFormData] = useState({ ...initialState });
 
   const multiSelectChange = (name, value) => {
@@ -48,7 +48,7 @@ export default ({ closeFilter, isShown, setData }) => {
   };
 
   const handleChange = (e) => {
-    const { value, name } = e.currentTarget;
+    const { value, name } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -100,8 +100,9 @@ export default ({ closeFilter, isShown, setData }) => {
                     <MultiSelect
                       data={SKILLS}
                       width="100%"
-                      name="skills"
-                      onChange={multiSelectChange}
+                      onChange={(value) => {
+                        multiSelectChange("skills", value)
+                      }}
                       value={formData.skills}
                     />
                   </Styled.Input>
@@ -111,13 +112,13 @@ export default ({ closeFilter, isShown, setData }) => {
                     <Styled.Options>
                       <Styled.Option>
                         <RadioBtn
-                          data={[GENDER[0]]}
+                          data={[{label: 'Male', value: 'm'}]}
                           checked={formData.sex === "m"}
                           name="sex"
                           onClick={radioChange}
                         />
                         <RadioBtn
-                          data={[GENDER[1]]}
+                          data={[{label: 'Female', value: 'f'}]}
                           checked={formData.sex === "f"}
                           name="sex"
                           onClick={radioChange}
@@ -156,11 +157,12 @@ export default ({ closeFilter, isShown, setData }) => {
 
                   <Styled.Input>
                     <p id="label">Country</p>
-                    <TextInput
-                      placeholder="Add Country"
+                    <FilterSelect
                       name="country"
-                      onChange={handleChange}
+                      changed={handleChange}
                       value={formData.country}
+                      data={countries}
+                      placeholder="Add Country"
                     />
                   </Styled.Input>
 
@@ -171,7 +173,9 @@ export default ({ closeFilter, isShown, setData }) => {
                       placeholder="Add Languages"
                       width="100%"
                       name="languages"
-                      onChange={multiSelectChange}
+                      onChange={(value) => {
+                        multiSelectChange("languages", value)
+                      }}
                       value={formData.languages}
                     />
                   </Styled.Input>
@@ -222,3 +226,11 @@ export default ({ closeFilter, isShown, setData }) => {
     </Transition>
   );
 };
+
+const mapStateToProps = (state) => {
+  return {
+    countries: state.serviceData.countries,
+  };
+};
+
+export default connect(mapStateToProps)(PopUpFilter);

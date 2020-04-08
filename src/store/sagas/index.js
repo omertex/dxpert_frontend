@@ -1,6 +1,5 @@
 import { all, takeEvery } from "redux-saga/effects";
 import * as ACTION_TYPES from "../actions/actionTypes";
-import { getTxsByIdSaga } from "./requests";
 import {
   saveWalletSaga,
   loginByLocalStorageSaga,
@@ -18,10 +17,6 @@ import {
   sendApplicantProfileWatcher,
 } from "./applicantProfileSagas";
 
-function* watchRequests() {
-  yield takeEvery(ACTION_TYPES.REQUESTS.GET_TXS, getTxsByIdSaga);
-}
-
 function* watchAuth() {
   yield takeEvery(ACTION_TYPES.AUTH.CREATE_WALLET_DATA, saveWalletSaga);
   yield takeEvery(
@@ -35,7 +30,6 @@ function* watchAuth() {
 
 export function* rootSaga() {
   yield all([
-    watchRequests(),
     watchAuth(),
     getAuthTokenWatcher(),
     getCountriesWatcher(),

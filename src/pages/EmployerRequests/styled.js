@@ -1,10 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   width: 930px;
   margin: 0 auto;
   flex-grow: 1;
-  padding-top: 15px;
   box-sizing: border-box;
   display: flex;
   flex-flow: column;

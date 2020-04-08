@@ -8,9 +8,15 @@ import { getAllTransactions, fillUpBalance } from "../../store/sagas/requests";
 import { TemporaryBankWallet } from "../../configuration/BackendConsts";
 import { connect } from "react-redux";
 import * as ACTIONS from "../../store/actions";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import PageLoading from "../../shared-components/PageLoading";
 
-export const EmployerBalance = ({ address, coins, saveCoins }) => {
+export const EmployerBalance = ({
+  address,
+  coins,
+  saveCoins,
+  avatar,
+  name,
+}) => {
   const [allTransactions, setAllTransactions] = useState([]);
   const [purchasesLoading, setPurchasesLoading] = useState(false);
   const [balanceLoading, setBalanceLoading] = useState(true);
@@ -64,10 +70,10 @@ export const EmployerBalance = ({ address, coins, saveCoins }) => {
 
   return (
     <Styled.Container>
-      <ShortInfo />
+      <ShortInfo avatar={avatar} name={name} address={address} />
       <PageName pageName={"Balance"} />
       {balanceLoading ? (
-        <CircularProgress />
+        <PageLoading />
       ) : (
         <Styled.InfoBlock>
           <Styled.WalletDetails>
@@ -121,6 +127,8 @@ const mapStateToProps = (state) => {
     account_number: state.auth.account_number,
     sequence: state.auth.sequence,
     coins: state.auth.coins,
+    avatar: state.applicant.details.avatar,
+    name: state.applicant.details.name,
   };
 };
 

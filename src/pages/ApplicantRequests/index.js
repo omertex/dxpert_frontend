@@ -11,8 +11,9 @@ import { PopUp } from "../../shared-components";
 import PopUpAllowOne from "./PopUpAllowOne";
 import PopUpAllowAll from "./PopUpAllowAll";
 import PopUpDecline from "./PopUpDecline";
+import { connect } from "react-redux";
 
-export default () => {
+const ApplicantRequest = ({ address, avatar, name }) => {
   const [value, setValue] = useState(0);
   const [isShownPopUp, setShownPopUp] = useState(false);
   const [popUpType, setPopUpType] = useState("one");
@@ -102,7 +103,7 @@ export default () => {
   return (
     <>
       <Styled.Container>
-        <ShortInfo />
+        <ShortInfo avatar={avatar} name={name} address={address} />
         <PageName pageName={"Requests"} />
         <TabsNav value={value} callback={handleChange} data={tabsData} />
         <Styled.Requests>
@@ -129,3 +130,13 @@ export default () => {
     </>
   );
 };
+
+const mapStateToProps = (state) => {
+  return {
+    address: state.auth.address,
+    avatar: state.applicant.details.avatar,
+    name: state.applicant.details.name,
+  };
+};
+
+export default connect(mapStateToProps)(ApplicantRequest);

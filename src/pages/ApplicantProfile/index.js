@@ -11,7 +11,11 @@ import Skills from "../../shared-components/ProfileInfo/Skills";
 import WorkExperience from "../../shared-components/ProfileInfo/WorkExperience";
 import ShortInfo from "../../shared-components/ShortInfo";
 import * as ACTIONS from "../../store/actions";
-import { getApplicantProfile, sendApplicantProfile, setDetails } from "../../store/actions/applicantProfile";
+import {
+  getApplicantProfile,
+  sendApplicantProfile,
+  setDetails,
+} from "../../store/actions/applicantProfile";
 import * as Styled from "./styled";
 
 const ApplicantProfile = ({
@@ -21,6 +25,8 @@ const ApplicantProfile = ({
   setDetails,
   sendApplicantProfile,
   logout,
+  avatar,
+  name,
 }) => {
   useEffect(() => {
     getApplicantProfile(address);
@@ -34,7 +40,7 @@ const ApplicantProfile = ({
 
   return (
     <Styled.Container>
-      <ShortInfo address={address} />
+      <ShortInfo avatar={avatar} name={name} address={address} />
       <PageName pageName={"My profile"} onLogOut={logout} />
       {applicant.isApplicantProfileLoaded ? (
         <>
@@ -61,6 +67,8 @@ const mapStateToProps = (state) => {
   return {
     address: state.auth.address,
     applicant: state.applicant,
+    avatar: state.applicant.details.avatar,
+    name: state.applicant.details.name,
   };
 };
 
