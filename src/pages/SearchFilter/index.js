@@ -7,13 +7,17 @@ import Pagination from "../../shared-components/Pagination";
 import { TextInput } from "../../shared-components/FilterInputs";
 import { MultiSelect } from "../../shared-components/MultiSelect";
 import { RadioBtn } from "../../shared-components/StyledRadioBtn";
-import { GENDER, LANGUAGES, SKILLS } from "../../configuration/TemporaryConsts";
+import { LANGUAGES, SKILLS } from "../../configuration/TemporaryConsts";
 import { GQLUrl, SearchQuery } from "../../configuration/BackendConsts";
 import ApolloClient from "apollo-boost";
 import { useLocation, withRouter } from "react-router-dom";
 import { PopUp } from "../../shared-components";
 import PopUpContent from "./PopUpContent";
 import PopUpFilter from "./PopUpFilter";
+import { getCountriesListAction } from "../../store/actions/serviceDataActions";
+import { connect } from "react-redux";
+import { FilterSelect } from "../../shared-components/FilterSelect";
+import Info from "../../shared-components/ProfileInfo/Info";
 
 const limit = 10;
 const initialState = {
@@ -30,7 +34,7 @@ const initialState = {
 
 let delayedSending;
 
-const SearchFilter = ({ history }) => {
+const SearchFilter = ({ history, countries, getCountriesList }) => {
   const urlParams = useLocation();
   const [popUpData, setPopUpData] = useState([]);
   const [isShownFilterPopUp, setShownFilterPopUp] = useState(!urlParams.search);
@@ -42,6 +46,7 @@ const SearchFilter = ({ history }) => {
 
   useEffect(() => {
     if (urlParams.search) urlParsing();
+    getCountriesList();
   }, []);
 
   useEffect(() => {
@@ -77,7 +82,7 @@ const SearchFilter = ({ history }) => {
           const keys = item[0] === "skills" ? SKILLS : LANGUAGES;
           const newItem = item[1]
             .split(",")
-            .map((x) => keys.find((f) => f.value === x))
+            .map((x) => keys.find((f) => f === x))
             .filter((x) => x !== undefined);
 
           newState = {
@@ -116,8 +121,7 @@ const SearchFilter = ({ history }) => {
         case "skills":
         case "languages":
           if (formData[item].length) {
-            const keys = formData[item].map((x) => x.value);
-            url += `${item}=${keys.join(",")}&`;
+            url += `${item}=${formData[item].join(",")}&`;
           }
           break;
         default:
@@ -244,7 +248,7 @@ const SearchFilter = ({ history }) => {
   };
 
   const handleChange = (e) => {
-    const { value, name } = e.currentTarget;
+    const { value, name } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -306,8 +310,9 @@ const SearchFilter = ({ history }) => {
                 <MultiSelect
                   data={SKILLS}
                   width="100%"
-                  name="skills"
-                  onChange={multiSelectChange}
+                  onChange={(value) => {
+                    multiSelectChange("skills", value);
+                  }}
                   value={formData.skills}
                 />
               </Styled.Input>
@@ -317,13 +322,13 @@ const SearchFilter = ({ history }) => {
                 <Styled.Options>
                   <Styled.Option>
                     <RadioBtn
-                      data={[GENDER[0]]}
+                      data={[{ label: "Male", value: "m" }]}
                       checked={formData.sex === "m"}
                       name="sex"
                       onClick={radioChange}
                     />
                     <RadioBtn
-                      data={[GENDER[1]]}
+                      data={[{ label: "Female", value: "f" }]}
                       checked={formData.sex === "f"}
                       name="sex"
                       onClick={radioChange}
@@ -360,11 +365,12 @@ const SearchFilter = ({ history }) => {
 
               <Styled.Input>
                 <p id="label">Country</p>
-                <TextInput
-                  placeholder="Add Country"
+                <FilterSelect
                   name="country"
-                  onChange={handleChange}
+                  changed={handleChange}
                   value={formData.country}
+                  data={countries}
+                  placeholder="Add Country"
                 />
               </Styled.Input>
 
@@ -375,7 +381,9 @@ const SearchFilter = ({ history }) => {
                   placeholder="Add Languages"
                   width="100%"
                   name="languages"
-                  onChange={multiSelectChange}
+                  onChange={(value) => {
+                    multiSelectChange("languages", value);
+                  }}
                   value={formData.languages}
                 />
               </Styled.Input>
@@ -434,4 +442,19 @@ const SearchFilter = ({ history }) => {
   );
 };
 
-export default withRouter(SearchFilter);
+const mapStateToProps = (state) => {
+  return {
+    countries: state.serviceData.countries,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCountriesList: () => dispatch(getCountriesListAction()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(SearchFilter));

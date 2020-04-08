@@ -23,7 +23,7 @@ const Header = ({ history, chosenWay, isAuth, coins }) => {
         var re = /\s*,\s*/;
         const skills = search.split(re);
         setFormData({ quick: "" });
-        history.push("/employer/search?skills=" + skills.join("+"));
+        history.push("/employer/search?skills=" + skills.join("%2C"));
       }
     }
   };

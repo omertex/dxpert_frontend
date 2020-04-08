@@ -1,6 +1,4 @@
-import { put } from "redux-saga/effects";
 import axios from "axios";
-import * as ACTIONS from "../actions";
 import {
   BlockchainUrl,
   GQLGetRole,
@@ -13,15 +11,6 @@ import {
 } from "../../configuration/BackendConsts";
 import { signTransaction } from "../../services/transactions";
 import ApolloClient from "apollo-boost";
-
-export function* getTxsByIdSaga(action) {
-  console.log(action.txType, action.senderAddress);
-  const response = yield axios.get(
-    `/txs?message.action=${action.txType}&message.sender=${action.senderAddress}`
-  );
-  console.log("response is: ", response.data.txs);
-  yield put(ACTIONS.setTxs(response.data.txs));
-}
 
 export const getAuthToken = async () => {
   return axios.get("https://www.universal-tutorial.com/api/getaccesstoken", {
