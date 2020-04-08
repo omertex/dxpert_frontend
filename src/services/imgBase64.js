@@ -13,7 +13,7 @@ export default (img) => {
         // img.width and img.height will contain the original dimensions
         ctx.drawImage(img, 0, 0, 32, 32);
 
-        const b64 = canvas.toDataURL("image/png");
+        const b64 = canvas.toDataURL("image/jpeg", 0.7);
         resolve(b64);
       };
     };

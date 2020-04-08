@@ -128,7 +128,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setCompanyInfo: (info) =>
       dispatch({
-        type: actionTypes.COMPANY_PROFILE.SET_PROFILE_INFO,
+        type: actionTypes.EMPLOYER_PROFILE.SET_EMPLOYER_PROFILE,
         payload: info,
       }),
   };
