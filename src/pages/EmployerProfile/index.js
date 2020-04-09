@@ -1,71 +1,69 @@
 import React, { useEffect } from "react";
 import ShortInfo from "../../shared-components/ShortInfo";
 import PageLayout from "../../shared-components/PageLayout/PageLayout";
-import EmployerContacts from "../../shared-components/ProfileInfo/EmployerContacts";
+import EmployerContacts from "../../components/employerProfile/EmployerContacts/EmployerContacts";
 import PageName from "../../shared-components/PageName";
 import { connect } from "react-redux";
 import * as ACTIONS from "../../store/actions";
 import {
-  setEmployerProfile,
+  getEmployerProfile,
   updateEmployerProfile,
-} from "../../store/sagas/requests";
-import { getEmployerProfile } from "../../store/actions/employerProfile";
+} from "../../store/actions/employerProfile";
+import PageLoading from "../../shared-components/PageLoading";
+import {
+  getCountriesListAction,
+  getCitiesListAction,
+} from "../../store/actions/serviceDataActions";
 
 const EmployerProfile = (props) => {
-  const getProfile = () => {
-    props
-      .getEmployerProfile("dxpert10g5v4pqrvtqxtappx553u7gg2qafajtn4zdgyy")
-      .then((response) => console.log(response));
-  };
+  useEffect(() => {
+    props.getEmployerProfile(props.address);
+    props.getCountriesList();
 
-  const updateProfile = () => {
-    updateEmployerProfile({
-      address: "dxpert10g5v4pqrvtqxtappx553u7gg2qafajtn4zdgyy",
-      about: "IT Software & Services",
-      city: "Shanghai1",
-      country: "China1",
-      email: "tencentholdings@jobs.com",
-      organisation: "Tencent Holdings",
-      website: "tencentholdings.com",
-    }).then((response) => console.log(response));
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // установить профиль (только для новых профилей)
-  const setProfile = (props) => {
-    console.log("setProfile");
-    setEmployerProfile({
-      address: "dxpert10g5v4pqrvtqxtappx553u7gg2qafajtn4zdgyy",
-      about: "IT Software & Services",
-      city: "Shanghai",
-      country: "China",
-      email: "tencentholdings@jobs.com",
-      organisation: "Tencent Holdings",
-      website: "tencentholdings.com",
-    }).then((response) => console.log(response));
-  };
+  useEffect(() => {
+    if (props.employer.isProfileLoaded) {
+      props.getCitiesList(props.employer.profile.country);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.employer.isProfileLoaded]);
 
-  return (
+  return props.employer.isProfileLoaded ? (
     <PageLayout>
       <ShortInfo address={props.address} />
       <PageName pageName={"My profile"} onLogOut={props.logout} />
-      <button onClick={getProfile}>getProfile</button>
-      <button onClick={updateProfile}>updateProfile</button>
-      <button onClick={setProfile}>setProfile</button>
-      <EmployerContacts />
+      <EmployerContacts
+        employerProfile={props.employer.profile}
+        countries={props.countries}
+        cities={props.cities}
+        getCitiesList={props.getCitiesList}
+        updateEmployerProfile={props.updateEmployerProfile}
+      />
     </PageLayout>
+  ) : (
+    <PageLoading />
   );
 };
 
 const mapStateToProps = (state) => {
   return {
     address: state.auth.address,
+    employer: state.employer,
+    countries: state.serviceData.countries,
+    cities: state.serviceData.cities,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getEmployerProfile: () => dispatch(getEmployerProfile()),
+    getEmployerProfile: (address) => dispatch(getEmployerProfile(address)),
     logout: () => dispatch(ACTIONS.logout()),
+    getCountriesList: () => dispatch(getCountriesListAction()),
+    getCitiesList: (country) => dispatch(getCitiesListAction(country)),
+    updateEmployerProfile: (employerProfile) =>
+      dispatch(updateEmployerProfile(employerProfile)),
   };
 };
 
