@@ -118,8 +118,6 @@ function* sendApplicantProfileSaga() {
     },
   };
 
-  console.log("data", JSON.stringify(data));
-
   const wallet = {
     address: auth.address,
     privateKey: auth.privateKey,
@@ -130,8 +128,6 @@ function* sendApplicantProfileSaga() {
     account_number: auth.account_number,
     sequence: auth.sequence,
   };
-
-  console.log(wallet, accountMeta);
 
   const transactionResult = yield sendTransaction(data, wallet, accountMeta);
   console.log("transactionResult", transactionResult);

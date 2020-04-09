@@ -16,6 +16,10 @@ import {
   getApplicantProfileWatcher,
   sendApplicantProfileWatcher,
 } from "./applicantProfileSagas";
+import {
+  getEmployerProfileWatcher,
+  updateEmployerProfileWatcher,
+} from "./employerProfileSagas";
 
 function* watchAuth() {
   yield takeEvery(ACTION_TYPES.AUTH.CREATE_WALLET_DATA, saveWalletSaga);
@@ -36,5 +40,7 @@ export function* rootSaga() {
     getCitiesWatcher(),
     getApplicantProfileWatcher(),
     sendApplicantProfileWatcher(),
+    getEmployerProfileWatcher(),
+    updateEmployerProfileWatcher(),
   ]);
 }

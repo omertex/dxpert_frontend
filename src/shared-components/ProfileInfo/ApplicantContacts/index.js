@@ -119,7 +119,6 @@ const Contacts = ({
   }, [getCountriesList, getCitiesList]);
 
   const handleInputChange = (e) => {
-    console.log(e.target);
     setIsValid({ ...isValid, [e.target.name]: true });
     setContactInfo({
       ...contactInfo,
