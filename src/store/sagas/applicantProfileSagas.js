@@ -78,6 +78,14 @@ function* sendApplicantProfileSaga() {
 
   const totalExperience = applicant.workExperience.reduce(
     (accumulator, item) => {
+      if (!item.from) {
+        return accumulator;
+      }
+      if (!item.to) {
+        return (
+          accumulator + differenceInMonths(new Date(), parseISO(item.from))
+        );
+      }
       return (
         accumulator + differenceInMonths(parseISO(item.to), parseISO(item.from))
       );
