@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import * as Styled from "./styled";
-import InfoContainer from "../InfoContainer";
+import { connect } from "react-redux";
+import { convertISODateToShort, trimISOStringMs } from "../../../services/dateTime";
+import * as actionTypes from "../../../store/actions/actionTypes";
 import { SubmitBtn } from "../../Buttons";
-import { DatePicker } from "../../StyledDatePicker";
 import { TextInput } from "../../FilterInputs";
 import StyledCheckbox from "../../StyledCheckbox";
+import { DatePicker } from "../../StyledDatePicker";
 import Info from "../Info";
-import { connect } from "react-redux";
-import * as actionTypes from "../../../store/actions/actionTypes";
-import {convertISODateToShort} from "../../../services/dateTime";
+import InfoContainer from "../InfoContainer";
+import * as Styled from "./styled";
 
 const Editable = ({
   changed,
@@ -16,6 +16,7 @@ const Editable = ({
   experience,
   onAddWork,
   onRemoveWork,
+  toPresentHandler,
 }) => (
   <Styled.Form>
     {experience.map((item, index) => (
@@ -33,10 +34,15 @@ const Editable = ({
             width="150px"
             name="to"
             changed={(e) => changed(e, index)}
-            value={item["to"]}
+            value={item.to}
+            disabled={!item.to}
           />
           <Styled.CheckBox>
-            <StyledCheckbox label="To present" />
+            <StyledCheckbox
+              label="To present"
+              checked={!item.to}
+              onChange={() => toPresentHandler(index)}
+            />
           </Styled.CheckBox>
         </Info>
         <Info title="Organization">
@@ -111,18 +117,30 @@ const Experience = ({
     setExperience(newExperience);
   };
 
+  const toPresentHandler = (index) => {
+    const newExperience = [...experience];
+    newExperience[index].to = experience[index].to
+      ? ""
+      : trimISOStringMs(new Date().toISOString());
+    setExperience(newExperience);
+  };
+
   const Displayed = ({ experience }) => (
     <>
       {experience.map((item, i) => (
         <Styled.DisplayedInfo key={i}>
           <Info title="Start of work">
             <Styled.DateInfo>
-              <span>{convertISODateToShort(item["from"]) || "not specified"}</span>
+              <span>
+                {convertISODateToShort(item["from"]) || "not specified"}
+              </span>
             </Styled.DateInfo>
           </Info>
           <Info title="End">
             <Styled.DateInfo>
-              <span>{convertISODateToShort(item["to"]) || "not specified"}</span>
+              <span>
+                {convertISODateToShort(item["to"]) || "not specified"}
+              </span>
             </Styled.DateInfo>
           </Info>
           <Info
@@ -148,6 +166,7 @@ const Experience = ({
           experience={experience}
           onAddWork={addWorkHandler}
           onRemoveWork={removeWorkHandler}
+          toPresentHandler={toPresentHandler}
         />
       }
       name="Work Experience"

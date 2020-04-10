@@ -151,7 +151,6 @@ export const mapCrypto = ({ data, cryptoKey, cryptoFunction }) => {
     for (const item of data) {
       newData.push(mapCrypto({ cryptoKey, data: item, cryptoFunction }));
     }
-    console.log("newData", newData);
     return newData;
   }
   // object

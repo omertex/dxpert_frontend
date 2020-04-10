@@ -28,7 +28,7 @@ const Form = withStyles({
   },
 })((props) => <FormControlLabel {...props} />);
 
-export default ({ value, label, onChange, checked, name }) => (
+export default ({ label, ...otherProps }) => (
   <Form
     style={{
       color: `${Colors.main_disabled}`,
@@ -40,13 +40,6 @@ export default ({ value, label, onChange, checked, name }) => (
       },
     }}
     label={label}
-    control={
-      <GreenCheckbox
-        value={value}
-        onChange={onChange}
-        name={name}
-        checked={checked}
-      />
-    }
+    control={<GreenCheckbox {...otherProps} />}
   />
 );
