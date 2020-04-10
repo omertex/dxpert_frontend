@@ -144,25 +144,26 @@ export const decryptByPrivateKey = (privateKey, base64) => {
 };
 
 // map crypto function on complex data (arrays, objects of strings)
-export const mapCrypto = ({ key, data, cryptoFunction }) => {
+export const mapCrypto = ({ data, cryptoKey, cryptoFunction }) => {
   // array
   if (typeof data === "object" && Array.isArray(data)) {
     const newData = [];
     for (const item of data) {
-      newData.push(cryptoFunction(key, item));
+      newData.push(mapCrypto({ cryptoKey, data: item, cryptoFunction }));
     }
+    console.log("newData", newData);
     return newData;
   }
   // object
   if (typeof data === "object" && !Array.isArray(data)) {
-    const newData = [];
+    const newData = {};
     for (const key in data) {
-      newData[key] = cryptoFunction(key, data[key]);
+      newData[key] = mapCrypto({ cryptoKey, data: data[key], cryptoFunction });
     }
     return newData;
   }
   // string
-  return cryptoFunction(key, data);
+  return cryptoFunction(cryptoKey, data);
 };
 
 export const createKeystoreFile = async (value, password) => {

@@ -59,10 +59,10 @@ const cleanProfile = (state, action) => {
       DOB: "",
       email: "",
     },
-    workExperience: [],
-    education: [],
-    skills: [],
-    languages: [],
+    workExperience: "[]",
+    education: "[]",
+    skills: "[]",
+    languages: "[]",
     isApplicantProfileLoaded: false,
   });
 };
