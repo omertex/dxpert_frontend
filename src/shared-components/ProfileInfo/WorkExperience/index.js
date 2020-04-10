@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { convertISODateToShort, trimISOStringMs } from "../../../services/dateTime";
+import {
+  convertISODateToShort,
+  trimISOStringMs,
+} from "../../../services/dateTime";
 import * as actionTypes from "../../../store/actions/actionTypes";
 import { SubmitBtn } from "../../Buttons";
 import { TextInput } from "../../FilterInputs";
@@ -138,9 +141,7 @@ const Experience = ({
           </Info>
           <Info title="End">
             <Styled.DateInfo>
-              <span>
-                {convertISODateToShort(item["to"]) || "not specified"}
-              </span>
+              <span>{item.to ? convertISODateToShort(item["to"]) : "to present"}</span>
             </Styled.DateInfo>
           </Info>
           <Info
