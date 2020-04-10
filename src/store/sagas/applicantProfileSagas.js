@@ -30,26 +30,27 @@ function* getApplicantProfileSaga({ payload }) {
     return;
   }
 
+  console.log("data", publicData, privateData);
+
   const profile = {
     details: {
       avatar: publicData.photo || "",
       name: decryptByPrivateKey(privateKey, privateData.name) || "",
-      // mapCrypto({
-      //   data: privateData.name,
-      //   key: privateKey,
-      //   cryptoFunction: decryptByPrivateKey,
-      // }) || "",
     },
-    aboutMe: privateData.about || "",
+    aboutMe: decryptByPrivateKey(privateKey, privateData.about) || "",
     contacts: {
       country: publicData.country || "",
       city: publicData.city || "",
       sex: publicData.sex || "",
       DOB: publicData.birth_date || "",
-      email: privateData.email || "",
+      email: decryptByPrivateKey(privateKey, privateData.email) || "",
     },
-    // workExperience: decryptByPrivateKey(privateKey, privateData.experience) || [],
-    workExperience: privateData.experience || [],
+    workExperience:
+      mapCrypto({
+        data: privateData.experience,
+        cryptoKey: privateKey,
+        cryptoFunction: decryptByPrivateKey,
+      }) || [],
     education: publicData.education || [],
     skills: publicData.skills || [],
     languages: publicData.languages || [],
@@ -89,23 +90,27 @@ function* sendApplicantProfileSaga() {
     value: {
       resume: {
         public_data: {
-          skills: applicant.skills.length ? applicant.skills : null,
+          skills: JSON.stringify(applicant.skills),
           country: applicant.contacts.country,
           city: applicant.contacts.city,
-          languages: applicant.languages.length ? applicant.languages : null,
-          total_experience: totalExperience,
-          education: applicant.education.length ? applicant.education : null,
-          birth_date: applicant.contacts.DOB ? applicant.contacts.DOB : "",
-          sex: applicant.contacts.sex || "",
-          photo: applicant.details.avatar || "",
+          languages: JSON.stringify(applicant.languages),
+          total_experience: JSON.stringify(totalExperience),
+          education: JSON.stringify(applicant.education),
+          birth_date: applicant.contacts.DOB,
+          sex: applicant.contacts.sex,
+          photo: applicant.details.avatar,
         },
         private_data: {
           name: encryptByPublicKey(auth.publicKey, applicant.details.name),
-          experience: applicant.workExperience.length
-            ? applicant.workExperience
-            : null,
-          email: "email",
-          about: "",
+          experience: JSON.stringify(
+            mapCrypto({
+              data: applicant.workExperience,
+              cryptoKey: auth.publicKey,
+              cryptoFunction: encryptByPublicKey,
+            })
+          ),
+          email: encryptByPublicKey(auth.publicKey, applicant.contacts.email),
+          about: encryptByPublicKey(auth.publicKey, applicant.aboutMe),
         },
         suggested_price: [
           {
@@ -128,6 +133,8 @@ function* sendApplicantProfileSaga() {
     account_number: auth.account_number,
     sequence: auth.sequence,
   };
+
+  console.log("data", data);
 
   const transactionResult = yield sendTransaction(data, wallet, accountMeta);
   console.log("transactionResult", transactionResult);
