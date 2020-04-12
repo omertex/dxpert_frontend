@@ -13,7 +13,7 @@ const сonstraints = {
 
 const ProfileDetails = ({ details, setDetails, sendApplicantProfile }) => {
   const [detailsState, setDetailsState] = useState(details);
-  const [isValid, setIsValid] = useState({ name: true });
+  const [validationErrors, setValidationErrors] = useState({});
 
   const avatarChangeHandler = async (e) => {
     const avatar = await imgBase64(e.target.files[0]);
@@ -24,16 +24,17 @@ const ProfileDetails = ({ details, setDetails, sendApplicantProfile }) => {
   };
 
   const nameChangeHandler = (e) => {
-    setIsValid({ ...isValid, name: true });
+    const {name, ...otherValidationErrors} = validationErrors;
+    setValidationErrors(otherValidationErrors);
     setDetailsState({ ...detailsState, name: e.target.value });
   };
 
   const submitHandler = () => {
     const validationResult = validate({ name: detailsState.name }, сonstraints);
     if (validationResult) {
-      setIsValid({
-        ...isValid,
-        name: !validationResult.name,
+      setValidationErrors({
+        ...validationErrors,
+        name: !!validationResult.name,
       });
       return;
     }
@@ -53,7 +54,7 @@ const ProfileDetails = ({ details, setDetails, sendApplicantProfile }) => {
           onAvatarChange={avatarChangeHandler}
           onNameChange={nameChangeHandler}
           onSubmit={submitHandler}
-          isValid={isValid}
+          validationErrors={validationErrors}
         />
       }
     />
