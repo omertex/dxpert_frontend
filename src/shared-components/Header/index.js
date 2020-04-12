@@ -23,7 +23,7 @@ const Header = ({ history, chosenWay, isAuth, coins }) => {
         var re = /\s*,\s*/;
         const skills = search.split(re);
         setFormData({ quick: "" });
-        history.push("/employer/search?skills=" + skills.join("%2C"));
+        history.push("/search?skills=" + skills.join("%2C"));
       }
     }
   };
@@ -31,7 +31,7 @@ const Header = ({ history, chosenWay, isAuth, coins }) => {
   return (
     <Styled.Header>
       <Styled.Container isAuth={isAuth}>
-        <Link to={chosenWay ? "/" + chosenWay + "/profile" : "/"}>
+        <Link to={chosenWay ? "/profile" : "/"}>
           <img src={Logo} alt="Logo" />
         </Link>
         {isAuth ? (
@@ -46,12 +46,8 @@ const Header = ({ history, chosenWay, isAuth, coins }) => {
                 />
               </Styled.Input>
               <Styled.Nav>
-                <Styled.MenuLink to={"/" + chosenWay + "/requests"}>
-                  My requests
-                </Styled.MenuLink>
-                <Styled.MenuLink to={"/" + chosenWay + "/search"}>
-                  Search
-                </Styled.MenuLink>
+                <Styled.MenuLink to={"/requests"}>My requests</Styled.MenuLink>
+                <Styled.MenuLink to={"/search"}>Search</Styled.MenuLink>
                 <Styled.BalanceLink to={"/balance"}>
                   {coins}
                   <span>DXP</span>
@@ -61,12 +57,8 @@ const Header = ({ history, chosenWay, isAuth, coins }) => {
           ) : (
             <>
               <Styled.Nav>
-                <Styled.MenuLink to={"/" + chosenWay + "/profile"}>
-                  My profile
-                </Styled.MenuLink>
-                <Styled.MenuLink to={"/" + chosenWay + "/requests"}>
-                  Requests
-                </Styled.MenuLink>
+                <Styled.MenuLink to={"/profile"}>My profile</Styled.MenuLink>
+                <Styled.MenuLink to={"/requests"}>Requests</Styled.MenuLink>
                 <Styled.BalanceLink to={"/balance"}>
                   {coins}
                   <span>DXP</span>

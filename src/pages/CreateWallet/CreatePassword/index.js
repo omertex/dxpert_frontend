@@ -71,8 +71,8 @@ const CreatePassword = withRouter(
     const [isDownloadingKeystore, setDownloadingKeystore] = useState(false);
 
     useEffect(() => {
-      if (isAuth) history.push(`/${chosenWay}/profile`);
-    }, [isAuth, chosenWay]);
+      if (isAuth) history.push(`/profile`);
+    }, [isAuth]);
 
     const checkConfirm = (e) => {
       if (e.target.value === pswd) {
