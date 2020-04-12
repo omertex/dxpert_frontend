@@ -7,7 +7,7 @@ import { SKILLS } from "../../../configuration/TemporaryConsts";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../store/actions/actionTypes";
 
-const Editable = ({ value, changed, submitted }) => (
+const Editable = ({ value, changed, submitted, validationErrors }) => (
   <Styled.Form>
     <MultiSelect
       data={SKILLS}
@@ -15,6 +15,7 @@ const Editable = ({ value, changed, submitted }) => (
       placeholder="Enter skill"
       width="431px"
       onChange={changed}
+      error={!!validationErrors.skills}
     />
     <Styled.SubmitBox>
       <SubmitBtn text="submit" clicked={submitted} />
@@ -24,12 +25,18 @@ const Editable = ({ value, changed, submitted }) => (
 
 const Skills = ({ skills, setSkills, sendApplicantProfile }) => {
   const [skillsList, setSkillsList] = useState(skills);
+  const [validationErrors, setValidationErrors] = useState({});
 
   const handleChange = (value) => {
     setSkillsList(value);
+    setValidationErrors({});
   };
 
   const handleSubmit = () => {
+    if (skillsList.length < 1) {
+      setValidationErrors({ skills: true });
+      return;
+    }
     setSkills(skillsList);
     sendApplicantProfile();
   };
@@ -52,6 +59,7 @@ const Skills = ({ skills, setSkills, sendApplicantProfile }) => {
           changed={handleChange}
           submitted={handleSubmit}
           value={skillsList}
+          validationErrors={validationErrors}
         />
       }
       name="Skills"

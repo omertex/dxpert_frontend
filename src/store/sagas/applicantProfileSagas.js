@@ -10,7 +10,6 @@ import {
   decryptByPrivateKey,
   mapCrypto,
 } from "../../configuration/helpers";
-import LZString from "lz-string";
 import differenceInMonths from "date-fns/differenceInMonths";
 import { parseISO } from "date-fns";
 

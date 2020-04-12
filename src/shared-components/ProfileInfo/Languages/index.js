@@ -7,7 +7,7 @@ import { MultiSelect } from "../../MultiSelect";
 import InfoContainer from "../InfoContainer";
 import * as Styled from "./styled";
 
-const Editable = ({ value, changed, submitted }) => (
+const Editable = ({ value, changed, submitted, validationErrors }) => (
   <Styled.Form>
     <MultiSelect
       data={LANGUAGES}
@@ -15,6 +15,7 @@ const Editable = ({ value, changed, submitted }) => (
       placeholder="Enter language"
       onChange={changed}
       width="431px"
+      error={!!validationErrors.languages}
     />
     <Styled.SubmitBox>
       <SubmitBtn text="submit" clicked={submitted} />
@@ -24,12 +25,18 @@ const Editable = ({ value, changed, submitted }) => (
 
 const Languages = ({ langs, setLangs, sendApplicantProfile }) => {
   const [languages, setLanguages] = useState(langs);
+  const [validationErrors, setValidationErrors] = useState({});
 
   const handleChange = (value) => {
     setLanguages(value);
+    setValidationErrors({});
   };
 
   const handleSubmit = () => {
+    if (languages.length < 1) {
+      setValidationErrors({ languages: true });
+      return;
+    }
     setLangs(languages);
     sendApplicantProfile();
   };
@@ -52,6 +59,7 @@ const Languages = ({ langs, setLangs, sendApplicantProfile }) => {
           value={languages}
           changed={handleChange}
           submitted={handleSubmit}
+          validationErrors={validationErrors}
         />
       }
       name="Languages"

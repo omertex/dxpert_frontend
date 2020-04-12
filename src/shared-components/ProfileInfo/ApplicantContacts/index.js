@@ -35,7 +35,7 @@ const Editable = ({
   submitted,
   countries,
   cities,
-  isValid,
+  validationErrors,
 }) => (
   <Styled.Form onSubmit={submitted}>
     <Styled.DisplayedInfo>
@@ -47,7 +47,7 @@ const Editable = ({
           data={countries}
           width="290px"
           placeholder="Select Country"
-          error={!isValid.country}
+          error={validationErrors.country}
         />
       </Info>
       <Info title="City">
@@ -66,7 +66,7 @@ const Editable = ({
           data={GENDER}
           value={contactInfo["sex"]}
           onChange={changed}
-          error={!isValid.sex}
+          error={validationErrors.sex}
         />
       </Info>
       <Info title="Date of birth">
@@ -75,7 +75,7 @@ const Editable = ({
           width="190px"
           value={contactInfo["DOB"]}
           changed={changed}
-          error={!isValid.DOB}
+          error={validationErrors.DOB}
         />
       </Info>
       <Info title="Email">
@@ -104,11 +104,7 @@ const Contacts = ({
   sendApplicantProfile,
 }) => {
   const [contactInfo, setContactInfo] = useState(contacts);
-  const [isValid, setIsValid] = useState({
-    country: true,
-    sex: true,
-    DOB: true,
-  });
+  const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
     getCountriesList();
@@ -119,7 +115,12 @@ const Contacts = ({
   }, [getCountriesList, getCitiesList]);
 
   const handleInputChange = (e) => {
-    setIsValid({ ...isValid, [e.target.name]: true });
+    // tricky destructuring assignment
+    const {
+      [e.target.name]: omitted,
+      ...otherValidationErrors
+    } = validationErrors;
+    setValidationErrors(otherValidationErrors);
     setContactInfo({
       ...contactInfo,
       [e.target.name]: e.target.value,
@@ -140,12 +141,11 @@ const Contacts = ({
       сonstraints
     );
     if (validationResult) {
-      console.log("validationResult", validationResult);
-      setIsValid({
-        ...isValid,
-        country: !validationResult.country,
-        sex: !validationResult.sex,
-        DOB: !validationResult.DOB,
+      setValidationErrors({
+        ...validationErrors,
+        country: !!validationResult.country,
+        sex: !!validationResult.sex,
+        DOB: !!validationResult.DOB,
       });
       return;
     }
@@ -183,7 +183,7 @@ const Contacts = ({
           countries={countries}
           cities={cities}
           submitted={handleSubmit}
-          isValid={isValid}
+          validationErrors={validationErrors}
         />
       }
       name="Contact details"
