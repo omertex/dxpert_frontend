@@ -10,13 +10,7 @@ import { connect } from "react-redux";
 import * as ACTIONS from "../../store/actions";
 import PageLoading from "../../shared-components/PageLoading";
 
-export const EmployerBalance = ({
-  address,
-  coins,
-  saveCoins,
-  avatar,
-  name,
-}) => {
+export const Balance = ({ address, coins, saveCoins, avatar, name }) => {
   const [allTransactions, setAllTransactions] = useState([]);
   const [purchasesLoading, setPurchasesLoading] = useState(false);
   const [balanceLoading, setBalanceLoading] = useState(true);
@@ -138,4 +132,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmployerBalance);
+export default connect(mapStateToProps, mapDispatchToProps)(Balance);

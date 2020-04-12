@@ -17,11 +17,6 @@ export const Request = styled.div`
   padding: 15px;
   box-sizing: border-box;
   transition: all 300ms ease;
-
-  :hover {
-    box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.2), 0px 3px 16px rgba(0, 0, 0, 0.12),
-      0px 9px 12px rgba(0, 0, 0, 0.14);
-  }
 `;
 
 export const Company = styled.p`
@@ -65,6 +60,7 @@ export const Expand = styled(ExpandMoreIcon)`
   padding: 0 8px;
   transform: rotate(0deg);
   transition: all 200ms linear;
+  cursor: pointer;
 
   ${(props) =>
     props.expanded &&

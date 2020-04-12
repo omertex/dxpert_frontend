@@ -17,7 +17,6 @@ const shouldInclude = /(?=.*\d)(?=.*[A-Z])(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
 
 const Unlock = ({
   isAuth,
-  chosenWay,
   history,
   createNewWallet,
   loginByKeyStore,
@@ -26,7 +25,7 @@ const Unlock = ({
   useEffect(() => {
     if (isAuth) {
       setWrongKeystore(false);
-      history.push("/" + chosenWay + "/profile");
+      history.push("/profile");
     }
   }, [isAuth]);
 
@@ -132,7 +131,6 @@ const Unlock = ({
 const mapStateToProps = (state) => {
   return {
     isAuth: state.auth.isAuth,
-    chosenWay: state.auth.chosenWay,
   };
 };
 

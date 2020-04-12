@@ -133,7 +133,7 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
     if (page > 1) url += `page=${page}&`;
 
     const encodeURL = encodeURIComponent(url.slice(0, -1));
-    history.push(`/employer/search?${encodeURL}`);
+    history.push(`/search?${encodeURL}`);
   };
 
   const sendRequest = () => {
@@ -269,7 +269,7 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
     if (urlParams.search) {
       setFormData({ ...initialState });
       setRequestData([]);
-      history.push("/employer/search");
+      history.push("/search");
     }
   };
 

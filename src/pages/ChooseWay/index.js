@@ -11,8 +11,8 @@ import * as actionTypes from "../../store/actions/actionTypes";
 
 function ChooseWay({ history, onChooseWay, chosenWay, isAuth }) {
   useEffect(() => {
-    if (isAuth) history.push(`/${chosenWay}/profile`);
-  }, [isAuth, chosenWay]);
+    if (isAuth) history.push(`/profile`);
+  }, [isAuth]);
 
   return (
     <Styled.Container isWayChosen={chosenWay}>

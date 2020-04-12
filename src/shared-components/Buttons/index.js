@@ -1,10 +1,13 @@
 import React from "react";
 import * as Styled from "./styled.js";
+import { Colors } from "../../configuration/Colors";
 import IconButton from "@material-ui/core/IconButton";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
 import { withStyles } from "@material-ui/core/styles";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import randomIdString from "../../services/randomIdString";
+import EmailRoundedIcon from "@material-ui/icons/EmailRounded";
+import Link from "@material-ui/core/Link";
 
 export const ContinueBtn = ({ text, disabled, clicked, arrow, children }) => (
   <Styled.ContinueBtn onClick={clicked} disabled={disabled} arrow={arrow}>
@@ -114,3 +117,15 @@ export const FileUploadBtn = ({ children, ...otherProps }) => {
     </>
   );
 };
+
+export const MailLink = withStyles({
+  root: {
+    width: 24,
+    height: 24,
+    color: Colors.continue_btn,
+  },
+})((props) => (
+  <Link target="_blank" {...props}>
+    <EmailRoundedIcon />
+  </Link>
+));
