@@ -12,6 +12,19 @@ import { DatePicker } from "../../StyledDatePicker";
 import Info from "../Info";
 import InfoContainer from "../InfoContainer";
 import * as Styled from "./styled";
+import validate from "validate.js";
+
+const сonstraints = {
+  from: {
+    presence: { allowEmpty: false },
+  },
+  company: {
+    presence: { allowEmpty: false },
+  },
+  position: {
+    presence: { allowEmpty: false },
+  },
+};
 
 const Editable = ({
   changed,
@@ -20,6 +33,7 @@ const Editable = ({
   onAddWork,
   onRemoveWork,
   toPresentHandler,
+  validationErrors,
 }) => (
   <Styled.Form>
     {experience.map((item, index) => (
@@ -30,6 +44,7 @@ const Editable = ({
             name="from"
             changed={(e) => changed(e, index)}
             value={item["from"]}
+            error={validationErrors[index].from}
           />
         </Info>
         <Info title="End">
@@ -55,6 +70,7 @@ const Editable = ({
             placeholder="Organization"
             onChange={(e) => changed(e, index)}
             value={item["company"]}
+            error={validationErrors[index].company}
           />
         </Info>
         <Info title="Position">
@@ -64,6 +80,7 @@ const Editable = ({
             name="position"
             onChange={(e) => changed(e, index)}
             value={item["position"]}
+            error={validationErrors[index].position}
           />
         </Info>
         <Styled.AddInfo
@@ -90,27 +107,68 @@ const Experience = ({
   sendApplicantProfile,
 }) => {
   const [experience, setExperience] = useState(workExperience);
+  const [validationErrors, setValidationErrors] = useState(
+    Array.from({ length: workExperience.length }, (item) => ({}))
+  );
 
   const handleChange = (e, index) => {
     const {
       target: { name, value },
     } = e;
+    // tricky destructuring assignment
+    const { [name]: omitted, ...otherValidationErrors } = validationErrors[
+      index
+    ];
+    const newValidationErrors = validationErrors;
+    newValidationErrors[index] = otherValidationErrors;
+    setValidationErrors(newValidationErrors);
     const newExperience = [...experience];
     newExperience[index][name] = value;
     setExperience(newExperience);
   };
 
   const handleSubmit = () => {
+    const validationResultArray = experience.map((item) => {
+      return validate(
+        {
+          from: item.from,
+          company: item.company,
+          position: item.position,
+        },
+        сonstraints
+      );
+    });
+
+    let isValid = true;
+
+    const newValidationErrors = validationResultArray.map((item) => {
+      const normalizedItem = item || {};
+      if (!!normalizedItem.graduation_year || !!normalizedItem.institution) {
+        isValid = false;
+      }
+      return {
+        from: !!normalizedItem.from,
+        company: !!normalizedItem.company,
+        position: !!normalizedItem.position,
+      };
+    });
+
+    setValidationErrors(newValidationErrors);
+
+    if (!isValid) {
+      return;
+    }
+
     setWorkExperience(experience);
     sendApplicantProfile();
   };
 
   const addWorkHandler = () => {
-    const newExperience = [
+    setExperience([
       ...experience,
       { from: "", to: "", company: "", position: "" },
-    ];
-    setExperience(newExperience);
+    ]);
+    setValidationErrors([...validationErrors, {}]);
   };
 
   const removeWorkHandler = (index) => {
@@ -118,6 +176,10 @@ const Experience = ({
       (item, currentIndex) => currentIndex !== index
     );
     setExperience(newExperience);
+    const newValidationErrors = validationErrors.filter(
+      (item, currentIndex) => currentIndex !== index
+    );
+    setValidationErrors(newValidationErrors);
   };
 
   const toPresentHandler = (index) => {
@@ -141,7 +203,9 @@ const Experience = ({
           </Info>
           <Info title="End">
             <Styled.DateInfo>
-              <span>{item.to ? convertISODateToShort(item["to"]) : "to present"}</span>
+              <span>
+                {item.to ? convertISODateToShort(item["to"]) : "to present"}
+              </span>
             </Styled.DateInfo>
           </Info>
           <Info
@@ -168,6 +232,7 @@ const Experience = ({
           onAddWork={addWorkHandler}
           onRemoveWork={removeWorkHandler}
           toPresentHandler={toPresentHandler}
+          validationErrors={validationErrors}
         />
       }
       name="Work Experience"
