@@ -2,7 +2,7 @@ import { gql } from "apollo-boost";
 
 export const GQLUrl = "https://dxp-gql-app.herokuapp.com/v1/graphql";
 
-export const BlockchainUrl = `http://dev.omertex.com:17864`;
+export const BlockchainUrl = `https://cors-anywhere.herokuapp.com/http://dev.omertex.com:17864`;
 
 export const TemporaryBankWallet = {
   address: "dxpert1ka08uzst48ralnwjc6yzyfq8xp0jk26e3459yp",
