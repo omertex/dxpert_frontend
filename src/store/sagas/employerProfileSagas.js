@@ -13,7 +13,7 @@ const emptyProfile = {
   city: "",
   website: "",
   about: "",
-  avatar: "",
+  // avatar: "",
 };
 
 function* getEmployerProfileSaga(action) {
