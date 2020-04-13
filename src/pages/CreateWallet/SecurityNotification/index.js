@@ -9,13 +9,13 @@ import { Transition } from "react-transition-group";
 import PasswordImg from "../../../assets/images/password.png";
 import { transitionStyles } from "../transitionStyles";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
+import * as ACTIONS from "../../../store/actions";
 import { withRouter } from "react-router-dom";
 
 const SecurityNotification = withRouter(
-  ({ isShown, clickedContinue, clickedPrevious, createNewWallet, history }) => {
+  ({ isShown, clickedContinue, clickedPrevious, logout, history }) => {
     const close = () => {
-      createNewWallet();
+      logout();
       history.push("/");
     };
 
@@ -31,7 +31,7 @@ const SecurityNotification = withRouter(
             <Styled.Container>
               <h2>Create New Wallet</h2>
               <h3>Create Keystore File + Password</h3>
-              <RightCloseBtn clicked={close} label={"Close"} />
+              <RightCloseBtn onClick={close} label={"Close"} />
               <Styled.Image src={PasswordImg} alt="" />
               <Styled.Notification>
                 We are about to show your mnemonic phrase, please ensure that no
@@ -51,7 +51,7 @@ const SecurityNotification = withRouter(
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createNewWallet: () => dispatch(actions.createNewWallet()),
+    logout: () => dispatch(ACTIONS.logout()),
   };
 };
 

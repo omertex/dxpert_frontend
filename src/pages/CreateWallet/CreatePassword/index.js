@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Password, Confirm } from "../../../shared-components/StyledInput";
 import {
   ContinueBtn,
@@ -19,6 +19,7 @@ import {
   generateWalletByMnemonic,
   createKeystoreFile,
 } from "../../../configuration/helpers";
+import { setAccountRole } from "../../../store/sagas/requests";
 
 const defaultTip = {
   transform: "scale(0)",
@@ -55,18 +56,23 @@ const CreatePassword = withRouter(
     agreedTerms,
     keyStoreFileDownloaded,
     history,
+    chosenWay,
     genMnemonics,
     constMnemPhrase,
     newWalletData,
     downloadFile,
-    createNewWallet,
+    logout,
+    isAuth,
   }) => {
     const [password, setPassword] = useState("");
-    // const [confirmPassword, setConfirmPassword] = useState("");
     const [lengthError, setLengthError] = useState(false);
     const [includesError, setIncludesError] = useState(false);
     const [notConfirmed, setNotConfirmed] = useState(false);
     const [isDownloadingKeystore, setDownloadingKeystore] = useState(false);
+
+    useEffect(() => {
+      if (isAuth) history.push(`/profile`);
+    }, [isAuth]);
 
     const checkConfirm = (e) => {
       if (e.target.value === pswd) {
@@ -77,7 +83,6 @@ const CreatePassword = withRouter(
     };
 
     const passwordChanged = (e) => {
-      // if (!confirmPassword) setNotConfirmed(true);
       if (e.target.value.length < 8) {
         setLengthError(true);
         setPassword(e.target.value);
@@ -103,17 +108,21 @@ const CreatePassword = withRouter(
       const mnemPhrase = constructMnemonicPhrase(mnems);
       const wallet = generateWalletByMnemonic(mnemPhrase);
       const download = await createKeystoreFile(wallet.privateKey, pswd);
+      const accountRole = await setAccountRole(
+        wallet.address,
+        chosenWay === "applicant" ? 0 : 1
+      );
       genMnemonics(mnems);
       constMnemPhrase(mnemPhrase);
       newWalletData(wallet);
-      if (download) {
+      if (download && accountRole) {
         downloadFile();
       }
       setDownloadingKeystore(false);
     };
 
     const close = () => {
-      createNewWallet();
+      logout();
       history.push("/");
     };
 
@@ -134,7 +143,7 @@ const CreatePassword = withRouter(
               <Styled.Container>
                 <h2>Create New Wallet</h2>
                 <h3>Create Keystore File + Password</h3>
-                <RightCloseBtn clicked={close} label={"Close"} />
+                <RightCloseBtn onClick={close} label={"Close"} />
                 <Styled.Form>
                   <Styled.Inputs>
                     <Password
@@ -258,6 +267,8 @@ const mapStateToProps = (state) => {
     mnemonics: state.auth.mnemonics,
     mnemonicPhrase: state.auth.mnemonicPhrase,
     privateKey: state.auth.privateKey,
+    chosenWay: state.auth.chosenWay,
+    isAuth: state.auth.isAuth,
   };
 };
 
@@ -273,7 +284,7 @@ const mapDispatchToProps = (dispatch) => {
     constMnemPhrase: (phrase) =>
       dispatch(actions.constructMnemonicPhrase(phrase)),
     newWalletData: (wallet) => dispatch(actions.createWalletData(wallet)),
-    createNewWallet: () => dispatch(actions.createNewWallet()),
+    logout: () => dispatch(actions.logout()),
   };
 };
 

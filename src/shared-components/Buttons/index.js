@@ -1,9 +1,13 @@
 import React from "react";
 import * as Styled from "./styled.js";
+import { Colors } from "../../configuration/Colors";
 import IconButton from "@material-ui/core/IconButton";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
 import { withStyles } from "@material-ui/core/styles";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import randomIdString from "../../services/randomIdString";
+import EmailRoundedIcon from "@material-ui/icons/EmailRounded";
+import Link from "@material-ui/core/Link";
 
 export const ContinueBtn = ({ text, disabled, clicked, arrow, children }) => (
   <Styled.ContinueBtn onClick={clicked} disabled={disabled} arrow={arrow}>
@@ -90,12 +94,7 @@ export const RightCloseBtn = withStyles({
     right: 0,
   },
 })((props) => (
-  <IconButton
-    onClick={props.clicked}
-    color="standard"
-    aria-label={props.label}
-    {...props}
-  >
+  <IconButton color="default" aria-label={props.label} {...props}>
     <CloseRoundedIcon />
   </IconButton>
 ));
@@ -106,3 +105,27 @@ export const LogOutBtn = ({ text, disabled, clicked, width }) => (
     {text}
   </Styled.LogOutBtn>
 );
+
+export const FileUploadBtn = ({ children, ...otherProps }) => {
+  const id = "file-upload_" + randomIdString();
+  return (
+    <>
+      <input style={{ display: "none" }} id={id} type="file" {...otherProps} />
+      <label htmlFor={id}>
+        <Styled.FileUploadBtn>{children}</Styled.FileUploadBtn>
+      </label>
+    </>
+  );
+};
+
+export const MailLink = withStyles({
+  root: {
+    width: 24,
+    height: 24,
+    color: Colors.continue_btn,
+  },
+})((props) => (
+  <Link target="_blank" {...props}>
+    <EmailRoundedIcon />
+  </Link>
+));

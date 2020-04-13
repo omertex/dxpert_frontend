@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Colors } from "../../../configuration/Colors";
 import Token from "../../../assets/images/token.png";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export const Container = styled.div`
   width: 450px;
@@ -40,8 +41,27 @@ export const ID = styled.p`
   margin: 0;
 `;
 
+export const SuccessMessage = styled.p`
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.03rem;
+  margin: 0 0 24px 0;
+  padding-bottom: 20px;
+  color: ${Colors.success};
+`;
+
+export const ErrorMessage = styled(SuccessMessage)`
+  color: ${Colors.error};
+`;
+
 export const Buttons = styled.div`
   width: 250px;
   display: flex;
-  justify-content: space-between;
+  margin-bottom: 10px;
+  justify-content: ${(props) => (props.centered ? "center" : "space-between")};
+`;
+
+export const Loading = styled(CircularProgress)`
+  margin: 10px 0 40px 0;
+  color: ${Colors.main_header} !important;
 `;

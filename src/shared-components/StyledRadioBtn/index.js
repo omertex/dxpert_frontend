@@ -29,26 +29,40 @@ const Form = withStyles({
   },
 })((props) => <FormControlLabel {...props} />);
 
-const Group = withStyles({
-  root: {
-    display: "flex",
-    flexDirection: "row",
-  },
-})((props) => <RadioGroup {...props} />);
 
-export const RadioBtn = ({ data, value, onChange, name, onClick, checked }) => (
-  <Group defaultValue={value} name={name}>
-    {data.map((item) => (
-      <Form
-        labelPlacement="end"
-        value={item.value}
-        checked={checked}
-        control={<StyledRadio />}
-        key={item.value}
-        label={item.label}
-        onChange={onChange}
-        onClick={onClick}
-      />
-    ))}
-  </Group>
+
+export const RadioBtn = ({
+  data,
+  value,
+  onChange,
+  name,
+  onClick,
+  checked,
+  error,
+}) => {
+
+  const Group = withStyles({
+    root: {
+      display: "flex",
+      flexDirection: "row",
+      borderRadius: "5px",
+      border: error ? "1px solid red" : ""
+    },
+  })((props) => <RadioGroup {...props} />);
+  return(
+    <Group defaultValue={value} name={name}>
+      {data.map((item) => (
+        <Form
+          labelPlacement="end"
+          value={item.value}
+          checked={checked}
+          control={<StyledRadio />}
+          key={item.value}
+          label={item.label}
+          onChange={onChange}
+          onClick={onClick}
+        />
+      ))}
+    </Group>
 );
+      }

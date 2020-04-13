@@ -1,5 +1,6 @@
 import { createAddress, createWalletFromMnemonic } from "@tendermint/sig";
 import { publicKeyCreate as secp256k1PublicKeyCreate } from "secp256k1";
+import { decrypt, encrypt } from "eciesjs";
 import AESCryptoKey from "../configuration/AESCryptoKey";
 
 export const generateMnemonics = (baseMnemonicsArray) => {
@@ -58,7 +59,21 @@ export const base64ToArrayBuffer = (base64) => {
   for (let i = 0; i < len; i++) {
     bytes[i] = binary_string.charCodeAt(i);
   }
-  return bytes.buffer;
+  return bytes;
+};
+
+export const base64ToHex = (base64) => {
+  const arrayBuffer = base64ToArrayBuffer(base64);
+  const view = new Uint8Array(arrayBuffer);
+  let result = "";
+  let value;
+
+  for (let i = 0; i < view.length; i++) {
+    value = view[i].toString(16);
+    result += value.length === 1 ? "0" + value : value;
+  }
+
+  return result;
 };
 
 export const resizePassword = (password) => {
@@ -93,7 +108,7 @@ export const arrayBufferEncryption = async (value, password) => {
 };
 
 export const base64Decryption = async (value, password) => {
-  const convertValue = base64ToArrayBuffer(value);
+  const convertValue = base64ToArrayBuffer(value).buffer;
   const key = await window.crypto.subtle.importKey(
     "jwk",
     AESCryptoKey[0],
@@ -110,6 +125,44 @@ export const base64Decryption = async (value, password) => {
     key,
     convertValue
   );
+};
+
+export const encryptByPublicKey = (publicKey, string) => {
+  const data = new TextEncoder().encode(string);
+  const enc = encrypt(base64ToHex(publicKey), data);
+  return enc.toString("base64");
+};
+
+export const decryptByPrivateKey = (privateKey, base64) => {
+  try {
+    const data = Buffer.from(base64, "base64");
+    const enc = decrypt(base64ToHex(privateKey), data);
+    return enc.toString();
+  } catch (e) {
+    return "";
+  }
+};
+
+// map crypto function on complex data (arrays, objects of strings)
+export const mapCrypto = ({ data, cryptoKey, cryptoFunction }) => {
+  // array
+  if (typeof data === "object" && Array.isArray(data)) {
+    const newData = [];
+    for (const item of data) {
+      newData.push(mapCrypto({ cryptoKey, data: item, cryptoFunction }));
+    }
+    return newData;
+  }
+  // object
+  if (typeof data === "object" && !Array.isArray(data)) {
+    const newData = {};
+    for (const key in data) {
+      newData[key] = mapCrypto({ cryptoKey, data: data[key], cryptoFunction });
+    }
+    return newData;
+  }
+  // string
+  return cryptoFunction(cryptoKey, data);
 };
 
 export const createKeystoreFile = async (value, password) => {

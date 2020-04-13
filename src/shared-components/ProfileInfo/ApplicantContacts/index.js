@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Styled from "./styled";
 import InfoContainer from "../InfoContainer";
 import { SubmitBtn } from "../../Buttons";
@@ -10,20 +10,44 @@ import { GENDER } from "../../../configuration/TemporaryConsts";
 import Info from "../Info";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../store/actions/actionTypes";
+import {
+  getCountriesListAction,
+  getCitiesListAction,
+} from "../../../store/actions/serviceDataActions";
+import validate from "validate.js";
+import { convertISODateToLong } from "../../../services/dateTime";
 
-const dataSelect = ["Ten", "Twenty", "Thirty"];
+const сonstraints = {
+  country: {
+    presence: { allowEmpty: false },
+  },
+  sex: {
+    presence: { allowEmpty: false },
+  },
+  DOB: {
+    presence: { allowEmpty: false },
+  },
+};
 
-const Editable = ({ changed, contactInfo, submitted }) => (
-  <Styled.Form>
+const Editable = ({
+  changed,
+  contactInfo,
+  submitted,
+  countries,
+  cities,
+  validationErrors,
+}) => (
+  <Styled.Form onSubmit={submitted}>
     <Styled.DisplayedInfo>
       <Info title="Country">
         <FilterSelect
           name="country"
           changed={changed}
           value={contactInfo["country"]}
-          data={dataSelect}
+          data={countries}
           width="290px"
           placeholder="Select Country"
+          error={validationErrors.country}
         />
       </Info>
       <Info title="City">
@@ -31,17 +55,18 @@ const Editable = ({ changed, contactInfo, submitted }) => (
           name="city"
           changed={changed}
           value={contactInfo["city"]}
-          data={dataSelect}
+          data={cities}
           width="290px"
           placeholder="Select City"
         />
       </Info>
       <Info title="Gender">
         <RadioBtn
-          name="gender"
+          name="sex"
           data={GENDER}
-          value={contactInfo["gender"]}
+          value={contactInfo["sex"]}
           onChange={changed}
+          error={validationErrors.sex}
         />
       </Info>
       <Info title="Date of birth">
@@ -50,65 +75,115 @@ const Editable = ({ changed, contactInfo, submitted }) => (
           width="190px"
           value={contactInfo["DOB"]}
           changed={changed}
+          error={validationErrors.DOB}
         />
       </Info>
-      <Info title="Phone Number">
+      <Info title="Email">
         <TextInput
-          name="phoneNumber"
+          name="email"
           onChange={changed}
-          value={contactInfo["phoneNumber"]}
+          value={contactInfo["email"]}
           width="290px"
-          placeholder="Phone Number"
+          placeholder="Email"
         />
       </Info>
     </Styled.DisplayedInfo>
     <Styled.SubmitBox>
-      <SubmitBtn clicked={submitted} text="submit" />
+      <SubmitBtn text="submit" />
     </Styled.SubmitBox>
   </Styled.Form>
 );
 
-const Contacts = ({ contacts, setContacts }) => {
-  const [contactInfo, setContactInfo] = useState({});
+const Contacts = ({
+  contacts,
+  countries,
+  cities,
+  setContacts,
+  getCountriesList,
+  getCitiesList,
+  sendApplicantProfile,
+}) => {
+  const [contactInfo, setContactInfo] = useState(contacts);
+  const [validationErrors, setValidationErrors] = useState({});
+
+  useEffect(() => {
+    getCountriesList();
+    if (contacts.country) {
+      getCitiesList(contacts.country);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getCountriesList, getCitiesList]);
 
   const handleInputChange = (e) => {
+    // tricky destructuring assignment
+    const {
+      [e.target.name]: omitted,
+      ...otherValidationErrors
+    } = validationErrors;
+    setValidationErrors(otherValidationErrors);
     setContactInfo({
       ...contactInfo,
       [e.target.name]: e.target.value,
     });
+    if (e.target.name === "country") {
+      getCitiesList(e.target.value);
+    }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationResult = validate(
+      {
+        country: contactInfo.country,
+        sex: contactInfo.sex,
+        DOB: contactInfo.DOB,
+      },
+      сonstraints
+    );
+    if (validationResult) {
+      setValidationErrors({
+        ...validationErrors,
+        country: !!validationResult.country,
+        sex: !!validationResult.sex,
+        DOB: !!validationResult.DOB,
+      });
+      return;
+    }
     setContacts(contactInfo);
+    sendApplicantProfile();
   };
 
-  const Displayed = () => (
+  const Displayed = ({ contacts }) => (
     <Styled.DisplayedInfo>
-      <Info title="Country" description={contacts["country"] || "Belarus"} />
-      <Info title="City" description={contacts["city"] || "Minsk"} />
       <Info
-        title="Gender"
-        description={contacts["gender"] === "m" ? "male" : "female"}
+        title="Country"
+        description={contacts["country"] || "not specified"}
       />
+      <Info title="City" description={contacts["city"] || "not specified"} />
+      <Info title="Gender" description={contacts["sex"] || "not specified"} />
       <Info
         title="Date of birth"
-        description={contacts["DOB"] || "24 august 1995"}
+        description={
+          contacts["DOB"]
+            ? convertISODateToLong(contacts["DOB"])
+            : "not specified"
+        }
       />
-      <Info
-        title="Phone Number"
-        description={contacts["phoneNumber"] || "+375 29 1234567"}
-      />
+      <Info title="Email" description={contacts["email"] || "not specified"} />
     </Styled.DisplayedInfo>
   );
 
   return (
     <InfoContainer
-      displayed={<Displayed />}
+      displayed={<Displayed contacts={contacts} />}
       editable={
         <Editable
           changed={handleInputChange}
           contactInfo={contactInfo}
+          countries={countries}
+          cities={cities}
           submitted={handleSubmit}
+          validationErrors={validationErrors}
         />
       }
       name="Contact details"
@@ -119,6 +194,8 @@ const Contacts = ({ contacts, setContacts }) => {
 const mapStateToProps = (state) => {
   return {
     contacts: state.applicant.contacts,
+    countries: state.serviceData.countries,
+    cities: state.serviceData.cities,
   };
 };
 
@@ -129,6 +206,8 @@ const mapDispatchToProps = (dispatch) => {
         type: actionTypes.APPLICANT_PROFILE.SET_CONTACTS,
         payload: contactInfo,
       }),
+    getCountriesList: () => dispatch(getCountriesListAction()),
+    getCitiesList: (country) => dispatch(getCitiesListAction(country)),
   };
 };
 

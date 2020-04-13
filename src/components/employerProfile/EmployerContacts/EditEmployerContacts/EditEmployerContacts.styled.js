@@ -10,10 +10,3 @@ export const SubmitBox = styled.div`
   justify-content: center;
   margin-top: 16px;
 `;
-
-export const DisplayedInfo = styled.div`
-  width: 100%;
-  display: flex;
-  flex-flow: column;
-  padding: 15px 0;
-`;

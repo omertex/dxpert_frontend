@@ -2,6 +2,10 @@ import React, { memo } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { Colors } from "../../configuration/Colors";
+import {
+  convertISODateToShort,
+  convertShortDateToISO,
+} from "../../services/dateTime";
 
 const Input = withStyles({
   root: {
@@ -31,19 +35,28 @@ const Input = withStyles({
 })(TextField);
 
 export const DatePicker = memo(
-  ({ placeholder, width, value, error, changed, blured }) => {
+  ({ placeholder, width, value, error, changed, blured, ...otherProps }) => {
+    // format date value from ISO string to yyyy-mm-dd
+    const formattedValue = convertISODateToShort(value);
+    // format date value from yyyy-mm-dd to ISO string w/o milliseconds
+    const onChangeWrapper = ({ target }) => {
+      const isoString = convertShortDateToISO(target.value);
+      changed({ target: { name: target.name, value: isoString } });
+    };
+
     return (
       <Input
-        value={value}
+        value={formattedValue}
         error={error}
         type="date"
-        onChange={changed}
+        onChange={onChangeWrapper}
         onBlur={blured}
         style={
           error ? { width: `${width}`, color: "red" } : { width: `${width}` }
         }
         placeholder={placeholder}
         variant="outlined"
+        {...otherProps}
       />
     );
   }

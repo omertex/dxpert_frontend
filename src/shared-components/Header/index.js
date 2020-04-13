@@ -4,9 +4,8 @@ import { QuickSearch } from "../../shared-components/StyledInput";
 import Logo from "../../assets/images/logo.png";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions";
 
-const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
+const Header = ({ history, chosenWay, isAuth, coins }) => {
   const [formData, setFormData] = useState({ quick: "" });
 
   const handleChange = (e) => {
@@ -24,7 +23,7 @@ const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
         var re = /\s*,\s*/;
         const skills = search.split(re);
         setFormData({ quick: "" });
-        history.push("/employer/search?skills=" + skills.join("+"));
+        history.push("/search?skills=" + skills.join("%2C"));
       }
     }
   };
@@ -32,7 +31,7 @@ const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
   return (
     <Styled.Header>
       <Styled.Container isAuth={isAuth}>
-        <Link to={chosenWay ? "/" + chosenWay + "/profile" : "/"}>
+        <Link to={chosenWay ? "/profile" : "/"}>
           <img src={Logo} alt="Logo" />
         </Link>
         {isAuth ? (
@@ -47,17 +46,10 @@ const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
                 />
               </Styled.Input>
               <Styled.Nav>
-                <Styled.MenuLink to={"/" + chosenWay + "/profile"}>
-                  My profile
-                </Styled.MenuLink>
-                <Styled.MenuLink to={"/" + chosenWay + "/requests"}>
-                  My requests
-                </Styled.MenuLink>
-                <Styled.MenuLink to={"/" + chosenWay + "/search"}>
-                  Search
-                </Styled.MenuLink>
+                <Styled.MenuLink to={"/requests"}>My requests</Styled.MenuLink>
+                <Styled.MenuLink to={"/search"}>Search</Styled.MenuLink>
                 <Styled.BalanceLink to={"/balance"}>
-                  1343
+                  {coins}
                   <span>DXP</span>
                 </Styled.BalanceLink>
               </Styled.Nav>
@@ -65,12 +57,8 @@ const Header = ({ history, chosenWay, isAuth, coins, createNewWallet }) => {
           ) : (
             <>
               <Styled.Nav>
-                <Styled.MenuLink to={"/" + chosenWay + "/profile"}>
-                  My profile
-                </Styled.MenuLink>
-                <Styled.MenuLink to={"/" + chosenWay + "/requests"}>
-                  Requests
-                </Styled.MenuLink>
+                <Styled.MenuLink to={"/profile"}>My profile</Styled.MenuLink>
+                <Styled.MenuLink to={"/requests"}>Requests</Styled.MenuLink>
                 <Styled.BalanceLink to={"/balance"}>
                   {coins}
                   <span>DXP</span>
@@ -92,10 +80,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    createNewWallet: () => dispatch(actions.createNewWallet()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
+export default connect(mapStateToProps)(withRouter(Header));

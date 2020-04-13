@@ -1,66 +1,39 @@
-import { lazy } from 'react';
+import { lazy } from "react";
 
 export const chooseWay = "/",
   createWallet = "/create-wallet",
-  employerBalance = "/balance",
-  employerProfile = "/employer/profile",
-  employerRequests = "/employer/requests",
-  employerSearch = "/employer/search",
-  applicantProfile = "/applicant/profile",
-  applicantRequests = "/applicant/requests",
+  balance = "/balance",
+  profile = "/profile",
+  requests = "/requests",
+  search = "/search",
   unlockWallet = "/unlock-wallet",
-  walletCreationTutorial = "/wallet-creation-tutorial";
+  walletCreationTutorial = "/wallet-creation-tutorial",
+  openedResume = "/opened-resume/:id";
 
 const ChooseWay = lazy(() => import("../pages/ChooseWay"));
 const CreateWallet = lazy(() => import("../pages/CreateWallet"));
-const EmployerBalance = lazy(() => import("../pages/EmployerBalance"));
-const EmployerProfile = lazy(() => import("../pages/EmployerProfile"));
-const EmployerRequests = lazy(() => import("../pages/EmployerRequests"));
-const EmployerSearch = lazy(() => import("../pages/SearchFilter"));
-const ApplicantProfile = lazy(() => import("../pages/Profile"));
-const ApplicantRequests = lazy(() => import("../pages/ApplicantRequests"));
+const Profile = lazy(() => import("../pages/Profile"));
+const Balance = lazy(() => import("../pages/Balance"));
+const Requests = lazy(() => import("../pages/Requests"));
+const Search = lazy(() => import("../pages/SearchFilter"));
 const UnlockWallet = lazy(() => import("../pages/UnlockWallet"));
-const WalletCreationTutorial = lazy(() => import("../pages/WalletCreationTutorial"));
+const WalletCreationTutorial = lazy(() =>
+  import("../pages/WalletCreationTutorial")
+);
+const OpenedResume = lazy(() => import("../pages/OpenedResume"));
 
 export const ROUTES = [
-  { path: chooseWay,
-    component: ChooseWay,
-    needAuth: false
-  },
-  { path: createWallet,
-    component: CreateWallet,
-    needAuth: false
-  },
-  { path: employerBalance,
-    component: EmployerBalance,
-    needAuth: true
-  },
-  { path: employerProfile,
-    component: EmployerProfile,
-    needAuth: true
-  },
-  { path: employerRequests,
-    component: EmployerRequests,
-    needAuth: true
-  },
-  { path: employerSearch,
-    component: EmployerSearch,
-    needAuth: true
-  },
-  { path: applicantProfile,
-    component: ApplicantProfile,
-    needAuth: true
-  },
-  { path: applicantRequests,
-    component: ApplicantRequests,
-    needAuth: true
-  },
-  { path: unlockWallet,
-    component: UnlockWallet,
-    needAuth: false
-  },
-  { path: walletCreationTutorial,
+  { path: chooseWay, component: ChooseWay, needAuth: false },
+  { path: createWallet, component: CreateWallet, needAuth: false },
+  { path: balance, component: Balance, needAuth: true },
+  { path: profile, component: Profile, needAuth: true },
+  { path: requests, component: Requests, needAuth: true },
+  { path: search, component: Search, needAuth: true },
+  { path: unlockWallet, component: UnlockWallet, needAuth: false },
+  {
+    path: walletCreationTutorial,
     component: WalletCreationTutorial,
-    needAuth: false
+    needAuth: false,
   },
-]
+  { path: openedResume, component: OpenedResume, needAuth: true },
+];

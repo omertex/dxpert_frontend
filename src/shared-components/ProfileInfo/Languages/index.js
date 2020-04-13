@@ -1,19 +1,21 @@
-import React from "react";
-import * as Styled from "./styled";
-import InfoContainer from "../InfoContainer";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { LANGUAGES } from "../../../configuration/TemporaryConsts";
+import * as actionTypes from "../../../store/actions/actionTypes";
 import { SubmitBtn } from "../../Buttons";
 import { MultiSelect } from "../../MultiSelect";
-import { LANGUAGES } from "../../../configuration/TemporaryConsts";
-import { connect } from "react-redux";
-import * as actionTypes from "../../../store/actions/actionTypes";
+import InfoContainer from "../InfoContainer";
+import * as Styled from "./styled";
 
-const Editable = ({ changed, submitted }) => (
+const Editable = ({ value, changed, submitted, validationErrors }) => (
   <Styled.Form>
     <MultiSelect
       data={LANGUAGES}
+      value={value}
       placeholder="Enter language"
       onChange={changed}
       width="431px"
+      error={!!validationErrors.languages}
     />
     <Styled.SubmitBox>
       <SubmitBtn text="submit" clicked={submitted} />
@@ -21,17 +23,22 @@ const Editable = ({ changed, submitted }) => (
   </Styled.Form>
 );
 
-const Languages = ({ langs, setLangs }) => {
-  const languages = [];
+const Languages = ({ langs, setLangs, sendApplicantProfile }) => {
+  const [languages, setLanguages] = useState(langs);
+  const [validationErrors, setValidationErrors] = useState({});
 
-  const handleChange = (e, value) => {
-    value.map(
-      (val) => !languages.includes(val.value) && languages.push(val.value)
-    );
+  const handleChange = (value) => {
+    setLanguages(value);
+    setValidationErrors({});
   };
 
   const handleSubmit = () => {
+    if (languages.length < 1) {
+      setValidationErrors({ languages: true });
+      return;
+    }
     setLangs(languages);
+    sendApplicantProfile();
   };
 
   const Displayed = () => (
@@ -47,7 +54,14 @@ const Languages = ({ langs, setLangs }) => {
   return (
     <InfoContainer
       displayed={<Displayed />}
-      editable={<Editable changed={handleChange} submitted={handleSubmit} />}
+      editable={
+        <Editable
+          value={languages}
+          changed={handleChange}
+          submitted={handleSubmit}
+          validationErrors={validationErrors}
+        />
+      }
       name="Languages"
     />
   );

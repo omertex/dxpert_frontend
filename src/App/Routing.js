@@ -1,13 +1,12 @@
 import React, { Suspense } from "react";
 import { ROUTES } from "../configuration/Routes";
 import { Switch } from "react-router-dom";
-import Loading from "../shared-components/Loading";
 import PrivateRoute from "./PrivateRoute";
 import { connect } from "react-redux";
 
 const Routing = ({ isAuth }) => (
   <Switch>
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<div />}>
       {ROUTES.map(({ path, component, needAuth }) => (
         <PrivateRoute
           exact

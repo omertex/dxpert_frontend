@@ -41,3 +41,21 @@ export const setLanguages = (languages) => {
     payload: languages,
   };
 };
+
+export const getApplicantProfile = (address) => ({
+  type: ACTION_TYPES.APPLICANT_PROFILE.GET_APPLICANT_PROFILE,
+  payload: address,
+});
+
+export const setDetails = (details) => ({
+  type: ACTION_TYPES.APPLICANT_PROFILE.SET_DETAILS,
+  payload: details,
+});
+
+export const sendApplicantProfile = () => ({
+  type: ACTION_TYPES.APPLICANT_PROFILE.SEND_APPLICANT_PROFILE,
+});
+
+export const cleanApplicantProfile = () => ({
+  type: ACTION_TYPES.APPLICANT_PROFILE.CLEAN_APPLICANT_PROFILE,
+});

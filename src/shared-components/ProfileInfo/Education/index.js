@@ -17,58 +17,74 @@ const educationLevels = [
   "doctor",
 ];
 
-const Editable = ({ submitted, changed, edu }) => (
+const Editable = ({
+  submitted,
+  changed,
+  edu,
+  addEducation,
+  onRemoveEducation,
+}) => (
   <Styled.Form>
-    <Styled.DisplayedInfo>
-      <Info title="Level">
-        <FilterSelect
-          width="290px"
-          data={educationLevels}
-          placeholder="Level or Type"
-          name="level"
-          value={edu["level"]}
-          onChange={changed}
-        />
-      </Info>
-      <Info title="Educational institution">
-        <TextInput
-          width="290px"
-          placeholder="Name or abbreviation"
-          name="institution"
-          value={edu["institution"]}
-          onChange={changed}
-        />
-      </Info>
-      <Info title="Department">
-        <TextInput
-          width="290px"
-          placeholder="Department"
-          name="department"
-          value={edu["department"]}
-          onChange={changed}
-        />
-      </Info>
-      <Info title="Specialization">
-        <TextInput
-          width="290px"
-          placeholder="Specialization"
-          name="specialization"
-          value={edu["specialization"]}
-          onChange={changed}
-        />
-      </Info>
-      <Info title="Year of graduation">
-        <TextInput
-          width="85px"
-          placeholder="Year"
-          name="graduation"
-          value={edu["graduation"]}
-          onChange={changed}
-        />
-      </Info>
-    </Styled.DisplayedInfo>
+    {edu.map((item, index) => (
+      <Styled.DisplayedInfo key={index}>
+        <Info title="Level">
+          <FilterSelect
+            width="290px"
+            data={educationLevels}
+            placeholder="Level or Type"
+            name="level"
+            value={item["level"]}
+            onChange={(e) => changed(e, index)}
+          />
+        </Info>
+        <Info title="Educational institution">
+          <TextInput
+            width="290px"
+            placeholder="Name or abbreviation"
+            name="institution"
+            value={item["institution"]}
+            onChange={(e) => changed(e, index)}
+          />
+        </Info>
+        <Info title="Department">
+          <TextInput
+            width="290px"
+            placeholder="department"
+            name="department"
+            value={item["department"]}
+            onChange={(e) => changed(e, index)}
+          />
+        </Info>
+        <Info title="Profession">
+          <TextInput
+            width="290px"
+            placeholder="specialization"
+            name="specialization"
+            value={item["specialization"]}
+            onChange={(e) => changed(e, index)}
+          />
+        </Info>
+        <Info title="Year of graduation">
+          <TextInput
+            width="85px"
+            placeholder="Year"
+            name="graduation_year"
+            value={item["graduation_year"]}
+            onChange={(e) => changed(e, index)}
+          />
+        </Info>
+        <Styled.AddInfo
+          style={{ alignSelf: "start" }}
+          onClick={() => onRemoveEducation(index)}
+        >
+          remove Education
+        </Styled.AddInfo>
+      </Styled.DisplayedInfo>
+    ))}
     <Styled.BottomBtnBox>
-      <Styled.AddInfo>add one more place of study</Styled.AddInfo>
+      <Styled.AddInfo onClick={addEducation}>
+        add one more place of study
+      </Styled.AddInfo>
     </Styled.BottomBtnBox>
     <Styled.SubmitBox>
       <SubmitBtn text="submit" clicked={submitted} />
@@ -76,47 +92,56 @@ const Editable = ({ submitted, changed, edu }) => (
   </Styled.Form>
 );
 
-const Education = ({ education, setEducation, applicant }) => {
-  const [edu, setEdu] = useState({});
+const Education = ({ education, setEducation, sendApplicantProfile }) => {
+  const [edu, setEdu] = useState(education);
 
-  const handleChange = (e) => {
-    setEdu({
-      ...edu,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e, index) => {
+    const {
+      target: { name, value },
+    } = e;
+    const newEdu = [...edu];
+    newEdu[index][name] = value;
+    setEdu(newEdu);
   };
 
   const handleSubmit = () => {
     setEducation(edu);
-    console.log(applicant);
+    sendApplicantProfile();
+  };
+
+  const addEducation = () => {
+    const newEdu = [
+      ...edu,
+      {
+        institution: "",
+        department: "",
+        level: "",
+        specialization: "",
+        graduation_year: "",
+      },
+    ];
+    setEdu(newEdu);
+  };
+
+  const removeEducationHandler = (index) => {
+    const newEdu = edu.filter((item, currentIndex) => currentIndex !== index);
+    setEdu(newEdu);
   };
 
   const Displayed = () => (
     <React.Fragment>
-      <Styled.DisplayedInfo>
-        <Info title={education["graduation"] || "2016"}>
-          <Styled.Education>
-            <h6>{education["institution"] || "Belarusian State University"}</h6>
-            <p>
-              {education["department"] ||
-                "Faculty of social and cultural communication"}
-            </p>
-            <p>{education["level"] || "Bachelor’s Degree"}</p>
-            <p>{education["specialization"] || "Design"}</p>
-          </Styled.Education>
-        </Info>
-        <Info title="2017">
-          <Styled.Education>
-            <h6>Belarusian State University</h6>
-            <p>Faculty of social and cultural communication</p>
-            <p>Bachelor’s Degree</p>
-            <p>Design</p>
-          </Styled.Education>
-        </Info>
-      </Styled.DisplayedInfo>
-      <Styled.BottomBtnBox>
-        <Styled.AddInfo>add Education</Styled.AddInfo>
-      </Styled.BottomBtnBox>
+      {education.map((item, index) => (
+        <Styled.DisplayedInfo key={index}>
+          <Info title={item["graduation_year"]}>
+            <Styled.Education>
+              <h6>{item["institution"] || "not specified"}</h6>
+              <p>{item["department"] || "not specified"}</p>
+              <p>{item["level"] || "not specified"}</p>
+              <p>{item["specialization"] || "not specified"}</p>
+            </Styled.Education>
+          </Info>
+        </Styled.DisplayedInfo>
+      ))}
     </React.Fragment>
   );
 
@@ -124,7 +149,13 @@ const Education = ({ education, setEducation, applicant }) => {
     <InfoContainer
       displayed={<Displayed />}
       editable={
-        <Editable changed={handleChange} submitted={handleSubmit} edu={edu} />
+        <Editable
+          changed={handleChange}
+          submitted={handleSubmit}
+          edu={edu}
+          addEducation={addEducation}
+          onRemoveEducation={removeEducationHandler}
+        />
       }
       name="Education"
     />
@@ -134,7 +165,6 @@ const Education = ({ education, setEducation, applicant }) => {
 const mapStateToProps = (state) => {
   return {
     education: state.applicant.education,
-    applicant: state.applicant,
   };
 };
 

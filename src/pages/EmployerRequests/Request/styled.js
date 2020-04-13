@@ -18,12 +18,6 @@ export const Request = styled.div`
   box-sizing: border-box;
   transition: all 300ms ease;
 
-  :hover {
-    cursor: pointer;
-    box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.2), 0px 3px 16px rgba(0, 0, 0, 0.12),
-      0px 9px 12px rgba(0, 0, 0, 0.14);
-  }
-
   ${(props) =>
     props.status === "completed" &&
     `
@@ -104,10 +98,34 @@ export const Expand = styled(ExpandMoreIcon)`
   padding: 0 8px;
   transform: rotate(0deg);
   transition: all 200ms linear;
+  cursor: pointer;
 
   ${(props) =>
     props.expanded &&
     `
     transform: rotate(180deg);
+  `}
+`;
+
+export const View = styled.button`
+  min-width: 83px;
+  padding: 6px 0;
+  margin: 0 20px;
+  font: 12px Open Sans, sans-serif;
+  line-height: 16px;
+  letter-spacing: 0.03rem;
+  background-color: ${Colors.bg_white};
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: ${Colors.main_header};
+
+  ${(props) =>
+    props.disabled &&
+    `
+    color: ${Colors.btn_disabled_text};
+    :hover {
+      cursor: not-allowed;
+    }
   `}
 `;

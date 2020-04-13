@@ -52,7 +52,6 @@ const useStyles = makeStyles({
 export const FilterSelect = memo(
   ({
     data,
-    defaultValue,
     label,
     placeholder,
     width,
@@ -60,14 +59,13 @@ export const FilterSelect = memo(
     error,
     changed,
     blured,
+    ...otherProps
   }) => {
     const classes = useStyles();
-
     return (
       <Input
-        id="select"
         select
-        value={value}
+        error={error}
         onChange={changed}
         onBlur={blured}
         style={
@@ -80,11 +78,12 @@ export const FilterSelect = memo(
             },
           },
         }}
-        defaultValue={defaultValue || "none"}
+        value={value || "none"}
         label={label}
         variant="outlined"
+        {...otherProps}
       >
-        <Item value="none">
+        <Item value="none" disabled>
           <span>{placeholder || "None"}</span>
         </Item>
         {(data || []).map((item) => (
