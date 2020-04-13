@@ -24,7 +24,7 @@ const EmployerProfile = (props) => {
   }, []);
 
   useEffect(() => {
-    if (props.employer.isProfileLoaded) {
+    if (props.employer.isProfileLoaded && props.employer.profile.country) {
       props.getCitiesList(props.employer.profile.country);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
