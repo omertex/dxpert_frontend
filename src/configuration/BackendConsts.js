@@ -1,8 +1,8 @@
 import { gql } from "apollo-boost";
 
-export const GQLUrl = "https://dxp-gql-app.herokuapp.com/v1/graphql";
+export const Url = "https://dxp-gql-app.herokuapp.com/v1/graphql";
 
-export const BlockchainUrl = `https://cors-anywhere.herokuapp.com/http://dev.omertex.com:17864`;
+export const BlockchainUrl = `http://dev.omertex.com:17864`;
 
 export const TemporaryBankWallet = {
   address: "dxpert1ka08uzst48ralnwjc6yzyfq8xp0jk26e3459yp",
@@ -45,7 +45,7 @@ export const SearchQuery = gql`
   }
 `;
 
-export const GQLGetRole = gql`
+export const GetRole = gql`
   query($address: String!) {
     roles_by_pk(address: $address) {
       address
@@ -54,7 +54,7 @@ export const GQLGetRole = gql`
   }
 `;
 
-export const GQLSetRole = gql`
+export const SetRole = gql`
   mutation InsertRole($address: String!, $role: smallint) {
     insert_roles(objects: { address: $address, role: $role }) {
       returning {
@@ -65,7 +65,7 @@ export const GQLSetRole = gql`
   }
 `;
 
-export const GQLGetRecruiter = gql`
+export const GetRecruiter = gql`
   query GetRecrutier($address: String!) {
     recruiters_by_pk(address: $address) {
       about
@@ -79,7 +79,7 @@ export const GQLGetRecruiter = gql`
   }
 `;
 
-export const GQLSetRecruiter = gql`
+export const SetRecruiter = gql`
   mutation InsertRecruiter(
     $address: String!
     $about: String
@@ -113,7 +113,7 @@ export const GQLSetRecruiter = gql`
   }
 `;
 
-export const GQLUpdateRecruiter = gql`
+export const UpdateRecruiter = gql`
   mutation UpdateRecrutier(
     $address: String!
     $about: String
@@ -143,6 +143,19 @@ export const GQLUpdateRecruiter = gql`
         organisation
         website
       }
+    }
+  }
+`;
+
+export const GetResumesRequest = gql`
+  query GetResumesRequest($src: String, $dest: String, $status: Int) {
+    request_resumes(src: $src, dest: $dest, status: $status) {
+      status
+      src
+      dest
+      pub_key
+      updated_at
+      data
     }
   }
 `;

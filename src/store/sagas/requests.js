@@ -1,12 +1,13 @@
 import axios from "axios";
 import {
   BlockchainUrl,
-  GQLGetRole,
-  GQLUrl,
-  GQLSetRole,
-  GQLGetRecruiter,
-  GQLSetRecruiter,
-  GQLUpdateRecruiter,
+  GetRole,
+  Url,
+  SetRole,
+  GetRecruiter,
+  SetRecruiter,
+  UpdateRecruiter,
+  GetResumesRequest,
   TemporaryBankWallet,
 } from "../../configuration/BackendConsts";
 import { signTransaction } from "../../services/transactions";
@@ -100,11 +101,11 @@ export const getAccountInfo = async (address) => {
 
 export const getAccountRole = async (address) => {
   const client = new ApolloClient({
-    uri: GQLUrl,
+    uri: Url,
   });
   return client
     .query({
-      query: GQLGetRole,
+      query: GetRole,
       variables: {
         address,
       },
@@ -119,11 +120,11 @@ export const getAccountRole = async (address) => {
 
 export const setAccountRole = async (address, role) => {
   const client = new ApolloClient({
-    uri: GQLUrl,
+    uri: Url,
   });
   return client
     .mutate({
-      mutation: GQLSetRole,
+      mutation: SetRole,
       variables: {
         address,
         role,
@@ -170,11 +171,11 @@ export const getAllTransactions = async (address) => {
 
 export const setEmployerProfile = async (data) => {
   const client = new ApolloClient({
-    uri: GQLUrl,
+    uri: Url,
   });
   return client
     .mutate({
-      mutation: GQLSetRecruiter,
+      mutation: SetRecruiter,
       variables: data,
     })
     .then((response) => {
@@ -187,11 +188,11 @@ export const setEmployerProfile = async (data) => {
 
 export const updateEmployerProfile = async (data) => {
   const client = new ApolloClient({
-    uri: GQLUrl,
+    uri: Url,
   });
   return client
     .mutate({
-      mutation: GQLUpdateRecruiter,
+      mutation: UpdateRecruiter,
       variables: data,
     })
     .then((response) => {
@@ -204,11 +205,11 @@ export const updateEmployerProfile = async (data) => {
 
 export const getEmployerProfile = async (address) => {
   const client = new ApolloClient({
-    uri: GQLUrl,
+    uri: Url,
   });
   return client
     .query({
-      query: GQLGetRecruiter,
+      query: GetRecruiter,
       variables: {
         address,
       },
@@ -216,6 +217,23 @@ export const getEmployerProfile = async (address) => {
     .then((response) => {
       if (response && response.data && response.data.recruiters_by_pk) {
         return response.data.recruiters_by_pk;
+      }
+    })
+    .catch((error) => console.log(error));
+};
+
+export const getResumesRequests = async (data) => {
+  const client = new ApolloClient({
+    uri: Url,
+  });
+  return client
+    .query({
+      query: GetResumesRequest,
+      variables: data,
+    })
+    .then((response) => {
+      if (response && response.data && response.data.request_resumes) {
+        return response.data.request_resumes;
       }
     })
     .catch((error) => console.log(error));
