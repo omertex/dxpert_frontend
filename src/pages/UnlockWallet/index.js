@@ -52,7 +52,7 @@ const Unlock = ({
   };
 
   const onContinue = async () => {
-    if (setCorrectPassword || chosenKeystore) {
+    if (setCorrectPassword || chosenKeystore || chosenKeystore.length !== 64) {
       setIsLoading(true);
       loginByKeyStore({
         encryptedString: chosenKeystore,

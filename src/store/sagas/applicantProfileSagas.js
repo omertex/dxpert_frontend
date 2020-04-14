@@ -141,8 +141,6 @@ function* sendApplicantProfileSaga() {
     sequence: auth.sequence,
   };
 
-  console.log("data", data);
-
   const transactionResult = yield sendTransaction(data, wallet, accountMeta);
   console.log("transactionResult", transactionResult);
 
