@@ -38,6 +38,8 @@ const DeclineResume = ({
         );
       case "loading":
         return <Styled.Loading />;
+      default:
+        return;
     }
   };
 
@@ -49,11 +51,11 @@ const DeclineResume = ({
         response: false,
         data: {
           name: "",
-          experience: null,
+          experience: "",
           email: "",
           about: "",
         },
-        requester: rightData.requested_address,
+        requester: rightData.address,
         owner: address,
       },
     };
