@@ -6,98 +6,50 @@ import Request from "./Request";
 import PageName from "../../shared-components/PageName";
 import { connect } from "react-redux";
 import PageLoading from "../../shared-components/PageLoading";
-import { TabPanel, TabsNav } from "../../shared-components/StyledTabs";
-import { EMPLOYER_REQUESTS } from "../../configuration/TemporaryConsts";
+import { getResumesRequests } from "../../store/sagas/requests";
 
 const limit = 10;
 
 const EmployerRequests = ({ address }) => {
-  const [value, setValue] = useState(0);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [renderResults, setRenderResults] = useState([]);
 
   useEffect(() => {
-    if (value === 0) {
-      setPage(1);
-      setIsLoading(true);
-      setTimeout(() => {
-        setRenderResults(
-          EMPLOYER_REQUESTS.filter(
-            (x) => x.status !== "pending"
-          ).map(({ status, walletID, gender, age, skills, time }) => (
+    setPage(1);
+    setIsLoading(true);
+    getResumesRequests({
+      src: address,
+    }).then((response) => {
+      setRenderResults(
+        response.map((result) => {
+          return (
             <Request
-              status={status}
-              walletID={walletID}
-              gender={gender}
-              age={age}
-              skills={skills}
-              time={time}
-              disabled={status === "failed"}
+              key={result.dest || ""}
+              status={result.status || 0}
+              walletID={result.dest || ""}
+              gender={result.data ? result.data.sex : ""}
+              age={result.data ? result.data.birth_date : ""}
+              skills={result.data ? result.data.public_data.skills : []}
+              time={result.updated_at || ""}
+              disabled={result.status !== 1}
             />
-          ))
-        );
-        setIsLoading(false);
-        console.log("getActiveResponse");
-      }, 300);
-    }
-    if (value === 1) {
-      setPage(1);
-      setIsLoading(true);
-      setTimeout(() => {
-        setRenderResults(
-          EMPLOYER_REQUESTS.map(
-            ({ walletID, gender, age, skills, time }) => (
-              <Request
-                status={"pending"}
-                walletID={walletID}
-                gender={gender}
-                age={age}
-                skills={skills}
-                time={time}
-                disabled={true}
-              />
-            )
-          )
-        );
-        setIsLoading(false);
-        console.log("getAllResponse");
-      }, 300);
-    }
-  }, [value, page]);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const tabsData = [
-    {
-      label: "Active",
-      index: 0,
-    },
-    {
-      label: "History",
-      index: 1,
-    },
-  ];
+          );
+        })
+      );
+      setIsLoading(false);
+    });
+  }, [page]);
 
   return (
     <Styled.Container>
       <ShortInfo address={address} />
       <PageName pageName={"My requests"} />
-      <TabsNav value={value} callback={handleChange} data={tabsData} />
       {isLoading ? (
         <PageLoading />
       ) : (
         <>
-          <Styled.Requests>
-            <TabPanel value={value} index={0}>
-              {renderResults}
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              {renderResults}
-            </TabPanel>
-          </Styled.Requests>
+          <Styled.Requests>{renderResults}</Styled.Requests>
           {/*<Pagination page={page} count={count} changePage={setPage} />*/}
         </>
       )}

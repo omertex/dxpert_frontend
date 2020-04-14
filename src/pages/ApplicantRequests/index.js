@@ -4,7 +4,6 @@ import ShortInfo from "../../shared-components/ShortInfo";
 // import Pagination from "../../shared-components/Pagination";
 import InboxRequest from "./InboxRequest";
 import OutboxRequest from "./OutboxRequest";
-import { APPLICANT_REQUESTS } from "../../configuration/TemporaryConsts";
 import PageName from "../../shared-components/PageName";
 import { TabsNav, TabPanel } from "../../shared-components/StyledTabs";
 import { PopUp } from "../../shared-components";
@@ -13,6 +12,7 @@ import PopUpAllowOne from "./PopUpAllowOne";
 import PopUpDecline from "./PopUpDecline";
 import { connect } from "react-redux";
 import PageLoading from "../../shared-components/PageLoading";
+import { getResumesRequests } from "../../store/sagas/requests";
 
 const limit = 10;
 
@@ -28,47 +28,49 @@ const ApplicantRequest = ({ address, avatar, name }) => {
     if (value === 0) {
       setPage(1);
       setIsLoading(true);
-      setTimeout(() => {
+      getResumesRequests({
+        dest: address,
+      }).then((response) => {
         setRenderResults(
-          APPLICANT_REQUESTS.map(({ status, company, skills, time }) => (
+          response.map((result) => (
             <InboxRequest
-              key={company}
-              status={status}
-              company={company}
-              skills={skills}
-              time={time}
-              allowSend={openConfirmPopUp}
-              declineSend={openDeclinePopUp}
+              key={result.data ? result.data.organisation : "-"}
+              status={result.status || 0}
+              company={result.data ? result.data.organisation : ""}
+              time={result.updated_at || ""}
+              allowSend={() => openConfirmPopUp(result.src, result.pub_key)}
+              declineSend={() => openDeclinePopUp(result.src, result.pub_key)}
             />
           ))
         );
         setIsLoading(false);
-        console.log("getActiveResponse");
-      }, 300);
+      });
     }
     if (value === 1) {
       setPage(1);
       setIsLoading(true);
-      setTimeout(() => {
+      getResumesRequests({
+        src: address,
+      }).then((response) => {
         setRenderResults(
-          APPLICANT_REQUESTS.map(({ status, company, skills, time }) => (
+          response.map((result) => (
             <OutboxRequest
-              key={company}
-              status={status}
-              company={company}
-              skills={skills}
-              time={time}
+              key={result.data ? result.data.organisation : "-"}
+              status={result.status || 0}
+              company={result.data ? result.data.organisation : ""}
+              time={result.updated_at || ""}
             />
           ))
         );
         setIsLoading(false);
-        console.log("getAllResponse");
-      }, 300);
+      });
     }
   }, [value, page]);
 
-  const openConfirmPopUp = () => setConfirmPopUp([{}]);
-  const openDeclinePopUp = () => setDeclinePopUp([{}]);
+  const openConfirmPopUp = (address, publicKey) =>
+    setConfirmPopUp([{ address, publicKey }]);
+  const openDeclinePopUp = (address, publicKey) =>
+    setDeclinePopUp([{ address, publicKey }]);
   const closeConfirmPopUp = () => setConfirmPopUp([]);
   const closeDeclinePopUp = () => setDeclinePopUp([]);
   const handleChange = (event, newValue) => {

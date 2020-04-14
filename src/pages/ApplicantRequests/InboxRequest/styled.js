@@ -13,6 +13,7 @@ export const Request = styled.div`
   border-radius: 2px;
   margin-bottom: 10px;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   padding: 15px;
   box-sizing: border-box;
@@ -27,8 +28,7 @@ export const Company = styled.p`
   text-decoration: underline;
   min-width: 130px;
   flex-shrink: 0;
-  margin: 0;
-  margin: 0 30px 0 35px;
+  margin: 0 auto 0 35px;
   color: rgba(0, 0, 0, 0.87);
 `;
 
@@ -47,7 +47,6 @@ export const Skills = styled.p`
 export const Time = styled(Skills)`
   padding: 0;
   margin: 0 0 0 20px;
-  width: 60px;
   flex-shrink: 0;
   font-size: 12px;
   line-height: 16px;
