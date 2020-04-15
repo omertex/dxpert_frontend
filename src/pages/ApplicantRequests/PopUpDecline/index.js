@@ -62,7 +62,8 @@ const DeclineResume = ({
     const result = await sendTransaction(
       requestBody,
       { privateKey, publicKey, address },
-      { account_number, sequence }
+      { account_number, sequence },
+      "Response"
     );
 
     result ? setShowData("success") : setShowData("error");
