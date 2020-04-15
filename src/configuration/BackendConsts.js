@@ -159,3 +159,48 @@ export const GetResumesRequest = gql`
     }
   }
 `;
+
+export const SetTransaction = (type) => {
+  switch (type) {
+    case "RequestResume":
+      return gql`
+        query SetTransaction($input: RequestResumeTransaction!) {
+          request_resume(input: $input) {
+            error
+            statusCode
+            data
+          }
+        }
+      `;
+    case "MsgSend":
+      return gql`
+        query SetTransaction($input: MsgSendTransaction!) {
+          msg_send(input: $input) {
+            error
+            statusCode
+            data
+          }
+        }
+      `;
+    case "UploadResume":
+      return gql`
+        query SetTransaction($input: UploadResumeTransaction!) {
+          upload_resume(input: $input) {
+            error
+            statusCode
+            data
+          }
+        }
+      `;
+    case "Response":
+      return gql`
+        query SetTransaction($input: ResponseTransaction!) {
+          response(input: $input) {
+            error
+            statusCode
+            data
+          }
+        }
+      `;
+  }
+};

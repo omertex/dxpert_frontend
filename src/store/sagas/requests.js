@@ -8,6 +8,7 @@ import {
   SetRecruiter,
   UpdateRecruiter,
   GetResumesRequest,
+  SetTransaction,
   TemporaryBankWallet,
 } from "../../configuration/BackendConsts";
 import { signTransaction } from "../../services/transactions";
@@ -65,15 +66,29 @@ export const getApplicantProfile = async (address) => {
     .catch((response) => console.error(response));
 };
 
-export const sendTransaction = async (data, wallet, accountMeta) => {
+export const sendTransaction = async (data, wallet, accountMeta, type) => {
   if (accountMeta.account_number === "0") {
     return false;
   }
   const signedData = signTransaction(data, wallet, accountMeta);
-  return await axios
-    .post(`${BlockchainUrl}/txs`, signedData)
-    .then((response) => response.status === 200)
-    .catch((response) => console.error(response));
+
+  const client = new ApolloClient({
+    uri: Url,
+  });
+
+  return client
+    .query({
+      query: SetTransaction(type),
+      variables: {
+        input: signedData,
+      },
+    })
+    .then((response) => {
+      if (response && response.data) {
+        return response.data;
+      }
+    })
+    .catch((error) => console.log(error));
 };
 
 export const getAccountInfo = async (address) => {
@@ -254,7 +269,16 @@ export const fillUpBalance = async (address) => {
       ],
     },
   };
-  await sendTransaction(requestBody, TemporaryBankWallet, moneyAccountMeta);
-  const accountInfo = await getAccountInfo(address);
-  return accountInfo.coins;
+  const transaction = await sendTransaction(
+    requestBody,
+    TemporaryBankWallet,
+    moneyAccountMeta,
+    "MsgSend"
+  );
+  if (!transaction.msg_send.error) {
+    const accountInfo = await getAccountInfo(address);
+    return accountInfo.coins;
+  } else {
+    return Error("Transaction error");
+  }
 };
