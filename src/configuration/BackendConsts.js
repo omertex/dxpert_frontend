@@ -161,6 +161,7 @@ export const GetResumesRequest = gql`
 `;
 
 export const SetTransaction = (type) => {
+  // eslint-disable-next-line default-case
   switch (type) {
     case "RequestResume":
       return gql`

@@ -66,6 +66,16 @@ export const getApplicantProfile = async (address) => {
     .catch((response) => console.error(response));
 };
 
+export const updateApplicantProfile = async ({data, wallet, accountMeta}) => {
+  const response = await sendTransaction(
+    data,
+    wallet,
+    accountMeta,
+    "UploadResume"
+  );
+  console.log("updateApplicantProfile", response);
+}
+
 export const sendTransaction = async (data, wallet, accountMeta, type) => {
   if (accountMeta.account_number === "0") {
     return false;
