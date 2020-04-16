@@ -143,7 +143,11 @@ const Experience = ({
 
     const newValidationErrors = validationResultArray.map((item) => {
       const normalizedItem = item || {};
-      if (!!normalizedItem.graduation_year || !!normalizedItem.institution) {
+      if (
+        !!normalizedItem.from ||
+        !!normalizedItem.company ||
+        normalizedItem.position
+      ) {
         isValid = false;
       }
       return {
