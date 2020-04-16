@@ -51,12 +51,12 @@ const DeclineResume = ({
         response: false,
         data: {
           name: "",
-          experience: "",
+          experience: "[]",
           email: "",
           about: "",
         },
         requester: rightData.address,
-        owner: address,
+        address,
       },
     };
     const result = await sendTransaction(
