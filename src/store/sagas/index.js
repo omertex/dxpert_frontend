@@ -1,4 +1,4 @@
-import { all, takeEvery } from "redux-saga/effects";
+import { all, takeEvery, select } from "redux-saga/effects";
 import * as ACTION_TYPES from "../actions/actionTypes";
 import {
   saveWalletSaga,
@@ -13,13 +13,22 @@ import {
   getCitiesWatcher,
 } from "./serviceDataSagas";
 import {
-  getApplicantProfileWatcher,
-  sendApplicantProfileWatcher,
+  getApplicantProfileSaga,
+  applicantProfileWatcher,
 } from "./applicantProfileSagas";
 import {
-  getEmployerProfileWatcher,
-  updateEmployerProfileWatcher,
+  getEmployerProfileSaga,
+  employerProfileWatcher,
 } from "./employerProfileSagas";
+
+function* getProfile() {
+  const auth = yield select((state) => state.auth);
+  if (auth.chosenWay === "applicant") {
+    yield getApplicantProfileSaga({ payload: auth.address });
+  } else {
+    yield getEmployerProfileSaga({ payload: auth.address });
+  }
+}
 
 function* watchAuth() {
   yield takeEvery(ACTION_TYPES.AUTH.CREATE_WALLET_DATA, saveWalletSaga);
@@ -28,6 +37,7 @@ function* watchAuth() {
     loginByLocalStorageSaga
   );
   yield takeEvery(ACTION_TYPES.AUTH.LOGIN_BY_KEYSTORE, loginByKeyStoreSaga);
+  yield takeEvery(ACTION_TYPES.AUTH.AUTHORIZE, getProfile);
   yield takeEvery(ACTION_TYPES.AUTH.UPDATE_ACCOUNT_INFO, updateAccountInfoSaga);
   yield takeEvery(ACTION_TYPES.AUTH.LOG_OUT, logoutSaga);
 }
@@ -38,9 +48,7 @@ export function* rootSaga() {
     getAuthTokenWatcher(),
     getCountriesWatcher(),
     getCitiesWatcher(),
-    getApplicantProfileWatcher(),
-    sendApplicantProfileWatcher(),
-    getEmployerProfileWatcher(),
-    updateEmployerProfileWatcher(),
+    applicantProfileWatcher(),
+    employerProfileWatcher(),
   ]);
 }

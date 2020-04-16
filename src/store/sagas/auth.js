@@ -6,7 +6,7 @@ import {
   base64Decryption,
   generateWalletByPrivateKey,
 } from "../../configuration/helpers";
-import { getAccountRole, getAccountInfo } from "../sagas/requests";
+import { getAccountRole, getAccountInfo } from "./requests";
 
 export function* saveWalletSaga(action) {
   const { privateKey, publicKey, address } = action.wallet;
