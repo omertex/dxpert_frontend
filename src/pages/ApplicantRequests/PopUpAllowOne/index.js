@@ -74,8 +74,7 @@ const PopUpAllowOne = ({
     const result = await sendTransaction(
       requestBody,
       { privateKey, publicKey, address },
-      { account_number, sequence },
-      "Response"
+      { account_number, sequence }
     );
 
     result ? setShowData("success") : setShowData("error");

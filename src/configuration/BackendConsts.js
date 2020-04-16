@@ -1,6 +1,6 @@
 import { gql } from "apollo-boost";
 
-export const Url = "https://dxp-gql-app.herokuapp.com/v1/graphql";
+export const GQLUrl = "https://dxp-gql-app.herokuapp.com/v1/graphql";
 
 export const BlockchainUrl = `http://dev.omertex.com:17864`;
 
@@ -10,7 +10,7 @@ export const TemporaryBankWallet = {
   publicKey: "A076Yuv6mjKtqMV/Wykfy6D3aMxMYmlsrnhNN6vaeXyo",
 };
 
-export const SearchQuery = gql`
+export const GQLSearchQuery = gql`
   query bySkills(
     $public_data: jsonb
     $sex: bpchar
@@ -45,7 +45,7 @@ export const SearchQuery = gql`
   }
 `;
 
-export const GetRole = gql`
+export const GQLGetRole = gql`
   query($address: String!) {
     roles_by_pk(address: $address) {
       address
@@ -54,7 +54,7 @@ export const GetRole = gql`
   }
 `;
 
-export const SetRole = gql`
+export const GQLSetRole = gql`
   mutation InsertRole($address: String!, $role: smallint) {
     insert_roles(objects: { address: $address, role: $role }) {
       returning {
@@ -65,7 +65,7 @@ export const SetRole = gql`
   }
 `;
 
-export const GetRecruiter = gql`
+export const GQLGetRecruiter = gql`
   query GetRecrutier($address: String!) {
     recruiters_by_pk(address: $address) {
       about
@@ -79,7 +79,7 @@ export const GetRecruiter = gql`
   }
 `;
 
-export const SetRecruiter = gql`
+export const GQLSetRecruiter = gql`
   mutation InsertRecruiter(
     $address: String!
     $about: String
@@ -113,7 +113,7 @@ export const SetRecruiter = gql`
   }
 `;
 
-export const UpdateRecruiter = gql`
+export const GQLUpdateRecruiter = gql`
   mutation UpdateRecrutier(
     $address: String!
     $about: String
@@ -147,7 +147,7 @@ export const UpdateRecruiter = gql`
   }
 `;
 
-export const GetResumesRequest = gql`
+export const GQLGetResumesRequest = gql`
   query GetResumesRequest($src: String, $dest: String, $status: Int) {
     request_resumes(src: $src, dest: $dest, status: $status) {
       status
@@ -159,49 +159,3 @@ export const GetResumesRequest = gql`
     }
   }
 `;
-
-export const SetTransaction = (type) => {
-  // eslint-disable-next-line default-case
-  switch (type) {
-    case "RequestResume":
-      return gql`
-        query SetTransaction($input: RequestResumeTransaction!) {
-          request_resume(input: $input) {
-            error
-            statusCode
-            data
-          }
-        }
-      `;
-    case "MsgSend":
-      return gql`
-        query SetTransaction($input: MsgSendTransaction!) {
-          msg_send(input: $input) {
-            error
-            statusCode
-            data
-          }
-        }
-      `;
-    case "UploadResume":
-      return gql`
-        query SetTransaction($input: UploadResumeTransaction!) {
-          upload_resume(input: $input) {
-            error
-            statusCode
-            data
-          }
-        }
-      `;
-    case "Response":
-      return gql`
-        query SetTransaction($input: ResponseTransaction!) {
-          response(input: $input) {
-            error
-            statusCode
-            data
-          }
-        }
-      `;
-  }
-};

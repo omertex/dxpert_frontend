@@ -8,7 +8,7 @@ import { TextInput } from "../../shared-components/FilterInputs";
 import { MultiSelect } from "../../shared-components/MultiSelect";
 import { RadioBtn } from "../../shared-components/StyledRadioBtn";
 import { LANGUAGES, SKILLS } from "../../configuration/TemporaryConsts";
-import { Url, SearchQuery } from "../../configuration/BackendConsts";
+import { GQLUrl, GQLSearchQuery } from "../../configuration/BackendConsts";
 import ApolloClient from "apollo-boost";
 import { useLocation, withRouter } from "react-router-dom";
 import { PopUp } from "../../shared-components";
@@ -141,7 +141,7 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
       return;
     }
     const client = new ApolloClient({
-      uri: Url,
+      uri: GQLUrl,
     });
     const variables = {
       public_data: {},
@@ -187,7 +187,7 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
 
     client
       .query({
-        query: SearchQuery,
+        query: GQLSearchQuery,
         variables,
       })
       .then((response) => {
