@@ -3,21 +3,20 @@ import * as Styled from "./styled";
 import { ActionBtn, BlueTextBtn } from "../../shared-components/Buttons";
 import ShortInfo from "../../shared-components/ShortInfo";
 import SearchResult from "../../shared-components/SearchResult";
-import Pagination from "../../shared-components/Pagination";
+import SmallPagination from "../../shared-components/SmallPagination";
 import { TextInput } from "../../shared-components/FilterInputs";
 import { MultiSelect } from "../../shared-components/MultiSelect";
 import { RadioBtn } from "../../shared-components/StyledRadioBtn";
 import { LANGUAGES, SKILLS } from "../../configuration/TemporaryConsts";
 import { GQLUrl, GQLSearchQuery } from "../../configuration/BackendConsts";
 import ApolloClient from "apollo-boost";
-import { useLocation, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { PopUp } from "../../shared-components";
 import PopUpContent from "./PopUpContent";
 import PopUpFilter from "./PopUpFilter";
 import { getCountriesListAction } from "../../store/actions/serviceDataActions";
 import { connect } from "react-redux";
 import { FilterSelect } from "../../shared-components/FilterSelect";
-import Info from "../../shared-components/ProfileInfo/Info";
 
 const limit = 10;
 const initialState = {
@@ -30,22 +29,22 @@ const initialState = {
   exp_from: "",
   exp_to: "",
   education: "",
+  page: 1,
 };
 
 let delayedSending;
 
 const SearchFilter = ({ history, countries, getCountriesList }) => {
-  const urlParams = useLocation();
   const [popUpData, setPopUpData] = useState([]);
-  const [isShownFilterPopUp, setShownFilterPopUp] = useState(!urlParams.search);
+  const [isShownFilterPopUp, setShownFilterPopUp] = useState(
+    !history.location.search
+  );
   const [initial, setInitial] = useState(true);
   const [formData, setFormData] = useState({ ...initialState });
   const [requestData, setRequestData] = useState([]);
-  const [pagedData, setPagedData] = useState([]);
-  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    if (urlParams.search) urlParsing();
+    if (history.location.search) urlParsing();
     getCountriesList();
   }, []);
 
@@ -54,23 +53,14 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
     delayedSending = setTimeout(() => {
       if (initial) setInitial(false);
       else {
-        setPage(1);
         urlCreate();
       }
       sendRequest();
     }, 500);
   }, [formData]);
 
-  useEffect(() => {
-    if (!initial) urlCreate();
-  }, [page]);
-
-  useEffect(() => {
-    setPagedData(renderResults());
-  }, [page, requestData]);
-
   const urlParsing = () => {
-    const decodeURL = decodeURIComponent(urlParams.search);
+    const decodeURL = decodeURIComponent(history.location.search);
     const params = decodeURL.slice(1).split("&");
     const couple = params.map((x) => x.split("="));
     let newState = { ...initialState };
@@ -91,8 +81,6 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
           };
           break;
         case "page":
-          setPage(Number(item[1]));
-          break;
         case "sex":
         case "country":
         case "education":
@@ -124,27 +112,30 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
             url += `${item}=${formData[item].join(",")}&`;
           }
           break;
+        case "page":
+          if (formData[item] > 1) {
+            url += `${item}=${formData[item]}&`;
+          }
+          break;
         default:
           const value = String(formData[item]).trim();
           if (value.length) url += `${item}=${value}&`;
           break;
       }
     }
-    if (page > 1) url += `page=${page}&`;
 
     const encodeURL = encodeURIComponent(url.slice(0, -1));
     history.push(`/search?${encodeURL}`);
   };
 
   const sendRequest = () => {
-    if (!isEmpty()) {
-      return;
-    }
     const client = new ApolloClient({
       uri: GQLUrl,
     });
     const variables = {
       public_data: {},
+      limit: limit,
+      offset: (formData.page - 1) * limit,
     };
 
     const getYear = (value) => {
@@ -192,16 +183,26 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
       })
       .then((response) => {
         if (response && response.data) {
-          setRequestData(response["data"]["resumes"]);
+          setRequestData(renderResults(response["data"]["resumes"]));
         }
       })
       .catch((error) => console.log(error));
   };
 
-  const renderResults = () => {
-    if (requestData.length) {
-      const data = requestData.slice(page * limit - limit, page * limit);
-      const count = Math.ceil(requestData.length / limit);
+  const renderResults = (data) => {
+    if (data.length) {
+      const prevPage = () => {
+        setFormData((prevState) => ({
+          ...prevState,
+          page: formData.page - 1,
+        }));
+      };
+      const nextPage = () => {
+        setFormData((prevState) => ({
+          ...prevState,
+          page: formData.page + 1,
+        }));
+      };
       const getAge = (birth_date) => {
         return (
           new Date().getFullYear() -
@@ -224,7 +225,12 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
             />
           ))}
           {/*<BlueTextBtn text="Send to all" />*/}
-          <Pagination page={page} count={count} changePage={setPage} />
+          <SmallPagination
+            disabledPrev={formData.page === 1}
+            disabledNext={data.length < limit}
+            prevPage={prevPage}
+            nextPage={nextPage}
+          />
         </>
       );
     } else {
@@ -232,18 +238,11 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
     }
   };
 
-  const isEmpty = () => {
-    for (let item in formData) {
-      if (Array.isArray(formData[item])) if (formData[item].length) return true;
-      if (String(formData[item]).trim().length) return true;
-    }
-    return false;
-  };
-
   const multiSelectChange = (name, value) => {
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
+      page: 1,
     }));
   };
 
@@ -252,6 +251,7 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
+      page: 1,
     }));
   };
 
@@ -261,12 +261,13 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
       setFormData((prevState) => ({
         ...prevState,
         [name]: formData[name] !== value ? value : "",
+        page: 1,
       }));
     }
   };
 
   const clearAll = () => {
-    if (urlParams.search) {
+    if (history.location.search) {
       setFormData({ ...initialState });
       setRequestData([]);
       history.push("/search");
@@ -425,7 +426,7 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
               </Styled.Input>
             </Styled.Form>
           </Styled.Filters>
-          <Styled.Results>{pagedData}</Styled.Results>
+          <Styled.Results>{requestData}</Styled.Results>
         </Styled.SearchBlock>
       </Styled.Container>
 
