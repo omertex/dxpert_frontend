@@ -61,11 +61,10 @@ const RequestResume = ({
     const result = await sendTransaction(
       requestBody,
       { privateKey, publicKey, address },
-      { account_number, sequence },
-      "RequestResume"
+      { account_number, sequence }
     );
 
-    result.request_resume.error ? setShowData("error") : setShowData("success");
+    result ? setShowData("success") : setShowData("error");
   };
 
   return (

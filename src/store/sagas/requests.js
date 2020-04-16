@@ -1,14 +1,13 @@
 import axios from "axios";
 import {
   BlockchainUrl,
-  GetRole,
-  Url,
-  SetRole,
-  GetRecruiter,
-  SetRecruiter,
-  UpdateRecruiter,
-  GetResumesRequest,
-  SetTransaction,
+  GQLGetRole,
+  GQLUrl,
+  GQLSetRole,
+  GQLGetRecruiter,
+  GQLSetRecruiter,
+  GQLUpdateRecruiter,
+  GQLGetResumesRequest,
   TemporaryBankWallet,
 } from "../../configuration/BackendConsts";
 import { signTransaction } from "../../services/transactions";
@@ -66,39 +65,20 @@ export const getApplicantProfile = async (address) => {
     .catch((response) => console.error(response));
 };
 
-export const updateApplicantProfile = async ({data, wallet, accountMeta}) => {
-  const response = await sendTransaction(
-    data,
-    wallet,
-    accountMeta,
-    "UploadResume"
-  );
+export const updateApplicantProfile = async ({ data, wallet, accountMeta }) => {
+  const response = await sendTransaction(data, wallet, accountMeta);
   console.log("updateApplicantProfile", response);
-}
+};
 
-export const sendTransaction = async (data, wallet, accountMeta, type) => {
+export const sendTransaction = async (data, wallet, accountMeta) => {
   if (accountMeta.account_number === "0") {
     return false;
   }
   const signedData = signTransaction(data, wallet, accountMeta);
-
-  const client = new ApolloClient({
-    uri: Url,
-  });
-
-  return client
-    .query({
-      query: SetTransaction(type),
-      variables: {
-        input: signedData,
-      },
-    })
-    .then((response) => {
-      if (response && response.data) {
-        return response.data;
-      }
-    })
-    .catch((error) => console.log(error));
+  return await axios
+    .post(`${BlockchainUrl}/txs`, signedData)
+    .then((response) => response.status === 200)
+    .catch((response) => console.error(response));
 };
 
 export const getAccountInfo = async (address) => {
@@ -126,11 +106,11 @@ export const getAccountInfo = async (address) => {
 
 export const getAccountRole = async (address) => {
   const client = new ApolloClient({
-    uri: Url,
+    uri: GQLUrl,
   });
   return client
     .query({
-      query: GetRole,
+      query: GQLGetRole,
       variables: {
         address,
       },
@@ -145,11 +125,11 @@ export const getAccountRole = async (address) => {
 
 export const setAccountRole = async (address, role) => {
   const client = new ApolloClient({
-    uri: Url,
+    uri: GQLUrl,
   });
   return client
     .mutate({
-      mutation: SetRole,
+      mutation: GQLSetRole,
       variables: {
         address,
         role,
@@ -196,11 +176,11 @@ export const getAllTransactions = async (address) => {
 
 export const setEmployerProfile = async (data) => {
   const client = new ApolloClient({
-    uri: Url,
+    uri: GQLUrl,
   });
   return client
     .mutate({
-      mutation: SetRecruiter,
+      mutation: GQLSetRecruiter,
       variables: data,
     })
     .then((response) => {
@@ -213,11 +193,11 @@ export const setEmployerProfile = async (data) => {
 
 export const updateEmployerProfile = async (data) => {
   const client = new ApolloClient({
-    uri: Url,
+    uri: GQLUrl,
   });
   return client
     .mutate({
-      mutation: UpdateRecruiter,
+      mutation: GQLUpdateRecruiter,
       variables: data,
     })
     .then((response) => {
@@ -230,11 +210,11 @@ export const updateEmployerProfile = async (data) => {
 
 export const getEmployerProfile = async (address) => {
   const client = new ApolloClient({
-    uri: Url,
+    uri: GQLUrl,
   });
   return client
     .query({
-      query: GetRecruiter,
+      query: GQLGetRecruiter,
       variables: {
         address,
       },
@@ -249,11 +229,11 @@ export const getEmployerProfile = async (address) => {
 
 export const getResumesRequests = async (data) => {
   const client = new ApolloClient({
-    uri: Url,
+    uri: GQLUrl,
   });
   return client
     .query({
-      query: GetResumesRequest,
+      query: GQLGetResumesRequest,
       variables: data,
     })
     .then((response) => {
@@ -279,16 +259,7 @@ export const fillUpBalance = async (address) => {
       ],
     },
   };
-  const transaction = await sendTransaction(
-    requestBody,
-    TemporaryBankWallet,
-    moneyAccountMeta,
-    "MsgSend"
-  );
-  if (!transaction.msg_send.error) {
-    const accountInfo = await getAccountInfo(address);
-    return accountInfo.coins;
-  } else {
-    return Error("Transaction error");
-  }
+  await sendTransaction(requestBody, TemporaryBankWallet, moneyAccountMeta);
+  const accountInfo = await getAccountInfo(address);
+  return accountInfo.coins;
 };
