@@ -5,6 +5,7 @@ import * as Styled from "./EditProfileDetails.styled.js";
 import {
   FileUploadBtn,
   SubmitBtn,
+  TransparentBtn,
 } from "../../../../shared-components/Buttons";
 import { TextInput } from "../../../../shared-components/FilterInputs";
 
@@ -15,6 +16,7 @@ const EditProfileDetails = ({
   onNameChange,
   onSubmit,
   validationErrors,
+  handleRemoveAvatar,
 }) => (
   <div>
     <Styled.AvatarTitle>Your Profile Photo</Styled.AvatarTitle>
@@ -23,6 +25,9 @@ const EditProfileDetails = ({
       <FileUploadBtn onChange={onAvatarChange}>
         select profile photo
       </FileUploadBtn>
+      <TransparentBtn onClick={handleRemoveAvatar}>
+        remove profile photo
+      </TransparentBtn>
     </Styled.AvatarContainer>
     <Styled.NameContainter>
       <Styled.NameLabel>Your name</Styled.NameLabel>
