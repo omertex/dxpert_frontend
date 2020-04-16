@@ -2,7 +2,6 @@ import {
   getApplicantProfile,
   sendTransaction,
   getAccountInfo,
-  updateApplicantProfile,
 } from "./requests";
 import { takeLatest, put, select } from "redux-saga/effects";
 import { AUTH, APPLICANT_PROFILE } from "../actions/actionTypes";
@@ -96,23 +95,25 @@ function* sendApplicantProfileSaga() {
     value: {
       resume: {
         public_data: {
-          skills: applicant.skills,
+          skills: JSON.stringify(applicant.skills),
           country: applicant.contacts.country,
           city: applicant.contacts.city,
-          languages: applicant.languages,
-          total_experience: totalExperience.toString(),
-          education: applicant.education,
+          languages: JSON.stringify(applicant.languages),
+          total_experience: JSON.stringify(totalExperience),
+          education: JSON.stringify(applicant.education),
           birth_date: applicant.contacts.DOB,
           sex: applicant.contacts.sex,
           photo: applicant.details.avatar,
         },
         private_data: {
           name: encryptByPublicKey(auth.publicKey, applicant.details.name),
-          experience: mapCrypto({
-            data: applicant.workExperience,
-            cryptoKey: auth.publicKey,
-            cryptoFunction: encryptByPublicKey,
-          }),
+          experience: JSON.stringify(
+            mapCrypto({
+              data: applicant.workExperience,
+              cryptoKey: auth.publicKey,
+              cryptoFunction: encryptByPublicKey,
+            })
+          ),
           email: encryptByPublicKey(auth.publicKey, applicant.contacts.email),
           about: encryptByPublicKey(auth.publicKey, applicant.aboutMe),
         },
@@ -138,13 +139,8 @@ function* sendApplicantProfileSaga() {
     sequence: auth.sequence,
   };
 
-  const updateResult = yield updateApplicantProfile({
-    data,
-    wallet,
-    accountMeta,
-  });
-
-  console.log("updateResult", updateResult);
+  const transactionResult = yield sendTransaction(data, wallet, accountMeta);
+  console.log("transactionResult", transactionResult);
 
   const accountInfoResult = yield getAccountInfo(auth.address);
 
