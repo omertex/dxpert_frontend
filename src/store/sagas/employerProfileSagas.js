@@ -16,13 +16,13 @@ const emptyProfile = {
   // avatar: "",
 };
 
-function* getEmployerProfileSaga(action) {
-  const response = yield getEmployerProfile(action.payload);
+export function* getEmployerProfileSaga({ payload }) {
+  const response = yield getEmployerProfile(payload);
   if (!response) {
     // установить профиль (только для новых профилей)
     yield setEmployerProfile({
       ...emptyProfile,
-      address: action.payload,
+      address: payload,
     });
   }
   // clean unused/wrong property
@@ -31,13 +31,6 @@ function* getEmployerProfileSaga(action) {
     type: EMPLOYER_PROFILE.GET_EMPLOYER_PROFILE_SUCCESS,
     payload: response,
   });
-}
-
-export function* getEmployerProfileWatcher() {
-  yield takeLatest(
-    EMPLOYER_PROFILE.GET_EMPLOYER_PROFILE,
-    getEmployerProfileSaga
-  );
 }
 
 function* updateEmployerProfileSaga(action) {
@@ -50,7 +43,11 @@ function* updateEmployerProfileSaga(action) {
   });
 }
 
-export function* updateEmployerProfileWatcher() {
+export function* employerProfileWatcher() {
+  yield takeLatest(
+    EMPLOYER_PROFILE.GET_EMPLOYER_PROFILE,
+    getEmployerProfileSaga
+  );
   yield takeLatest(
     EMPLOYER_PROFILE.UPDATE_EMPLOYER_PROFILE,
     updateEmployerProfileSaga
