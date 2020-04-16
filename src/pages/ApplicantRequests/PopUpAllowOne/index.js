@@ -68,7 +68,7 @@ const PopUpAllowOne = ({
           about: encryptByPublicKey(rightData.publicKey, applicant.aboutMe),
         },
         requester: rightData.address,
-        owner: address,
+        address,
       },
     };
     const result = await sendTransaction(
