@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import * as Styled from "./styled";
 import { ContinueBtn, CancelBtn } from "../../../shared-components/Buttons";
 import { connect } from "react-redux";
-import { sendTransaction } from "../../../store/sagas/requests";
+import { getAccountInfo, sendTransaction } from "../../../store/sagas/requests";
+import * as ACTIONS from "../../../store/actions";
 
 const RequestResume = ({
   publicKey,
@@ -12,6 +13,7 @@ const RequestResume = ({
   sequence,
   cancel,
   data,
+  saveCoins,
 }) => {
   const [showData, setShowData] = useState("info");
   const rightData = data.length ? data[0] : {};
@@ -64,6 +66,9 @@ const RequestResume = ({
       { account_number, sequence }
     );
 
+    const accountInfo = await getAccountInfo(address);
+    saveCoins(accountInfo.coins);
+
     result ? setShowData("success") : setShowData("error");
   };
 
@@ -91,4 +96,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(RequestResume);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveCoins: (coins) => dispatch(ACTIONS.saveCoins(coins)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RequestResume);
