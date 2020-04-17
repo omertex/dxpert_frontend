@@ -75,6 +75,7 @@ export const GQLGetRecruiter = gql`
       email
       organisation
       website
+      photo
     }
   }
 `;
@@ -122,6 +123,7 @@ export const GQLUpdateRecruiter = gql`
     $email: String!
     $organisation: String!
     $website: String!
+    $photo: String!
   ) {
     update_recruiters(
       where: { address: { _eq: $address } }
@@ -132,6 +134,7 @@ export const GQLUpdateRecruiter = gql`
         email: $email
         organisation: $organisation
         website: $website
+        photo: $photo
       }
     ) {
       returning {
@@ -142,6 +145,7 @@ export const GQLUpdateRecruiter = gql`
         email
         organisation
         website
+        photo
       }
     }
   }
