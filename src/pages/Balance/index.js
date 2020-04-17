@@ -10,7 +10,15 @@ import { connect } from "react-redux";
 import * as ACTIONS from "../../store/actions";
 import PageLoading from "../../shared-components/PageLoading";
 
-export const Balance = ({ address, coins, saveCoins, avatar, name }) => {
+export const Balance = ({
+  address,
+  coins,
+  saveCoins,
+  avatar,
+  name,
+  photo,
+  organisation,
+}) => {
   const [allTransactions, setAllTransactions] = useState([]);
   const [purchasesLoading, setPurchasesLoading] = useState(false);
   const [balanceLoading, setBalanceLoading] = useState(true);
@@ -64,7 +72,11 @@ export const Balance = ({ address, coins, saveCoins, avatar, name }) => {
 
   return (
     <Styled.Container>
-      <ShortInfo avatar={avatar} name={name} address={address} />
+      <ShortInfo
+        avatar={avatar || photo}
+        name={name || organisation}
+        address={address}
+      />
       <PageName pageName={"Balance"} />
       {balanceLoading ? (
         <PageLoading />
@@ -123,6 +135,8 @@ const mapStateToProps = (state) => {
     coins: state.auth.coins,
     avatar: state.applicant.details.avatar,
     name: state.applicant.details.name,
+    photo: state.employer.profile.photo,
+    organisation: state.employer.profile.organisation,
   };
 };
 
