@@ -18,15 +18,17 @@ const EditEmployerContacts = ({
   cities,
 }) => {
   const avatarChangeHandler = async (e) => {
-    const avatar = await imgBase64(e.target.files[0]);
-    changeHanlder({ target: { name: "avatar", value: avatar } });
+    const photo = await imgBase64(e.target.files[0]);
+    changeHanlder({ target: { name: "photo", value: photo } });
   };
 
   return (
     <Styled.Form>
-      {/* <FileUploadBtn onChange={avatarChangeHandler}>
-        select profile photo
-      </FileUploadBtn> */}
+      <Info title="Avatar">
+        <FileUploadBtn onChange={avatarChangeHandler}>
+          select profile photo
+        </FileUploadBtn>
+      </Info>
       <Info title="Company">
         <TextInput
           name="organisation"
