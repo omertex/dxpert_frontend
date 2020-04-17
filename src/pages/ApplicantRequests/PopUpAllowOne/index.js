@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import * as Styled from "./styled";
 import { ContinueBtn, CancelBtn } from "../../../shared-components/Buttons";
 import { connect } from "react-redux";
-import { sendTransaction } from "../../../store/sagas/requests";
+import { getAccountInfo, sendTransaction } from "../../../store/sagas/requests";
 import { encryptByPublicKey, mapCrypto } from "../../../configuration/helpers";
+import * as ACTIONS from "../../../store/actions";
 
 const PopUpAllowOne = ({
   publicKey,
@@ -14,6 +15,7 @@ const PopUpAllowOne = ({
   cancel,
   data,
   applicant,
+  saveCoins,
 }) => {
   const [showData, setShowData] = useState("info");
   const rightData = data.length ? data[0] : {};
@@ -77,6 +79,9 @@ const PopUpAllowOne = ({
       { account_number, sequence }
     );
 
+    const accountInfo = await getAccountInfo(address);
+    saveCoins(accountInfo.coins);
+
     result ? setShowData("success") : setShowData("error");
   };
 
@@ -107,4 +112,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(PopUpAllowOne);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveCoins: (coins) => dispatch(ACTIONS.saveCoins(coins)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PopUpAllowOne);
