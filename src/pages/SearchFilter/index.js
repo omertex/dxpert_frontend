@@ -34,7 +34,13 @@ const initialState = {
 
 let delayedSending;
 
-const SearchFilter = ({ history, countries, getCountriesList }) => {
+const SearchFilter = ({
+  history,
+  countries,
+  photo,
+  organisation,
+  getCountriesList,
+}) => {
   const [popUpData, setPopUpData] = useState([]);
   const [isShownFilterPopUp, setShownFilterPopUp] = useState(
     !history.location.search
@@ -289,7 +295,7 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
   return (
     <>
       <Styled.Container>
-        <ShortInfo />
+        <ShortInfo avatar={photo} name={organisation} />
         <Styled.SearchInfo>
           {/* <Styled.Found>
             We found {SEARCHED_RESULTS.length} users with similar skills
@@ -446,6 +452,8 @@ const SearchFilter = ({ history, countries, getCountriesList }) => {
 const mapStateToProps = (state) => {
   return {
     countries: state.serviceData.countries,
+    photo: state.employer.profile.photo,
+    organisation: state.employer.profile.organisation,
   };
 };
 

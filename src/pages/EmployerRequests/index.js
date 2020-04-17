@@ -10,7 +10,7 @@ import { getResumesRequests } from "../../store/sagas/requests";
 
 const limit = 10;
 
-const EmployerRequests = ({ address }) => {
+const EmployerRequests = ({ address, photo, organisation }) => {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [renderResults, setRenderResults] = useState([]);
@@ -43,7 +43,7 @@ const EmployerRequests = ({ address }) => {
 
   return (
     <Styled.Container>
-      <ShortInfo address={address} />
+      <ShortInfo avatar={photo} name={organisation} address={address} />
       <PageName pageName={"My requests"} />
       {isLoading ? (
         <PageLoading />
@@ -60,6 +60,8 @@ const EmployerRequests = ({ address }) => {
 const mapStateToProps = (state) => {
   return {
     address: state.auth.address,
+    photo: state.employer.profile.photo,
+    organisation: state.employer.profile.organisation,
   };
 };
 
