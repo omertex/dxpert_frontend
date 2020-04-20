@@ -15,31 +15,45 @@ import {
   getCitiesListAction,
 } from "../../store/actions/serviceDataActions";
 
-const EmployerProfile = (props) => {
+const EmployerProfile = ({
+  address,
+  employer,
+  countries,
+  cities,
+  getEmployerProfile,
+  getCountriesList,
+  getCitiesList,
+  updateEmployerProfile,
+  logout,
+}) => {
   useEffect(() => {
-    props.getEmployerProfile(props.address);
-    props.getCountriesList();
+    getEmployerProfile(address);
+    getCountriesList();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (props.employer.isProfileLoaded && props.employer.profile.country) {
-      props.getCitiesList(props.employer.profile.country);
+    if (employer.isProfileLoaded && employer.profile.country) {
+      getCitiesList(employer.profile.country);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.employer.isProfileLoaded]);
+  }, [employer.isProfileLoaded]);
 
-  return props.employer.isProfileLoaded ? (
+  return employer.isProfileLoaded ? (
     <PageLayout>
-      <ShortInfo address={props.address} />
-      <PageName pageName={"My profile"} onLogOut={props.logout} />
+      <ShortInfo
+        avatar={employer.profile.photo || ""}
+        name={employer.profile.organisation || ""}
+        address={address}
+      />
+      <PageName pageName={"My profile"} onLogOut={logout} />
       <EmployerContacts
-        employerProfile={props.employer.profile}
-        countries={props.countries}
-        cities={props.cities}
-        getCitiesList={props.getCitiesList}
-        updateEmployerProfile={props.updateEmployerProfile}
+        employerProfile={employer.profile}
+        countries={countries}
+        cities={cities}
+        getCitiesList={getCitiesList}
+        updateEmployerProfile={updateEmployerProfile}
       />
     </PageLayout>
   ) : (

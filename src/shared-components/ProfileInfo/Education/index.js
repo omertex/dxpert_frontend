@@ -7,6 +7,7 @@ import { FilterSelect } from "../../FilterSelect";
 import Info from "../Info";
 import { connect } from "react-redux";
 import * as actionTypes from "../../../store/actions/actionTypes";
+import validate from "validate.js";
 
 const educationLevels = [
   "primary",
@@ -17,12 +18,22 @@ const educationLevels = [
   "doctor",
 ];
 
+const сonstraints = {
+  graduation_year: {
+    presence: { allowEmpty: false },
+  },
+  institution: {
+    presence: { allowEmpty: false },
+  },
+};
+
 const Editable = ({
   submitted,
   changed,
   edu,
   addEducation,
   onRemoveEducation,
+  validationErrors,
 }) => (
   <Styled.Form>
     {edu.map((item, index) => (
@@ -44,6 +55,7 @@ const Editable = ({
             name="institution"
             value={item["institution"]}
             onChange={(e) => changed(e, index)}
+            error={validationErrors[index].institution}
           />
         </Info>
         <Info title="Department">
@@ -71,6 +83,7 @@ const Editable = ({
             name="graduation_year"
             value={item["graduation_year"]}
             onChange={(e) => changed(e, index)}
+            error={validationErrors[index].graduation_year}
           />
         </Info>
         <Styled.AddInfo
@@ -94,17 +107,56 @@ const Editable = ({
 
 const Education = ({ education, setEducation, sendApplicantProfile }) => {
   const [edu, setEdu] = useState(education);
+  const [validationErrors, setValidationErrors] = useState(
+    Array.from({ length: education.length }, (item) => ({}))
+  );
 
   const handleChange = (e, index) => {
     const {
       target: { name, value },
     } = e;
+    // tricky destructuring assignment
+    const { [name]: omitted, ...otherValidationErrors } = validationErrors[
+      index
+    ];
+    const newValidationErrors = validationErrors;
+    newValidationErrors[index] = otherValidationErrors;
+    setValidationErrors(newValidationErrors);
     const newEdu = [...edu];
     newEdu[index][name] = value;
     setEdu(newEdu);
   };
 
   const handleSubmit = () => {
+    const validationResultArray = edu.map((item) => {
+      return validate(
+        {
+          graduation_year: item.graduation_year,
+          institution: item.institution,
+        },
+        сonstraints
+      );
+    });
+
+    let isValid = true;
+
+    const newValidationErrors = validationResultArray.map((item) => {
+      const normalizedItem = item || {};
+      if (!!normalizedItem.graduation_year || !!normalizedItem.institution) {
+        isValid = false;
+      }
+      return {
+        graduation_year: !!normalizedItem.graduation_year,
+        institution: !!normalizedItem.institution,
+      };
+    });
+
+    setValidationErrors(newValidationErrors);
+
+    if (!isValid) {
+      return;
+    }
+
     setEducation(edu);
     sendApplicantProfile();
   };
@@ -121,11 +173,16 @@ const Education = ({ education, setEducation, sendApplicantProfile }) => {
       },
     ];
     setEdu(newEdu);
+    setValidationErrors([...validationErrors, {}]);
   };
 
   const removeEducationHandler = (index) => {
     const newEdu = edu.filter((item, currentIndex) => currentIndex !== index);
     setEdu(newEdu);
+    const newValidationErrors = validationErrors.filter(
+      (item, currentIndex) => currentIndex !== index
+    );
+    setValidationErrors(newValidationErrors);
   };
 
   const Displayed = () => (
@@ -155,6 +212,7 @@ const Education = ({ education, setEducation, sendApplicantProfile }) => {
           edu={edu}
           addEducation={addEducation}
           onRemoveEducation={removeEducationHandler}
+          validationErrors={validationErrors}
         />
       }
       name="Education"

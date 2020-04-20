@@ -7,6 +7,7 @@ import {
   GQLGetRecruiter,
   GQLSetRecruiter,
   GQLUpdateRecruiter,
+  GQLGetResumesRequest,
   TemporaryBankWallet,
 } from "../../configuration/BackendConsts";
 import { signTransaction } from "../../services/transactions";
@@ -221,6 +222,23 @@ export const getEmployerProfile = async (address) => {
     .catch((error) => console.log(error));
 };
 
+export const getResumesRequests = async (data) => {
+  const client = new ApolloClient({
+    uri: GQLUrl,
+  });
+  return client
+    .query({
+      query: GQLGetResumesRequest,
+      variables: data,
+    })
+    .then((response) => {
+      if (response && response.data && response.data.resume_requests) {
+        return response.data.resume_requests;
+      }
+    })
+    .catch((error) => console.log(error));
+};
+
 export const fillUpBalance = async (address) => {
   const moneyAccountMeta = await getAccountInfo(TemporaryBankWallet.address);
   const requestBody = {
@@ -239,4 +257,22 @@ export const fillUpBalance = async (address) => {
   await sendTransaction(requestBody, TemporaryBankWallet, moneyAccountMeta);
   const accountInfo = await getAccountInfo(address);
   return accountInfo.coins;
+};
+
+export const getOpenedResume = async (txhash) => {
+  return axios
+    .get(`${BlockchainUrl}/txs/${txhash}`)
+    .then((response) => {
+      if (
+        response &&
+        response.data &&
+        response.data.tx &&
+        response.data.tx.value
+      ) {
+        return response.data.tx.value.msg[0].value;
+      } else {
+        return {};
+      }
+    })
+    .catch((response) => console.error(response));
 };

@@ -2,7 +2,7 @@ import { gql } from "apollo-boost";
 
 export const GQLUrl = "https://dxp-gql-app.herokuapp.com/v1/graphql";
 
-export const BlockchainUrl = `https://cors-anywhere.herokuapp.com/http://dev.omertex.com:17864`;
+export const BlockchainUrl = `http://dev.omertex.com:17864`;
 
 export const TemporaryBankWallet = {
   address: "dxpert1ka08uzst48ralnwjc6yzyfq8xp0jk26e3459yp",
@@ -10,7 +10,7 @@ export const TemporaryBankWallet = {
   publicKey: "A076Yuv6mjKtqMV/Wykfy6D3aMxMYmlsrnhNN6vaeXyo",
 };
 
-export const SearchQuery = gql`
+export const GQLSearchQuery = gql`
   query bySkills(
     $public_data: jsonb
     $sex: bpchar
@@ -75,6 +75,7 @@ export const GQLGetRecruiter = gql`
       email
       organisation
       website
+      photo
     }
   }
 `;
@@ -122,6 +123,7 @@ export const GQLUpdateRecruiter = gql`
     $email: String!
     $organisation: String!
     $website: String!
+    $photo: String!
   ) {
     update_recruiters(
       where: { address: { _eq: $address } }
@@ -132,6 +134,7 @@ export const GQLUpdateRecruiter = gql`
         email: $email
         organisation: $organisation
         website: $website
+        photo: $photo
       }
     ) {
       returning {
@@ -142,7 +145,34 @@ export const GQLUpdateRecruiter = gql`
         email
         organisation
         website
+        photo
       }
+    }
+  }
+`;
+
+export const GQLGetResumesRequest = gql`
+  query GetResumesRequest(
+    $address: String!
+    $box: String!
+    $role: Int!
+    $offset: Int
+    $limit: Int
+  ) {
+    resume_requests(
+      address: $address
+      box: $box
+      role: $role
+      limit: $limit
+      offset: $offset
+    ) {
+      required_resumes {
+        address
+        status
+        data
+        date
+      }
+      count
     }
   }
 `;

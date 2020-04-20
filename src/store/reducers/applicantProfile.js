@@ -55,14 +55,14 @@ const cleanProfile = (state, action) => {
     contacts: {
       country: "",
       city: "",
-      sex: "Male",
+      sex: "",
       DOB: "",
       email: "",
     },
-    workExperience: "[]",
-    education: "[]",
-    skills: "[]",
-    languages: "[]",
+    workExperience: [],
+    education: [],
+    skills: [],
+    languages: [],
     isApplicantProfileLoaded: false,
   });
 };

@@ -6,99 +6,56 @@ import Request from "./Request";
 import PageName from "../../shared-components/PageName";
 import { connect } from "react-redux";
 import PageLoading from "../../shared-components/PageLoading";
-import { TabPanel, TabsNav } from "../../shared-components/StyledTabs";
-import { EMPLOYER_REQUESTS } from "../../configuration/TemporaryConsts";
+import { getResumesRequests } from "../../store/sagas/requests";
 
 const limit = 10;
 
-const EmployerRequests = ({ address }) => {
-  const [value, setValue] = useState(0);
-  const [page, setPage] = useState(1);
+const EmployerRequests = ({ address, photo, organisation }) => {
+  const [page, setPage] = useState(0);
+  const [resultsCount, setResultsCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [renderResults, setRenderResults] = useState([]);
 
   useEffect(() => {
-    if (value === 0) {
-      setPage(1);
-      setIsLoading(true);
-      setTimeout(() => {
-        setRenderResults(
-          EMPLOYER_REQUESTS.filter(
-            (x) => x.status !== "pending"
-          ).map(({ status, walletID, gender, age, skills, time }) => (
+    setIsLoading(true);
+    getResumesRequests({
+      address: address,
+      box: "out",
+      role: 0,
+      limit: limit,
+      offset: page * limit,
+    }).then((response) => {
+      setResultsCount(Math.floor(response.count / limit));
+      setRenderResults(
+        response.required_resumes.map((result) => {
+          const data = JSON.parse(result.data || "{}");
+          return (
             <Request
-              status={status}
-              walletID={walletID}
-              gender={gender}
-              age={age}
-              skills={skills}
-              time={time}
-              disabled={status === "failed"}
+              key={result.address || ""}
+              status={result.status || 0}
+              walletID={result.address || ""}
+              time={result.date || ""}
+              skills={data.public_data ? data.public_data.skills : ""}
+              data={data}
+              disabled={result.status !== 1}
             />
-          ))
-        );
-        setIsLoading(false);
-        console.log("getActiveResponse");
-      }, 300);
-    }
-    if (value === 1) {
-      setPage(1);
-      setIsLoading(true);
-      setTimeout(() => {
-        setRenderResults(
-          EMPLOYER_REQUESTS.map(
-            ({ walletID, gender, age, skills, time }) => (
-              <Request
-                status={"pending"}
-                walletID={walletID}
-                gender={gender}
-                age={age}
-                skills={skills}
-                time={time}
-                disabled={true}
-              />
-            )
-          )
-        );
-        setIsLoading(false);
-        console.log("getAllResponse");
-      }, 300);
-    }
-  }, [value, page]);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const tabsData = [
-    {
-      label: "Active",
-      index: 0,
-    },
-    {
-      label: "History",
-      index: 1,
-    },
-  ];
+          );
+        })
+      );
+      setIsLoading(false);
+    });
+  }, [page]);
 
   return (
     <Styled.Container>
-      <ShortInfo address={address} />
+      <ShortInfo avatar={photo} name={organisation} address={address} />
       <PageName pageName={"My requests"} />
-      <TabsNav value={value} callback={handleChange} data={tabsData} />
       {isLoading ? (
         <PageLoading />
       ) : (
         <>
-          <Styled.Requests>
-            <TabPanel value={value} index={0}>
-              {renderResults}
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              {renderResults}
-            </TabPanel>
-          </Styled.Requests>
-          {/*<Pagination page={page} count={count} changePage={setPage} />*/}
+          <Styled.Requests>{renderResults}</Styled.Requests>
+          <Pagination page={page} count={resultsCount} changePage={setPage} />
         </>
       )}
     </Styled.Container>
@@ -108,6 +65,8 @@ const EmployerRequests = ({ address }) => {
 const mapStateToProps = (state) => {
   return {
     address: state.auth.address,
+    photo: state.employer.profile.photo,
+    organisation: state.employer.profile.organisation,
   };
 };
 

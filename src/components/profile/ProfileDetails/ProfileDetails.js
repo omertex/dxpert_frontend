@@ -23,6 +23,13 @@ const ProfileDetails = ({ details, setDetails, sendApplicantProfile }) => {
     });
   };
 
+  const handleRemoveAvatar = () => {
+    setDetailsState({
+      ...detailsState,
+      avatar: "",
+    });
+  }
+
   const nameChangeHandler = (e) => {
     const {name, ...otherValidationErrors} = validationErrors;
     setValidationErrors(otherValidationErrors);
@@ -55,6 +62,7 @@ const ProfileDetails = ({ details, setDetails, sendApplicantProfile }) => {
           onNameChange={nameChangeHandler}
           onSubmit={submitHandler}
           validationErrors={validationErrors}
+          handleRemoveAvatar={handleRemoveAvatar}
         />
       }
     />

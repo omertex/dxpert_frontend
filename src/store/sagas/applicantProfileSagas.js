@@ -13,7 +13,7 @@ import {
 import differenceInMonths from "date-fns/differenceInMonths";
 import { parseISO } from "date-fns";
 
-function* getApplicantProfileSaga({ payload }) {
+export function* getApplicantProfileSaga({ payload }) {
   const privateKey = yield select((state) => state.auth.privateKey);
 
   const {
@@ -28,8 +28,6 @@ function* getApplicantProfileSaga({ payload }) {
     });
     return;
   }
-
-  console.log("data", publicData, privateData);
 
   const profile = {
     details: {
@@ -62,13 +60,6 @@ function* getApplicantProfileSaga({ payload }) {
     type: APPLICANT_PROFILE.SET_IS_PROFILE_LOADED,
     payload: true,
   });
-}
-
-export function* getApplicantProfileWatcher() {
-  yield takeLatest(
-    APPLICANT_PROFILE.GET_APPLICANT_PROFILE,
-    getApplicantProfileSaga
-  );
 }
 
 function* sendApplicantProfileSaga() {
@@ -141,8 +132,6 @@ function* sendApplicantProfileSaga() {
     sequence: auth.sequence,
   };
 
-  console.log("data", data);
-
   const transactionResult = yield sendTransaction(data, wallet, accountMeta);
   console.log("transactionResult", transactionResult);
 
@@ -154,7 +143,11 @@ function* sendApplicantProfileSaga() {
   });
 }
 
-export function* sendApplicantProfileWatcher() {
+export function* applicantProfileWatcher() {
+  yield takeLatest(
+    APPLICANT_PROFILE.GET_APPLICANT_PROFILE,
+    getApplicantProfileSaga
+  );
   yield takeLatest(
     APPLICANT_PROFILE.SEND_APPLICANT_PROFILE,
     sendApplicantProfileSaga

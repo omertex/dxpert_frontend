@@ -50,7 +50,7 @@ export const WalletID = styled.p`
   font-size: 16px;
   line-height: 24px;
   text-decoration: underline;
-  width: 80px;
+  width: 215px;
   flex-shrink: 0;
   margin: 0;
   margin-right: 30px;
@@ -85,7 +85,7 @@ export const Age = styled(Gender)``;
 export const Time = styled(Skills)`
   padding: 0;
   margin: 0 0 0 20px;
-  width: 60px;
+  // width: 60px;
   flex-shrink: 0;
   font-size: 12px;
   line-height: 16px;

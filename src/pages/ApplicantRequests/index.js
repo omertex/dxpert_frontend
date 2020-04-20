@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import * as Styled from "./styled";
 import ShortInfo from "../../shared-components/ShortInfo";
-// import Pagination from "../../shared-components/Pagination";
+import Pagination from "../../shared-components/Pagination";
 import InboxRequest from "./InboxRequest";
 import OutboxRequest from "./OutboxRequest";
-import { APPLICANT_REQUESTS } from "../../configuration/TemporaryConsts";
 import PageName from "../../shared-components/PageName";
 import { TabsNav, TabPanel } from "../../shared-components/StyledTabs";
 import { PopUp } from "../../shared-components";
@@ -13,12 +12,14 @@ import PopUpAllowOne from "./PopUpAllowOne";
 import PopUpDecline from "./PopUpDecline";
 import { connect } from "react-redux";
 import PageLoading from "../../shared-components/PageLoading";
+import { getResumesRequests } from "../../store/sagas/requests";
 
 const limit = 10;
 
 const ApplicantRequest = ({ address, avatar, name }) => {
   const [value, setValue] = useState(0);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
+  const [resultsCount, setResultsCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [renderResults, setRenderResults] = useState([]);
   const [confirmPopUp, setConfirmPopUp] = useState([]);
@@ -26,53 +27,73 @@ const ApplicantRequest = ({ address, avatar, name }) => {
 
   useEffect(() => {
     if (value === 0) {
-      setPage(1);
       setIsLoading(true);
-      setTimeout(() => {
+      getResumesRequests({
+        address: address,
+        box: "in",
+        role: 1,
+        limit: limit,
+        offset: page * limit,
+      }).then((response) => {
+        setResultsCount(Math.floor(response.count / limit));
         setRenderResults(
-          APPLICANT_REQUESTS.map(({ status, company, skills, time }) => (
-            <InboxRequest
-              key={company}
-              status={status}
-              company={company}
-              skills={skills}
-              time={time}
-              allowSend={openConfirmPopUp}
-              declineSend={openDeclinePopUp}
-            />
-          ))
+          response.required_resumes.map((result) => {
+            const public_data = JSON.parse(result.data || "{}");
+            return (
+              <InboxRequest
+                key={result.address || ""}
+                status={result.status || 0}
+                company={public_data.organisation || ""}
+                time={result.date || ""}
+                allowSend={() =>
+                  openConfirmPopUp(result.address, public_data.pub_key)
+                }
+                declineSend={() =>
+                  openDeclinePopUp(result.address, public_data.pub_key)
+                }
+              />
+            );
+          })
         );
         setIsLoading(false);
-        console.log("getActiveResponse");
-      }, 300);
+      });
     }
     if (value === 1) {
-      setPage(1);
       setIsLoading(true);
-      setTimeout(() => {
+      getResumesRequests({
+        address: address,
+        box: "out",
+        role: 1,
+        limit: limit,
+        offset: page * limit,
+      }).then((response) => {
         setRenderResults(
-          APPLICANT_REQUESTS.map(({ status, company, skills, time }) => (
-            <OutboxRequest
-              key={company}
-              status={status}
-              company={company}
-              skills={skills}
-              time={time}
-            />
-          ))
+          response.required_resumes.map((result) => {
+            const public_data = JSON.parse(result.data || "{}");
+            return (
+              <OutboxRequest
+                key={result.address || ""}
+                status={result.status || 0}
+                company={public_data.organisation || ""}
+                time={result.date || ""}
+              />
+            );
+          })
         );
         setIsLoading(false);
-        console.log("getAllResponse");
-      }, 300);
+      });
     }
   }, [value, page]);
 
-  const openConfirmPopUp = () => setConfirmPopUp([{}]);
-  const openDeclinePopUp = () => setDeclinePopUp([{}]);
+  const openConfirmPopUp = (address, publicKey) =>
+    setConfirmPopUp([{ address, publicKey }]);
+  const openDeclinePopUp = (address, publicKey) =>
+    setDeclinePopUp([{ address, publicKey }]);
   const closeConfirmPopUp = () => setConfirmPopUp([]);
   const closeDeclinePopUp = () => setDeclinePopUp([]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setPage(0);
   };
 
   const tabsData = [
@@ -112,7 +133,7 @@ const ApplicantRequest = ({ address, avatar, name }) => {
                 </Styled.BottomBtn>
               </TabPanel>
             </Styled.Requests>
-            {/*<Pagination page={page} count={count} changePage={setPage} />*/}
+            <Pagination page={page} count={resultsCount} changePage={setPage} />
           </>
         )}
       </Styled.Container>

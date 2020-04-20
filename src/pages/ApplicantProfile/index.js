@@ -32,12 +32,6 @@ const ApplicantProfile = ({
     getApplicantProfile(address);
   }, [getApplicantProfile, address]);
 
-  // должнен быть хотя бы один навык, указан пол, хотя бы один язык, дата рождения
-  // если есть образование, то должно быть указано место
-  // это в публичных данных
-  // в приватных данных обязательное имя, если есть опыт, то в нём все поля обязательные
-  // страна
-
   return (
     <Styled.Container>
       <ShortInfo avatar={avatar} name={name} address={address} />

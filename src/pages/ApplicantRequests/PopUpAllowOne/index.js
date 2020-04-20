@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import * as Styled from "./styled";
 import { ContinueBtn, CancelBtn } from "../../../shared-components/Buttons";
 import { connect } from "react-redux";
-import { sendTransaction } from "../../../store/sagas/requests";
+import { getAccountInfo, sendTransaction } from "../../../store/sagas/requests";
+import { encryptByPublicKey, mapCrypto } from "../../../configuration/helpers";
+import * as ACTIONS from "../../../store/actions";
 
-const OpenOneResume = ({
+const PopUpAllowOne = ({
   publicKey,
   privateKey,
   address,
@@ -12,6 +14,8 @@ const OpenOneResume = ({
   sequence,
   cancel,
   data,
+  applicant,
+  saveCoins,
 }) => {
   const [showData, setShowData] = useState("info");
   const rightData = data.length ? data[0] : {};
@@ -39,6 +43,8 @@ const OpenOneResume = ({
         );
       case "loading":
         return <Styled.Loading />;
+      default:
+        return;
     }
   };
 
@@ -49,13 +55,22 @@ const OpenOneResume = ({
       value: {
         response: true,
         data: {
-          name: "",
-          experience: null,
-          email: "",
-          about: "",
+          name: encryptByPublicKey(rightData.publicKey, applicant.details.name),
+          experience: JSON.stringify(
+            mapCrypto({
+              data: applicant.workExperience,
+              cryptoKey: rightData.publicKey,
+              cryptoFunction: encryptByPublicKey,
+            })
+          ),
+          email: encryptByPublicKey(
+            rightData.publicKey,
+            applicant.contacts.email
+          ),
+          about: encryptByPublicKey(rightData.publicKey, applicant.aboutMe),
         },
-        requester: rightData.requested_address,
-        owner: address,
+        requester: rightData.address,
+        address,
       },
     };
     const result = await sendTransaction(
@@ -63,6 +78,9 @@ const OpenOneResume = ({
       { privateKey, publicKey, address },
       { account_number, sequence }
     );
+
+    const accountInfo = await getAccountInfo(address);
+    saveCoins(accountInfo.coins);
 
     result ? setShowData("success") : setShowData("error");
   };
@@ -90,7 +108,14 @@ const mapStateToProps = (state) => {
     address: state.auth.address,
     account_number: state.auth.account_number,
     sequence: state.auth.sequence,
+    applicant: state.applicant,
   };
 };
 
-export default connect(mapStateToProps)(OpenOneResume);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveCoins: (coins) => dispatch(ACTIONS.saveCoins(coins)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PopUpAllowOne);

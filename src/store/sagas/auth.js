@@ -6,7 +6,7 @@ import {
   base64Decryption,
   generateWalletByPrivateKey,
 } from "../../configuration/helpers";
-import { getAccountRole, getAccountInfo } from "../sagas/requests";
+import { getAccountRole, getAccountInfo } from "./requests";
 
 export function* saveWalletSaga(action) {
   const { privateKey, publicKey, address } = action.wallet;
@@ -29,7 +29,7 @@ export function* loginByLocalStorageSaga(action) {
   yield put(ACTIONS.generatePublicKey(publicKey));
   yield put(ACTIONS.savePrivateKey(privateKey));
   yield put(ACTIONS.saveAddress(address));
-  yield put(ACTIONS.chooseWay(chosenWay === 0 ? "applicant" : "employer"));
+  yield put(ACTIONS.chooseWay(chosenWay === 1 ? "applicant" : "employer"));
   yield put(ACTIONS.updateAccountInfo(accountInfo));
   yield put(ACTIONS.authorize());
 }
@@ -41,7 +41,7 @@ export function* loginByKeyStoreSaga(action) {
   const chosenWay = yield getAccountRole(wallet.address);
   const accountInfo = yield getAccountInfo(wallet.address);
 
-  yield put(ACTIONS.chooseWay(chosenWay === 0 ? "applicant" : "employer"));
+  yield put(ACTIONS.chooseWay(chosenWay === 1 ? "applicant" : "employer"));
   yield put(ACTIONS.createWalletData(wallet));
   yield put(ACTIONS.updateAccountInfo(accountInfo));
   yield put(ACTIONS.setPassword(password));

@@ -32,6 +32,10 @@ export const OpenedTags = ({ description }) => (
   </Styled.Info>
 );
 
+export const OpenedExperiences = ({ children }) => (
+  <Styled.Experiences>{children}</Styled.Experiences>
+);
+
 export const OpenedEducation = ({ children }) => (
   <Styled.EducationInfo>{children}</Styled.EducationInfo>
 );

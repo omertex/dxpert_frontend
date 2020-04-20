@@ -8,7 +8,7 @@ export const chooseWay = "/",
   search = "/search",
   unlockWallet = "/unlock-wallet",
   walletCreationTutorial = "/wallet-creation-tutorial",
-  openedResume = "/opened-resume/:id";
+  openedResume = "/opened-resume";
 
 const ChooseWay = lazy(() => import("../pages/ChooseWay"));
 const CreateWallet = lazy(() => import("../pages/CreateWallet"));
