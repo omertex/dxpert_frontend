@@ -50,7 +50,7 @@ export const WalletID = styled.p`
   font-size: 16px;
   line-height: 24px;
   text-decoration: underline;
-  width: 210px;
+  width: 215px;
   flex-shrink: 0;
   margin: 0;
   margin-right: 30px;

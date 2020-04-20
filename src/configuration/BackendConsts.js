@@ -152,14 +152,27 @@ export const GQLUpdateRecruiter = gql`
 `;
 
 export const GQLGetResumesRequest = gql`
-  query GetResumesRequest($src: String, $dest: String, $status: Int) {
-    request_resumes(src: $src, dest: $dest, status: $status) {
-      status
-      src
-      dest
-      pub_key
-      updated_at
-      data
+  query GetResumesRequest(
+    $address: String!
+    $box: String!
+    $role: Int!
+    $offset: Int
+    $limit: Int
+  ) {
+    resume_requests(
+      address: $address
+      box: $box
+      role: $role
+      limit: $limit
+      offset: $offset
+    ) {
+      required_resumes {
+        address
+        status
+        data
+        date
+      }
+      count
     }
   }
 `;
