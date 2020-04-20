@@ -28,10 +28,10 @@ const ProfileDetails = ({ details, setDetails, sendApplicantProfile }) => {
       ...detailsState,
       avatar: "",
     });
-  }
+  };
 
   const nameChangeHandler = (e) => {
-    const {name, ...otherValidationErrors} = validationErrors;
+    const { name, ...otherValidationErrors } = validationErrors;
     setValidationErrors(otherValidationErrors);
     setDetailsState({ ...detailsState, name: e.target.value });
   };

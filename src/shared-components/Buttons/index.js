@@ -118,11 +118,9 @@ export const FileUploadBtn = ({ children, ...otherProps }) => {
   );
 };
 
-export const TransparentBtn = ({children, ...otherProps}) => (
-  <Styled.TransparentBtn {...otherProps}>
-    {children}
-  </Styled.TransparentBtn>
-)
+export const TransparentBtn = ({ children, ...otherProps }) => (
+  <Styled.TransparentBtn {...otherProps}>{children}</Styled.TransparentBtn>
+);
 
 export const MailLink = withStyles({
   root: {
