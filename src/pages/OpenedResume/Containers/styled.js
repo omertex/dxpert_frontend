@@ -47,6 +47,10 @@ export const Tag = styled(Description)`
   margin: 0 32px 14px 10px;
 `;
 
+export const Experiences = styled.div`
+  margin-bottom: 30px;
+`;
+
 export const EducationInfo = styled.div`
   text-align: left;
   margin-bottom: 5px;

@@ -232,8 +232,8 @@ export const getResumesRequests = async (data) => {
       variables: data,
     })
     .then((response) => {
-      if (response && response.data && response.data.request_resumes) {
-        return response.data.request_resumes;
+      if (response && response.data && response.data.resume_requests) {
+        return response.data.resume_requests;
       }
     })
     .catch((error) => console.log(error));
@@ -257,4 +257,22 @@ export const fillUpBalance = async (address) => {
   await sendTransaction(requestBody, TemporaryBankWallet, moneyAccountMeta);
   const accountInfo = await getAccountInfo(address);
   return accountInfo.coins;
+};
+
+export const getOpenedResume = async (txhash) => {
+  return axios
+    .get(`${BlockchainUrl}/txs/${txhash}`)
+    .then((response) => {
+      if (
+        response &&
+        response.data &&
+        response.data.tx &&
+        response.data.tx.value
+      ) {
+        return response.data.tx.value.msg[0].value;
+      } else {
+        return {};
+      }
+    })
+    .catch((response) => console.error(response));
 };

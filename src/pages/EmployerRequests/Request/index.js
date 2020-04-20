@@ -16,12 +16,16 @@ const transitionSkills = {
 };
 
 export default withRouter(
-  ({ status, walletID, gender, age, skills, time, disabled, history }) => {
+  ({ status, walletID, skills, time, disabled, data, history }) => {
     const [isExpanded, setExpanded] = useState(false);
+    const { sex, birth_date } = data;
 
     const toggleSkillsExpanded = () => setExpanded(!isExpanded);
-    const openProfile = (walletID) => {
-      history.push(`/opened-resume/${walletID}`);
+    const openProfile = () => {
+      history.push({
+        pathname: "/opened-resume",
+        state: { data },
+      });
     };
 
     return (
@@ -30,9 +34,9 @@ export default withRouter(
         {status === 1 && <Styled.Completed fontSize="small" />}
         {status === 2 && <Styled.Failed fontSize="small" />}
         <Styled.WalletID>{`${walletID.slice(0, 22)}...`}</Styled.WalletID>
-        <Styled.Gender>{gender}</Styled.Gender>
+        <Styled.Gender>{sex || ""}</Styled.Gender>
         <Styled.Age>
-          {new Date().getFullYear() - new Date(age).getFullYear()}
+          {new Date().getFullYear() - new Date(birth_date || "").getFullYear()}
         </Styled.Age>
         <Transition in={isExpanded} timeout={0}>
           {(state) => (
@@ -46,12 +50,7 @@ export default withRouter(
             </Styled.Skills>
           )}
         </Transition>
-        <Styled.View
-          disabled={disabled}
-          onClick={() => {
-            openProfile(walletID);
-          }}
-        >
+        <Styled.View disabled={disabled} onClick={openProfile}>
           view profile
         </Styled.View>
         <Styled.Expand onClick={toggleSkillsExpanded} expanded={isExpanded} />

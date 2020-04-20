@@ -11,27 +11,32 @@ import { getResumesRequests } from "../../store/sagas/requests";
 const limit = 10;
 
 const EmployerRequests = ({ address, photo, organisation }) => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
+  const [resultsCount, setResultsCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [renderResults, setRenderResults] = useState([]);
 
   useEffect(() => {
-    setPage(1);
     setIsLoading(true);
     getResumesRequests({
-      src: address,
+      address: address,
+      box: "out",
+      role: 0,
+      limit: limit,
+      offset: page * limit,
     }).then((response) => {
+      setResultsCount(Math.floor(response.count / limit));
       setRenderResults(
-        response.map((result) => {
+        response.required_resumes.map((result) => {
+          const data = JSON.parse(result.data || "{}");
           return (
             <Request
-              key={result.dest || ""}
+              key={result.address || ""}
               status={result.status || 0}
-              walletID={result.dest || ""}
-              gender={result.data ? result.data.sex : ""}
-              age={result.data ? result.data.birth_date : ""}
-              skills={result.data ? result.data.public_data.skills : []}
-              time={result.updated_at || ""}
+              walletID={result.address || ""}
+              time={result.date || ""}
+              skills={data.public_data ? data.public_data.skills : ""}
+              data={data}
               disabled={result.status !== 1}
             />
           );
@@ -50,7 +55,7 @@ const EmployerRequests = ({ address, photo, organisation }) => {
       ) : (
         <>
           <Styled.Requests>{renderResults}</Styled.Requests>
-          {/*<Pagination page={page} count={count} changePage={setPage} />*/}
+          <Pagination page={page} count={resultsCount} changePage={setPage} />
         </>
       )}
     </Styled.Container>

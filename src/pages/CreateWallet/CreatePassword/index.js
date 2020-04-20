@@ -110,7 +110,7 @@ const CreatePassword = withRouter(
       const download = await createKeystoreFile(wallet.privateKey, pswd);
       const accountRole = await setAccountRole(
         wallet.address,
-        chosenWay === "applicant" ? 0 : 1
+        chosenWay === "applicant" ? 1 : 0
       );
       genMnemonics(mnems);
       constMnemPhrase(mnemPhrase);
