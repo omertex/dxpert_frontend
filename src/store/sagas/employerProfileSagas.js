@@ -24,13 +24,21 @@ export function* getEmployerProfileSaga({ payload }) {
       ...emptyProfile,
       address: payload,
     });
+    const response2 = yield getEmployerProfile(payload);
+    // clean unused/wrong property
+    delete response2.__typename;
+    yield put({
+      type: EMPLOYER_PROFILE.GET_EMPLOYER_PROFILE_SUCCESS,
+      payload: response2,
+    });
+  } else {
+    // clean unused/wrong property
+    delete response.__typename;
+    yield put({
+      type: EMPLOYER_PROFILE.GET_EMPLOYER_PROFILE_SUCCESS,
+      payload: response,
+    });
   }
-  // clean unused/wrong property
-  delete response.__typename;
-  yield put({
-    type: EMPLOYER_PROFILE.GET_EMPLOYER_PROFILE_SUCCESS,
-    payload: response,
-  });
 }
 
 function* updateEmployerProfileSaga(action) {

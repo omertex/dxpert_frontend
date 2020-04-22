@@ -89,6 +89,7 @@ export const GQLSetRecruiter = gql`
     $email: String!
     $organisation: String!
     $website: String!
+    $photo: String!
   ) {
     insert_recruiters(
       objects: {
@@ -99,6 +100,7 @@ export const GQLSetRecruiter = gql`
         email: $email
         organisation: $organisation
         website: $website
+        photo: $photo
       }
     ) {
       returning {
@@ -109,6 +111,7 @@ export const GQLSetRecruiter = gql`
         email
         organisation
         website
+        photo
       }
     }
   }
